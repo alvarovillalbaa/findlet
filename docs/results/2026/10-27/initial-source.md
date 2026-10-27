@@ -1,6 +1,6 @@
 # Findlet initial source
 
-Status: source authored and statically checked; native compilation and runtime acceptance remain pending. GitHub publication is recorded below only after remote readback. The overall multi-project goal remains active.
+Status: source published and statically checked; native compilation and runtime acceptance remain pending. The overall multi-project goal remains active.
 
 ## Intent and scope
 
@@ -24,7 +24,7 @@ The actual external QMD CLI/SDK were reviewed at [86d2365d17fc682e491c2c53d1e4a8
 
 Storage Guard returned **23.4 GiB free / 34.0 GiB required**, exit 2. No install, build, typecheck, native launch, QMD execution, folder indexing, model loading/download, browser automation, permission prompt, account operation or provider mutation followed.
 
-Swift frontend syntax parsing accepted **16 Swift files**, including the package manifest and ten authored XCTest cases. This does not load imported modules, typecheck APIs, compile/link, or execute the cases. All owned text files passed trailing-whitespace/final-newline checks; plist, Bash script, Codex Run action, local documentation targets and inactive CI syntax were checked separately. Final counts and Git diff/publication results are recorded with the release readback.
+Swift frontend syntax parsing accepted **16 Swift files**, including the package manifest and ten authored XCTest cases. This does not load imported modules, typecheck APIs, compile/link, or execute the cases. All **28 owned text files** passed trailing-whitespace/final-newline checks, all **8 local Markdown targets** resolved, and plist, Bash script, Codex Run action and inactive CI YAML checks passed. Node's parse-only check accepted the fixed SDK probe without loading QMD. Staged `git diff --cached --check` passed before the source commit; no test case was executed.
 
 Independent source reviews covered the process/engine/QMD contracts and native/corpus boundaries. They caught the exit-zero embedding issue, fallible work after pointer publication, consent/readiness mismatch and descriptor inheritance; the source addresses those findings. A review without execution is not native/runtime proof.
 
@@ -36,4 +36,6 @@ Compile/typecheck/package and execute the authored cases after approval; resolve
 
 ## Publication
 
-Pending remote creation/readback at the time this paragraph was authored. Replace this entry with the exact source SHA and public repository status after publishing; a local commit or push alone is insufficient evidence.
+Public repository: [alvarovillalbaa/findlet](https://github.com/alvarovillalbaa/findlet), default branch `main`. Source commit [57b36f9346c262a350554c6128166fae19db9fc3](https://github.com/alvarovillalbaa/findlet/commit/57b36f9346c262a350554c6128166fae19db9fc3) contains 28 files / 2,657 inserted lines. Connected GitHub metadata confirmed personal ownership, public visibility and `main`; `git ls-remote` matched that SHA. An immutable connected read of [Package.swift](https://github.com/alvarovillalbaa/findlet/blob/57b36f9346c262a350554c6128166fae19db9fc3/Package.swift) returned blob `de314aa54dbdc1ee2ae90f710e00756176b05520`, matching the local Git blob.
+
+The new repository had **zero GitHub Actions runs** at readback; the proposed job remains outside `.github/workflows`. The local tree was clean after the source publication. This receipt-only follow-up does not change the reviewed product/test/proposal bytes. No app binary or native release was published.
