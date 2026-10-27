@@ -30,6 +30,12 @@ Independent source reviews covered the process/engine/QMD contracts and native/c
 
 The [temporary native-check proposal](../../../proposals/native-checks.md) is inactive outside GitHub workflow discovery. It proposes native compilation, ten pure-core cases, real bundle packaging and local ad-hoc signing verification, without launching the app or installing QMD/models. Separate authored-folder and native interaction acceptance remains necessary.
 
+### Later read-only storage audit
+
+A bounded audit on 2026-10-27 at 19:15 UTC measured **23.31 GiB free**, leaving a **10.69 GiB shortfall** against the 34.0 GiB requirement. The entire SIDE folder occupied 1.80 GiB; readable temporary data under /tmp occupied 68.8 MiB. These totals include protected files and do not represent reclaimable space. Even their combined size cannot close the gap.
+
+Protected dependencies, source and evidence were retained. An unclassified generated cache was also retained because current-goal ownership and inactivity were not established. Process inspection and access to a Codex daemon directory under /tmp were denied; no alternate access path was attempted. No verified disposable current-goal artifact was found, and nothing was deleted. The audit made no product, dependency or configuration changes. Native checks remain blocked; the temporary workflow remains inactive.
+
 ## Remaining work
 
 Compile/typecheck/package and execute the authored cases after approval; resolve any compiler/API failures. Then prepare an explicitly approved disposable QMD runtime/corpus/model scope and check real retrieval, cancellation, file access and native interactions. Developer ID signing, notarization and downloadable distribution need their own account/approval and exact runtime/license review. No performance, strict-offline, App Sandbox, notarization or end-to-end completion claim is made.
