@@ -1,0 +1,27 @@
+name: Temporary Findlet native checks
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  native:
+    runs-on: macos-15
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Record toolchain
+        run: |
+          swift --version
+          sw_vers
+          uname -m
+      - name: Compile and run ten pure core cases
+        run: swift test --filter QMDContractTests
+      - name: Package without launching
+        run: ./script/build_and_run.sh --build-only
+      - name: Verify local package
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -x dist/Findlet.app/Contents/MacOS/Findlet
+          test "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' dist/Findlet.app/Contents/Info.plist)" = com.alvarovillalbaa.Findlet
+          /usr/bin/codesign --verify --strict dist/Findlet.app

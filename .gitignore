@@ -1,0 +1,9 @@
+.DS_Store
+.build/
+.swiftpm/
+dist/
+*.xcuserstate
+*.gguf
+*.sqlite*
+.env*
+!.env.example
