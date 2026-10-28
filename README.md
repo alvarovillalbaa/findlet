@@ -25,6 +25,15 @@ open dist/Findlet.app
 
 The default `./script/build_and_run.sh` builds, locally ad-hoc signs, and opens the real app bundle. Codex's Run action calls that script. `--debug`, `--logs`, `--telemetry`, and `--verify` are explicit diagnostic/launch modes. The app itself emits no document/query telemetry; the telemetry option only opens the local process log stream.
 
+Original icon artwork is editable in `artwork/app-icon.svg`. Its PNG reference
+and ten-representation `Resources/AppIcon.icns` are prepared, and the packaging
+source copies the icon before its existing signing step. To regenerate using
+Python's standard library, run
+`bash script/render_app_icon.sh`; add `--check` to compare fresh exports on the
+current toolchain. PNG compression bytes can vary across Python/zlib versions.
+The [icon receipt](docs/results/2026/10-28/app-icon.md) records source checks;
+actual app-bundle icon loading and Finder appearance remain unverified.
+
 In Settings:
 
 1. Select an existing **Node 22+** executable and a trusted installed **`@tobilu/qmd` 2.8.3** package directory containing `dist/cli/qmd.js` and `dist/index.js`. Findlet checks package metadata and entry fingerprints; it does not attest every dependency or install QMD.

@@ -48,9 +48,10 @@ cleanup_findlet_stage() {
   rm -rf "$FINDLET_STAGE"
 }
 trap cleanup_findlet_stage EXIT
-mkdir -p "$FINDLET_STAGE/Findlet.app/Contents/MacOS"
+mkdir -p "$FINDLET_STAGE/Findlet.app/Contents/MacOS" "$FINDLET_STAGE/Findlet.app/Contents/Resources"
 cp "$FINDLET_BINARY" "$FINDLET_STAGE/Findlet.app/Contents/MacOS/Findlet"
 cp "$FINDLET_ROOT/Resources/Info.plist" "$FINDLET_STAGE/Findlet.app/Contents/Info.plist"
+cp "$FINDLET_ROOT/Resources/AppIcon.icns" "$FINDLET_STAGE/Findlet.app/Contents/Resources/AppIcon.icns"
 chmod +x "$FINDLET_STAGE/Findlet.app/Contents/MacOS/Findlet"
 /usr/bin/plutil -lint "$FINDLET_STAGE/Findlet.app/Contents/Info.plist"
 # Local ad-hoc signing needs no account, certificate or paid enrollment.

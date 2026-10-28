@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <title>Findlet app icon</title>
+  <desc>A gold magnifying glass over an ivory document on an indigo tile.</desc>
+  <rect x="80" y="80" width="864" height="864" rx="192" fill="#3347A8" />
+  <rect x="264" y="216" width="360" height="520" rx="48" fill="#F7F4E9" />
+  <rect x="328" y="304" width="224" height="36" rx="18" fill="#AEBFDE" />
+  <rect x="328" y="392" width="160" height="36" rx="18" fill="#AEBFDE" />
+  <rect x="328" y="480" width="96" height="36" rx="18" fill="#AEBFDE" />
+  <line x1="720" y1="720" x2="788" y2="788" stroke="#F2C56B" stroke-width="84" stroke-linecap="round" />
+  <circle cx="600" cy="600" r="138" fill="none" stroke="#F2C56B" stroke-width="72" />
+</svg>
