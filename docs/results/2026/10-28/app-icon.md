@@ -1,7 +1,7 @@
 # App-icon source
 
-28 October 2026. Original icon artwork and bundle-resource wiring are prepared
-for source publication. Native compilation, app behavior and distribution remain
+28 October 2026. Original icon artwork and bundle-resource wiring are published
+on GitHub. Native compilation, app behavior and distribution remain
 unverified.
 
 The [SVG master](../../../../artwork/app-icon.svg) shows a gold magnifying glass
@@ -49,6 +49,26 @@ before the original signing step.
 | SVG master | 775 | `d32849ac774a861a174398321159804a6598a73f66ccb549843328704ab57644` |
 | PNG reference | 19,175 | `f544b5cf22b8e8b8a2e300ca8f0eef23d862afb311f8d778f9ebd9b26aa2d9da` |
 | ICNS resource | 44,769 | `c8210c84f9a370102687c8f5f1a0138149134f8aed9a6e413ebe1d37b203f748` |
+
+## Source publication
+
+Published [source commit 5868216](https://github.com/alvarovillalbaa/findlet/commit/586821616a9efd8bb22afc68b06fcd7b8cfea824).
+Immutable GitHub readback matched the local Git blobs below; `main` was identical
+to that source commit at readback. Independent final checks confirmed all ten
+ICNS mappings, embedded PNG checksums and reference bytes, unchanged original
+plist values/packaging commands after removing the icon additions, ten local
+documentation links and the nine-file change scope. The shell exporter is
+executable; `git diff --check` passed.
+
+| Published file | Git blob |
+| --- | --- |
+| SVG | `dab4941d288968ec5fa635265899bbc00744fe86` |
+| PNG | `9bbed1f2821a3db257c5c1cdc44f946316e70811` |
+| ICNS | `62cdf6e802e10a34745fbbb95bff6eba038f267a` |
+| Info.plist | `13c2701623ca4973167969b548f87c8e726c0f3d` |
+| Packaging helper | `cb5f48a423cd7b2e901e61a6ada979dc4c46a79c` |
+| Python exporter | `178fe3626c00e256e80a8efa6b59a4d70e23fe9e` |
+| Shell exporter | `e6865867379203b604e9f1d4db74ac5e3a63f8d3` |
 
 No native build, existing package helper, signing, app launch, QMD invocation,
 search/index, model inference, permission prompt, app/core test, CI or install
