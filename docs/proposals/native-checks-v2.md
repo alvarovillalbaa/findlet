@@ -1,11 +1,13 @@
-# Native checks v2 — compiler repair prepared
+# Native checks v2 — verified and retired
 
 5 November 2026. Standing “I approve everything” / “Do all the work” authorizes
 this focused CI packet. The [old proposal](native-checks.md), example, ten tests
 and build script remain unchanged. The [new example](native-checks-v2-ci.yml.example)
-is inactive. The [first actual attempt](../results/2026/11-05/native-checks-attempt-1.md)
-failed compilation before tests or packaging; its raw failure was published
-before repair. No case or package is accepted yet.
+is inactive. The [accepted result](../results/2026/11-05/native-checks.md)
+records native compilation, all ten original cases and fresh ad-hoc packaging.
+The [first actual attempt](../results/2026/11-05/native-checks-attempt-1.md)
+failed before tests or packaging; its raw failure was published before repair.
+The preparation and rerun instructions below are retained history.
 
 One public `alvarovillalbaa/findlet` job on `macos-15` is limited to 15 minutes,
 scoped to `qa/findlet-native-20261105`. Pin the clean preparation SHA. Verify
@@ -55,3 +57,9 @@ there was no xUnit or package result to carry forward.
 The next job has a 14-minute ceiling. The first 43 seconds plus 840 seconds is
 883, below the original 900-second allowance. Controller work/cleanup/stdout
 remain 720/90/2 seconds, with the same ten cases and package assertions.
+
+The repaired-source run `42123792452` / job `127582625371` passed once at
+`b59af255b48581bb9fd250a96d7e8f7a9f7759d9`, 22:42:55–22:43:57 UTC. The two
+jobs used 105 seconds total. All three source/export guards and scoped cleanup
+passed; the temporary workflow is disabled and its active file removed. QMD,
+native UI and distribution were not exercised.

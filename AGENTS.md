@@ -17,3 +17,8 @@
   No local build/install/native execution. CI builds only an exact bounded
   tracked-source export under owned scratch; never copy Git history or use
   private folders. No app launch, QMD, model setup or distribution is implied.
+- The repaired native source now compiles, all ten original core cases passed
+  once, and fresh ad-hoc packaging passed. Preserve the initial compiler failure
+  and accepted receipt. Do not rerun this closed scope without changed inputs
+  or a concrete concern. Native UI, QMD retrieval and distribution stay separate;
+  the captured concurrency warnings do not establish Swift 6 language readiness.

@@ -22,4 +22,11 @@ The first implementation uses direct native process execution and is not App San
 
 ## Acceptance boundaries
 
-Source parsing is not compilation. Authored pure-core cases do not prove Node/QMD compatibility, macOS bookmarks, shortcut conflicts, file-provider behavior, subprocess cancellation, semantic quality, or runtime offline behavior. Native packaging/tests and disposable authored-folder QMD checks require separate recorded approval and resources. Do not index personal folders while developing.
+Source parsing is not compilation. The [native receipt](../results/2026/11-05/native-checks.md)
+records actual compilation, ten original pure-core XCTest passes and fresh
+ad-hoc packaging after a one-expression hotkey API repair. It preserves the
+first failed compilation. These checks do not prove Node/QMD compatibility,
+macOS bookmarks, shortcut conflicts, file-provider behavior, subprocess
+cancellation, semantic quality, runtime offline behavior or Swift 6 language-mode
+readiness. Disposable authored-folder QMD/native interaction checks still need
+their own resources and recorded scope. Do not index personal folders while developing.

@@ -4,7 +4,12 @@ Your documents. One small search bar.
 
 A native macOS menu-bar utility for explicitly selected Markdown and text folders, powered by actual [QMD](https://github.com/tobi/qmd). Open the panel with **Control–Option–Space**, type a query, then open or reveal a matching original file.
 
-**Status: initial source release.** Syntax/configuration checks passed; native compilation, the ten authored core cases, QMD execution and runtime acceptance have not run. There is no downloadable, notarized app release. See the [receipt](docs/results/2026/10-27/initial-source.md) and [inactive native-check proposal](docs/proposals/native-checks.md).
+**Status: native build and ten core cases verified.** The first actual build
+found an unavailable hotkey API type; the one-expression repair then compiled,
+passed all ten existing XCTest cases and produced a strictly verified local
+ad-hoc app package. See the [native result](docs/results/2026/11-05/native-checks.md)
+and preserved failure. The app has not been launched or tested with QMD. There
+is no downloadable, notarized release; native interaction and retrieval remain open.
 
 ## Included in the source
 
@@ -52,4 +57,10 @@ Results resolve through the manifest and revalidate the current original file be
 
 ## Verification
 
-The [contract](docs/specs/local-search.md) records the implementation and proof boundaries. No app launch, shortcut registration, permission prompt, private-folder scan, QMD command, model inference or download was performed while producing this source. The [proposed temporary CI](docs/proposals/native-checks.md) compiles/packages without launching and executes ten pure-core cases; it remains inactive pending approval. Native interaction and actual retrieval need a separate authored-folder acceptance run.
+The [contract](docs/specs/local-search.md) records the implementation and proof
+boundaries. The [native result](docs/results/2026/11-05/native-checks.md) binds
+the checked source, exact exported native inputs, ten case identities, real
+package/signature and owned cleanup. Swift 6 language-mode concurrency warnings
+remain captured. No app launch, shortcut registration, permission prompt,
+private-folder scan, QMD command, model inference or download occurred. Native
+interaction and actual retrieval need a separate authored-folder acceptance run.
