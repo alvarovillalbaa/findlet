@@ -1,0 +1,34 @@
+# Temporary approved same-scope repair; immutable reviewed source pinned below.
+name: Temporary Findlet native checks v2
+on:
+  push:
+    branches: [qa/findlet-native-20261105]
+permissions:
+  contents: read
+concurrency:
+  group: findlet-native-20261105
+  cancel-in-progress: false
+jobs:
+  native:
+    if: github.event_name == 'push' && github.repository == 'alvarovillalbaa/findlet' && github.event.repository.private == false && github.ref == 'refs/heads/qa/findlet-native-20261105'
+    runs-on: macos-15
+    timeout-minutes: 14
+    env:
+      CI: 'true'
+      SOURCE_COMMIT: b59af255b48581bb9fd250a96d7e8f7a9f7759d9
+      FINDLET_PUBLIC_REPOSITORY: ${{ github.event.repository.private == false }}
+      DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ env.SOURCE_COMMIT }}
+          persist-credentials: false
+          clean: false
+          fetch-depth: 1
+      - name: Run only the pinned Findlet native packet
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$SOURCE_COMMIT" =~ ^[a-f0-9]{40}$ ]]
+          [[ "$(git rev-parse HEAD)" == "$SOURCE_COMMIT" ]]
+          python3 script/run_native_checks.py --source-commit "$SOURCE_COMMIT"
