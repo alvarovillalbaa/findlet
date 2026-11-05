@@ -17,7 +17,7 @@ final class HotKeyController {
             guard let event, let userData else { return OSStatus(eventNotHandledErr) }
             var identifier = EventHotKeyID()
             let status = GetEventParameter(event, EventParamName(kEventParamDirectObject), EventParamType(typeEventHotKeyID),
-                                          nil, ByteCount(MemoryLayout<EventHotKeyID>.size), nil, &identifier)
+                                          nil, MemoryLayout<EventHotKeyID>.size, nil, &identifier)
             guard status == noErr, identifier.signature == 0x464C4554, identifier.id == 1 else { return OSStatus(eventNotHandledErr) }
             let controller = Unmanaged<HotKeyController>.fromOpaque(userData).takeUnretainedValue()
             Task { @MainActor in controller.action?() }

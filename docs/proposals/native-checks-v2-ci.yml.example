@@ -12,7 +12,7 @@ jobs:
   native:
     if: github.event_name == 'push' && github.repository == 'alvarovillalbaa/findlet' && github.event.repository.private == false && github.ref == 'refs/heads/qa/findlet-native-20261105'
     runs-on: macos-15
-    timeout-minutes: 15
+    timeout-minutes: 14
     env:
       CI: 'true'
       SOURCE_COMMIT: PREPARATION_SHA_REPLACED_BY_ROOT

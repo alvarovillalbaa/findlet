@@ -1,9 +1,11 @@
-# Native checks v2 — prepared, unrun
+# Native checks v2 — compiler repair prepared
 
 5 November 2026. Standing “I approve everything” / “Do all the work” authorizes
 this focused CI packet. The [old proposal](native-checks.md), example, ten tests
 and build script remain unchanged. The [new example](native-checks-v2-ci.yml.example)
-is inactive; there is no compilation, test or package result yet.
+is inactive. The [first actual attempt](../results/2026/11-05/native-checks-attempt-1.md)
+failed compilation before tests or packaging; its raw failure was published
+before repair. No case or package is accepted yet.
 
 One public `alvarovillalbaa/findlet` job on `macos-15` is limited to 15 minutes,
 scoped to `qa/findlet-native-20261105`. Pin the clean preparation SHA. Verify
@@ -38,3 +40,18 @@ No app launch/UI, shortcut, permission prompt, personal-folder scan, QMD/Node,
 model download/inference, actual retrieval, offline-network claim, Developer ID,
 notarization or distribution acceptance. Those [runtime requirements](../specs/local-search.md)
 remain open; a native compile/package pass does not close them.
+
+## Compiler repair and same-scope rerun
+
+The actual SDK rejected the unavailable `ByteCount` alias in hotkey handling.
+The [primary Swift importer map](https://github.com/swiftlang/swift/blob/main/lib/ClangImporter/MappedTypes.def#L62)
+maps that C type to `Int` without exporting its alias. Pass the existing
+`MemoryLayout<EventHotKeyID>.size` value directly. This one-expression change
+still needs the actual selected-toolchain compile; no integer-width guess or
+shortcut behavior change is proposed. Tests, build script and controller stay
+unchanged. All 34 first-attempt command streams and owned cleanup passed;
+there was no xUnit or package result to carry forward.
+
+The next job has a 14-minute ceiling. The first 43 seconds plus 840 seconds is
+883, below the original 900-second allowance. Controller work/cleanup/stdout
+remain 720/90/2 seconds, with the same ten cases and package assertions.
