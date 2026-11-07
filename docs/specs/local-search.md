@@ -22,11 +22,39 @@ The first implementation uses direct native process execution and is not App San
 
 ## Acceptance boundaries
 
-Source parsing is not compilation. The [native receipt](../results/2026/11-05/native-checks.md)
-records actual compilation, ten original pure-core XCTest passes and fresh
-ad-hoc packaging after a one-expression hotkey API repair. It preserves the
-first failed compilation. These checks do not prove Node/QMD compatibility,
-macOS bookmarks, shortcut conflicts, file-provider behavior, subprocess
-cancellation, semantic quality, runtime offline behavior or Swift 6 language-mode
-readiness. Disposable authored-folder QMD/native interaction checks still need
-their own resources and recorded scope. Do not index personal folders while developing.
+Source parsing is not compilation. The dated
+[native receipt](../results/2026/11-05/native-checks.md) records the earlier full
+app compilation, ten original pure-core XCTest passes and fresh ad-hoc
+packaging after the hotkey API repair, with its first failed compilation
+preserved. That closed scope was not rerun by the new service checks.
+
+The [keyword receipt](../results/2026/11-07/qmd-keyword-integration.md) records
+two fresh app-less production-service journeys: K01 rebuild/search/original
+resolution and K02 reopen, invalid-UTF-8 refusal with the previous generation
+preserved, missing-original refusal, same-inode restoration and Forget.
+All 26 named harness checks and six keyword queries passed on three authored
+UTF-8 files totaling 197 bytes, including `notes-東京.markdown`. A space and
+literal percent in the owned parent path exercised real URI encoding. The
+current services compiled; an independent read-only SQLite audit matched all
+three document/content rows to the corpus hashes. The checked source admits
+immutable reads only behind closed-generation ownership, identity, hash and
+sidecar fences. Its observer uses the existing pinned YAML dependency to
+validate the exact collection and official default-model metadata without
+mutating configuration or invoking models.
+
+No prior passes were carried. Preserve the six earlier failed CI attempts:
+[1](../results/2026/11-07/qmd-keyword-integration-attempt-1.md),
+[2](../results/2026/11-07/qmd-keyword-integration-attempt-2.md),
+[3](../results/2026/11-07/qmd-keyword-integration-attempt-3.md),
+[4](../results/2026/11-07/qmd-keyword-integration-attempt-4.md),
+[5](../results/2026/11-07/qmd-keyword-integration-attempt-5.md),
+[6](../results/2026/11-07/qmd-keyword-integration-attempt-6.md).
+D01/D02 diagnostics were not rerun as part of K01/K02.
+
+These results do not establish a new full app build, native UI/shortcut or
+permission behavior, private-folder/file-provider compatibility, model
+inference/semantic quality, strict offline behavior, release signing or
+distribution. Swift 6 language-mode warnings remain unresolved. Boundary file
+and process observations do not establish continuous control of every host
+writer. This is focused service acceptance, not a whole-product release.
+Do not index personal folders while developing.
