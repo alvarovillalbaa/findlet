@@ -22,3 +22,30 @@
   and accepted receipt. Do not rerun this closed scope without changed inputs
   or a concrete concern. Native UI, QMD retrieval and distribution stay separate;
   the captured concurrency warnings do not establish Swift 6 language readiness.
+
+## First actual QMD keyword integration — 7 November 2026
+
+The owner's standing "I approve everything / Keep going / Do all the work"
+covers the [separate keyword packet](docs/proposals/qmd-keyword-integration.md):
+one temporary free public macOS 15 ARM64 job, capped at 20 minutes, with
+explicitly pinned Node/QMD tooling and no install scripts, model downloads,
+semantic preparation, app launch or private-folder access. This is new actual
+engine integration, not a repeat of the closed ten core cases or app packaging.
+Local Storage Guard still fails; no local install, compile or application run.
+
+Compile the two unchanged core files and four production engine/service files
+with an app-less harness. Use only task-owned authored documents, an ordinary
+Foundation bookmark of their scratch folder, and app-owned configuration/index.
+K01 rebuilds and searches; K02 reopens the persisted index, checks failed-rebuild
+preservation and missing-source refusal, then forgets generated data. Keep all
+original documents and external runtime files unchanged. Do not weaken path,
+manifest, ownership or cancellation checks, or substitute fake QMD responses.
+
+Retain bounded original harness/observer outputs, exact source/runtime hashes,
+the actual outcomes and owned teardown on success or failure. Production QMD
+stderr is discarded internally; an outer receipt must not claim that it retains
+those inner streams. Actual macOS SQLite/vector admission is required; Linux
+evidence does not transfer. Native UI, existing bookmarks, semantic quality,
+strict offline behavior, permissions and trusted distribution remain separate.
+Disable and retire the owned workflow after its terminal run. No account,
+payment, model/provider call, application dependency or application API change.
