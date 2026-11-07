@@ -87,7 +87,8 @@ final class QMDProcessRunner: @unchecked Sendable {
             if failedRead { throw FindletError.message("QMD output could not be read.") }
             if wasCancelled { throw CancellationError() }
             guard process.terminationReason == .exit, process.terminationStatus == 0 else {
-                throw FindletError.message("QMD did not complete (status \(process.terminationStatus)). Check the configured 2.8.3 installation and prepared CPU runtime. The previous complete index is retained.")
+                let reason = process.terminationReason == .exit ? "exit" : "uncaught_signal"
+                throw FindletError.message("QMD did not complete (reason \(reason), status \(process.terminationStatus)). Check the configured 2.8.3 installation and prepared CPU runtime. The previous complete index is retained.")
             }
             return result
         }

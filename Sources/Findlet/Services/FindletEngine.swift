@@ -33,6 +33,24 @@ actor FindletEngine {
         let values: [String: String]
         let stamp: String
     }
+    private struct ClosedAuditFile {
+        let info: stat
+        let sha256: String
+        let prefix: Data
+    }
+    private struct ClosedAuditSidecar {
+        let name: String
+        let file: ClosedAuditFile?
+    }
+    private struct ClosedAuditSnapshot {
+        let rootInfo: stat
+        let generationsInfo: stat
+        let generationInfo: stat
+        let lock: ClosedAuditFile
+        let owner: ClosedAuditFile
+        let database: ClosedAuditFile
+        let sidecars: [ClosedAuditSidecar]
+    }
     private let root: URL
     private let gate = OperationGate()
     private let runner = QMDProcessRunner()
@@ -347,14 +365,158 @@ actor FindletEngine {
         }
         // Only normal metadata tables are queried; vanilla SQLite never touches vec0.
         let sql = "SELECT d.collection,d.path,CASE WHEN c.hash IS NULL THEN 0 ELSE 1 END AS content_present FROM documents d LEFT JOIN content c ON c.hash=d.hash WHERE d.active=1 ORDER BY d.collection,d.path;"
+        // The SDK process has exited and closed its store. Immutable access is
+        // restricted to a stable private generation with no pending sidecars.
+        let auditBefore = try closedAuditSnapshot(directory)
+        var components = URLComponents()
+        components.scheme = "file"
+        components.host = ""
+        components.path = directory.appendingPathComponent("index.sqlite").path
+        components.queryItems = [URLQueryItem(name: "mode", value: "ro"), URLQueryItem(name: "immutable", value: "1")]
+        guard let databaseURI = components.string else { throw closedAuditFailure() }
         let rowsData = try await runner.run(executable: URL(fileURLWithPath: "/usr/bin/sqlite3"),
-            arguments: ["-readonly", "-json", directory.appendingPathComponent("index.sqlite").path, sql],
+            arguments: ["-init", "/dev/null", "-readonly", "-json", databaseURI, sql],
             directory: directory, environment: environment(runtime, directory: directory))
+        let auditAfter = try closedAuditSnapshot(directory)
+        guard sameClosedAudit(auditBefore, auditAfter) else { throw closedAuditFailure() }
         let rows = try JSONDecoder().decode([IndexedRow].self, from: rowsData)
         guard rows.count == expectedDocuments, Set(rows.map(\.path)) == Set(documents.map(\.snapshotName)),
               rows.allSatisfy({ $0.collection == QMDContract.collection && $0.content_present == 1 }) else {
             throw FindletError.message("QMD's indexed file list does not match the prepared corpus. The previous index is retained.")
         }
+    }
+
+    private func closedAuditFailure() -> FindletError {
+        .message("The completed QMD index is not stable enough for a read-only metadata audit. The previous complete index is retained.")
+    }
+
+    private func closedAuditFile(_ name: String, in parent: Int32, maximum: Int64,
+                                 prefixBytes: Int) throws -> ClosedAuditFile {
+        try Task.checkCancellation()
+        try SourceFileAccess.validate(components: [name])
+        let before = try SourceFileAccess.entryInformation(in: parent, name: name)
+        guard SourceFileAccess.isRegular(before), before.st_uid == getuid(),
+              before.st_mode & 0o022 == 0, !SourceFileAccess.isExcludedByFlags(before),
+              before.st_size >= 0, before.st_size <= maximum else { throw closedAuditFailure() }
+        let descriptor = name.withCString {
+            Darwin.openat(parent, $0, O_RDONLY | O_NONBLOCK | O_NOFOLLOW | O_CLOEXEC)
+        }
+        guard descriptor >= 0 else { throw closedAuditFailure() }
+        defer { Darwin.close(descriptor) }
+        let opened = try SourceFileAccess.information(descriptor)
+        guard SourceFileAccess.unchanged(before, opened) else { throw closedAuditFailure() }
+        var hasher = SHA256()
+        var prefix = Data()
+        var observed: Int64 = 0
+        var buffer = [UInt8](repeating: 0, count: 65_536)
+        while true {
+            try Task.checkCancellation()
+            let count = buffer.withUnsafeMutableBytes { Darwin.read(descriptor, $0.baseAddress, $0.count) }
+            if count < 0 && errno == EINTR { continue }
+            guard count >= 0 else { throw closedAuditFailure() }
+            if count == 0 { break }
+            guard observed <= before.st_size - Int64(count) else { throw closedAuditFailure() }
+            observed += Int64(count)
+            let chunk = Data(buffer.prefix(count))
+            hasher.update(data: chunk)
+            if prefix.count < prefixBytes { prefix.append(chunk.prefix(prefixBytes - prefix.count)) }
+        }
+        let after = try SourceFileAccess.information(descriptor)
+        let current = try SourceFileAccess.entryInformation(in: parent, name: name)
+        guard observed == before.st_size, SourceFileAccess.unchanged(before, after),
+              SourceFileAccess.unchanged(before, current) else { throw closedAuditFailure() }
+        let sha256 = hasher.finalize().map { String(format: "%02x", $0) }.joined()
+        return ClosedAuditFile(info: before, sha256: sha256, prefix: prefix)
+    }
+
+    private func closedAuditSnapshot(_ directory: URL) throws -> ClosedAuditSnapshot {
+        try Task.checkCancellation()
+        guard lockDescriptor >= 0, let generation = UUID(uuidString: directory.lastPathComponent),
+              directory.standardizedFileURL.path == generationURL(generation).path else { throw closedAuditFailure() }
+        let rootFD = try SourceFileAccess.openAbsoluteDirectory(root)
+        defer { Darwin.close(rootFD) }
+        let rootInfo = try SourceFileAccess.information(rootFD)
+        let generationsInfo = try SourceFileAccess.entryInformation(in: rootFD, name: "generations")
+        let generationsFD = try SourceFileAccess.openDirectory(in: rootFD, name: "generations", expected: generationsInfo)
+        defer { Darwin.close(generationsFD) }
+        let name = generation.uuidString.lowercased()
+        let generationInfo = try SourceFileAccess.entryInformation(in: generationsFD, name: name)
+        let generationFD = try SourceFileAccess.openDirectory(in: generationsFD, name: name, expected: generationInfo)
+        defer { Darwin.close(generationFD) }
+        let directories: [stat] = [rootInfo, generationsInfo, generationInfo]
+        for info in directories {
+            guard SourceFileAccess.isDirectory(info), info.st_uid == getuid(),
+                  info.st_mode & 0o7777 == 0o700, !SourceFileAccess.isExcludedByFlags(info) else { throw closedAuditFailure() }
+        }
+        let lock = try closedAuditFile("engine.lock", in: rootFD, maximum: 0, prefixBytes: 0)
+        let heldLock = try SourceFileAccess.information(lockDescriptor)
+        guard lock.info.st_mode & 0o7777 == 0o600,
+              SourceFileAccess.unchanged(lock.info, heldLock) else { throw closedAuditFailure() }
+        let owner = try closedAuditFile("owner.json", in: generationFD, maximum: 1_024, prefixBytes: 1_024)
+        guard owner.info.st_mode & 0o7777 == 0o600 else { throw closedAuditFailure() }
+        let marker = try JSONDecoder().decode(GenerationOwner.self, from: owner.prefix)
+        guard marker.version == 1, marker.app == "com.alvarovillalbaa.Findlet",
+              marker.generation == generation else { throw closedAuditFailure() }
+        let database = try closedAuditFile("index.sqlite", in: generationFD, maximum: Int64.max, prefixBytes: 100)
+        guard database.prefix.count == 100,
+              database.prefix.prefix(16) == Data("SQLite format 3\0".utf8) else { throw closedAuditFailure() }
+        var sidecars: [ClosedAuditSidecar] = []
+        for suffix in ["-wal", "-shm", "-journal"] {
+            let sidecarName = "index.sqlite" + suffix
+            var info = stat()
+            let status = sidecarName.withCString { Darwin.fstatat(generationFD, $0, &info, AT_SYMLINK_NOFOLLOW) }
+            if status == 0 {
+                let file = try closedAuditFile(sidecarName, in: generationFD, maximum: 0, prefixBytes: 0)
+                sidecars.append(ClosedAuditSidecar(name: sidecarName, file: file))
+            } else {
+                guard errno == ENOENT else { throw closedAuditFailure() }
+                sidecars.append(ClosedAuditSidecar(name: sidecarName, file: nil))
+            }
+        }
+        let currentRootFD = try SourceFileAccess.openAbsoluteDirectory(root)
+        defer { Darwin.close(currentRootFD) }
+        let currentRoot = try SourceFileAccess.information(currentRootFD)
+        let currentGenerations = try SourceFileAccess.entryInformation(in: rootFD, name: "generations")
+        let currentGeneration = try SourceFileAccess.entryInformation(in: generationsFD, name: name)
+        let currentOwner = try SourceFileAccess.entryInformation(in: generationFD, name: "owner.json")
+        let currentDatabase = try SourceFileAccess.entryInformation(in: generationFD, name: "index.sqlite")
+        guard sameClosedAuditDirectory(rootInfo, currentRoot),
+              sameClosedAuditDirectory(generationsInfo, currentGenerations),
+              sameClosedAuditDirectory(generationInfo, currentGeneration),
+              SourceFileAccess.unchanged(owner.info, currentOwner),
+              SourceFileAccess.unchanged(database.info, currentDatabase) else { throw closedAuditFailure() }
+        return ClosedAuditSnapshot(rootInfo: rootInfo, generationsInfo: generationsInfo, generationInfo: generationInfo,
+                                   lock: lock, owner: owner, database: database, sidecars: sidecars)
+    }
+
+    private func sameClosedAuditDirectory(_ left: stat, _ right: stat) -> Bool {
+        // Existing summary reads can reapply private directory permissions.
+        // Bind the private inode rather than unrelated directory timestamps.
+        SourceFileAccess.sameObject(left, right) && left.st_uid == right.st_uid &&
+        left.st_mode == right.st_mode && left.st_flags == right.st_flags
+    }
+
+    private func sameClosedAuditFile(_ left: ClosedAuditFile, _ right: ClosedAuditFile) -> Bool {
+        SourceFileAccess.unchanged(left.info, right.info) && left.sha256 == right.sha256 && left.prefix == right.prefix
+    }
+
+    private func sameClosedAudit(_ left: ClosedAuditSnapshot, _ right: ClosedAuditSnapshot) -> Bool {
+        guard sameClosedAuditDirectory(left.rootInfo, right.rootInfo),
+              sameClosedAuditDirectory(left.generationsInfo, right.generationsInfo),
+              sameClosedAuditDirectory(left.generationInfo, right.generationInfo),
+              sameClosedAuditFile(left.lock, right.lock), sameClosedAuditFile(left.owner, right.owner),
+              sameClosedAuditFile(left.database, right.database), left.sidecars.count == right.sidecars.count else { return false }
+        for index in left.sidecars.indices {
+            let before = left.sidecars[index], after = right.sidecars[index]
+            guard before.name == after.name else { return false }
+            switch (before.file, after.file) {
+            case (nil, nil): continue
+            case (.some(let a), .some(let b)):
+                guard sameClosedAuditFile(a, b) else { return false }
+            default: return false
+            }
+        }
+        return true
     }
 
     private func environment(_ runtime: Runtime, directory: URL) throws -> [String: String] {

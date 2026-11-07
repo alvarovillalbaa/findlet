@@ -1,0 +1,45 @@
+# Findlet focused integration checks
+
+The existing `Tests/FindletCoreTests` suite is grandfathered. Its ten accepted
+cases and full native package build remain closed and are not repeated here.
+New checks keep the existing capitalized `Tests/` root and use the integration,
+scripts and fixtures child directories; no case-colliding sibling is introduced.
+
+| Deliberate entry | Layer / data tier | Boundary |
+| --- | --- | --- |
+| `integration/KeywordPipelineHarness.swift` | Native service integration / Tier 3 | K01 actual QMD keyword indexing/search; K02 persistent reopen, recovery and Forget Index; real owned SQLite plus authored files |
+| `scripts/run-keyword-integration.py` | Operational supervisor / same Tier 3 | Exact source/tool/runtime admission, two compiler invocations, original capture, independent file/SQLite observations and owned teardown |
+| `fixtures/qmd-darwin-arm64-package-lock.json` | Frozen runtime support / same Tier 3 | Explicit Darwin adaptation of the retained lock, with all versions/resolved URLs/integrities preserved; scripts-off frozen installation |
+
+The harness is a separately compiled CLI, not a new SwiftPM/XCTest collection.
+It uses the production engine, corpus, process and result-resolution code.
+D01 changes only the process runner's existing failure message to retain its
+finite termination reason; the success predicate and limits remain unchanged.
+No fake producer or model response stands in for QMD. Authored fixtures and an
+ordinary scratch-folder bookmark are never user data. Tiers 4–5, production
+roles, personal folders, models and existing QMD configuration are excluded.
+
+The [packet](../docs/proposals/qmd-keyword-integration.md) owns exact tool pins,
+resources and limits. Harness and observer originals are retained; production
+QMD stderr is not exported, and must not be described as captured. Two accepted
+journeys require actual outcomes, unchanged originals/runtime, stable source
+and normal verified cleanup. No new pass count or native UI acceptance exists yet.
+
+D01 is a separate diagnostic-only phase in the same harness/controller. It
+compares direct Python and the actual production process runner using fresh
+authored keyword indexes and matched runtime/configuration/environment roles
+through keyword update, SDK health and read-only SQLite metadata verification.
+Its collection and per-arm outcomes do not accept K01/K02. Those original
+journey bodies remain unchanged and are not repeated by the D01 packet.
+
+D02 adds guarded read-only SQLite connection variants to the same fresh owned
+diagnostic databases. It records file/header/sidecar and CLI observations,
+requires exact metadata rows and unchanged database/corpus/runtime bytes, and
+leaves an ineligible immutable probe unrun. It does not waive D01 failures or
+accept an application repair or either original journey.
+
+QA `-7` returns to the unchanged K01/K02 assertions after the engine's guarded
+closed-generation audit repair. The authored parent path includes space/percent
+characters. Observer-only YAML validation uses the existing pinned parser and
+retains hashes rather than configuration contents. D01/D02 remain historical
+observations and are not rerun by this packet.
