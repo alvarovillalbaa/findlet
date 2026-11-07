@@ -1,0 +1,12 @@
+# Inert registration; the reviewed QA ref supplies the fixed-source job.
+name: Findlet actual QMD keyword integration
+on: workflow_dispatch
+permissions:
+  contents: read
+jobs:
+  registration-only:
+    if: ${{ false }}
+    runs-on: macos-15
+    timeout-minutes: 1
+    steps:
+      - run: echo "Registration only; no checks run from this stub."
