@@ -117,3 +117,14 @@ actual URI encoding. Keep original journey assertions unchanged. The observer
 may parse generated YAML through the already pinned parser to validate only the
 curated collection and official default model metadata, without exporting config
 contents or performing inference. D01/D02 controls remain preserved and unrun.
+
+The [accepted keyword receipt](docs/results/2026/11-07/qmd-keyword-integration.md)
+records fresh K01/K02 passes at source `6757504d24f57cbd9ac21a392360b8fddbf3d9d4`:
+26 named checks, six keyword query proofs and independent YAML/raw-table audits.
+Rebuild/search/original resolution, persistent reopen, failed UTF-8 rebuild
+preservation, missing-original refusal/restoration and Forget passed on authored
+fixtures. Preserve all six prior failures. This scope is closed; do not rerun
+unchanged accepted journeys or the older ten core/package scope without changed
+inputs or a concrete concern. App UI, private folders, user permission/bookmark
+flows, models/inference/semantic quality, strict offline behavior and trusted
+distribution remain separate. The existing Swift 6 language-mode warnings remain.

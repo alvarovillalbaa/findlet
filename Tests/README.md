@@ -23,7 +23,9 @@ The [packet](../docs/proposals/qmd-keyword-integration.md) owns exact tool pins,
 resources and limits. Harness and observer originals are retained; production
 QMD stderr is not exported, and must not be described as captured. Two accepted
 journeys require actual outcomes, unchanged originals/runtime, stable source
-and normal verified cleanup. No new pass count or native UI acceptance exists yet.
+and normal verified cleanup. The accepted journeys are recorded in the
+[keyword receipt](../docs/results/2026/11-07/qmd-keyword-integration.md); native UI
+acceptance remains separate.
 
 D01 is a separate diagnostic-only phase in the same harness/controller. It
 compares direct Python and the actual production process runner using fresh
@@ -43,3 +45,8 @@ closed-generation audit repair. The authored parent path includes space/percent
 characters. Observer-only YAML validation uses the existing pinned parser and
 retains hashes rather than configuration contents. D01/D02 remain historical
 observations and are not rerun by this packet.
+
+K01/K02 now passed once on the repaired source: 26 unchanged named checks and six
+keyword query proofs. Preserve the six failed receipts and the accepted original
+outputs. The scope is closed; no unchanged retry or broader product acceptance
+is implied. Models, private folders, UI and trusted distribution remain unverified.

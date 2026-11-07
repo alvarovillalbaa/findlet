@@ -4,12 +4,13 @@ Your documents. One small search bar.
 
 A native macOS menu-bar utility for explicitly selected Markdown and text folders, powered by actual [QMD](https://github.com/tobi/qmd). Open the panel with **Control–Option–Space**, type a query, then open or reveal a matching original file.
 
-**Status: native build and ten core cases verified.** The first actual build
-found an unavailable hotkey API type; the one-expression repair then compiled,
-passed all ten existing XCTest cases and produced a strictly verified local
-ad-hoc app package. See the [native result](docs/results/2026/11-05/native-checks.md)
-and preserved failure. The app has not been launched or tested with QMD. There
-is no downloadable, notarized release; native interaction and retrieval remain open.
+**Status: two focused keyword-service journeys verified.** The
+[keyword result](docs/results/2026/11-07/qmd-keyword-integration.md) records fresh
+app-less production-service checks with actual QMD. The earlier
+[native result](docs/results/2026/11-05/native-checks.md) records the app build,
+ten core cases and ad-hoc package; that closed scope was not rerun. The current
+services compiled for the new checks, but no new full app build or native app
+launch was performed. There is no downloadable, notarized release.
 
 ## Included in the source
 
@@ -45,7 +46,12 @@ In Settings:
 2. Select document folders, then click **Rebuild Local Index**. Nothing is indexed automatically. Choose document folders narrower than your whole home directory, outside Findlet's own data folder.
 3. Use Keyword search. For Semantic/Hybrid, select compatible existing embedding, query-expansion and reranker **GGUF** files, rebuild for the updated setup, then explicitly accept and run **Prepare Semantic Search**. The QMD CPU binding must already be installed. Findlet never calls QMD's model-download command and configures its CPU loader to skip native downloads/builds. Strict network-offline behavior remains unverified.
 
-No QMD runtime, native binding or model was installed during development. External setup/downloads and model terms are separate; see [third-party notices](THIRD_PARTY.md). No cloud search, account, Vercel or Supabase service is required.
+The app does not bundle or install Node, QMD, native bindings or models. The
+approved keyword check installed pinned Node/QMD and native bindings only in
+owned disposable CI scratch, then removed them; no local runtime installation
+or model setup was performed. External setup/downloads and model terms remain
+separate; see [third-party notices](THIRD_PARTY.md). No cloud search, account,
+Vercel or Supabase service is required.
 
 ## Data and limits
 
@@ -58,9 +64,28 @@ Results resolve through the manifest and revalidate the current original file be
 ## Verification
 
 The [contract](docs/specs/local-search.md) records the implementation and proof
-boundaries. The [native result](docs/results/2026/11-05/native-checks.md) binds
-the checked source, exact exported native inputs, ten case identities, real
-package/signature and owned cleanup. Swift 6 language-mode concurrency warnings
-remain captured. No app launch, shortcut registration, permission prompt,
-private-folder scan, QMD command, model inference or download occurred. Native
-interaction and actual retrieval need a separate authored-folder acceptance run.
+boundaries. On 7 November, the
+[keyword result](docs/results/2026/11-07/qmd-keyword-integration.md) passed two
+fresh journeys with 26 named harness checks and six actual keyword queries:
+rebuild/search/original resolution, then reopen, invalid-UTF-8 rebuild refusal,
+missing-original refusal, same-inode restoration and Forget. Three authored
+UTF-8 files (197 bytes), including a Unicode filename, matched the independent
+SQLite document/content rows. An owned parent path containing a space and a
+literal percent exercised actual URI escaping. The checked source uses a
+guarded closed-generation metadata audit and a read-only observer through the
+already locked YAML parser; official default-model URI metadata is not model
+execution. No prior passes were carried.
+
+Earlier failed CI attempts remain preserved:
+[1](docs/results/2026/11-07/qmd-keyword-integration-attempt-1.md),
+[2](docs/results/2026/11-07/qmd-keyword-integration-attempt-2.md),
+[3](docs/results/2026/11-07/qmd-keyword-integration-attempt-3.md),
+[4](docs/results/2026/11-07/qmd-keyword-integration-attempt-4.md),
+[5](docs/results/2026/11-07/qmd-keyword-integration-attempt-5.md),
+[6](docs/results/2026/11-07/qmd-keyword-integration-attempt-6.md).
+The dated native build/ten-case/package proof stays separate and was not rerun.
+Swift 6 language-mode warnings remain unresolved. Native UI, shortcut and
+permission interaction, private folders/file providers, models/inference,
+strict offline behavior, release signing/notarization and distribution remain
+pending. These service checks do not establish whole-product release readiness
+or continuous protection against every external filesystem writer.

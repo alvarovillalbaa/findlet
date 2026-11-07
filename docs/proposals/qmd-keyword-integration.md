@@ -1,10 +1,21 @@
 # First actual QMD keyword pipeline
 
-PREPARATION; no K01/K02 journey pass is claimed. The current QA `-7` job resumes
-the original journeys after the guarded audit repair below. The [owning contract](../specs/local-search.md)
+EXECUTED. Fresh K01/K02 journeys passed at source
+`6757504d24f57cbd9ac21a392360b8fddbf3d9d4`; the
+[accepted receipt](../results/2026/11-07/qmd-keyword-integration.md) owns actual
+outcomes and limits. Six earlier failed attempts remain evidence. The execution
+below describes the checked QA `-7` packet, not a new dispatch request.
+The [owning contract](../specs/local-search.md)
 requires real QMD retrieval, private generations and manifest-bound original
 files. The accepted native build and ten core cases do not prove this path.
 Standing owner approval covers this named, free-only integration scope.
+
+The guarded metadata audit and pure pinned YAML observer passed the original
+two app-less production-service journeys: 26 named checks, six query proofs,
+three authored UTF-8 documents and the space/percent parent path. No old cases
+were carried as fresh passes. Native UI, private folders, semantic models,
+inference, strict offline behavior and distribution were not exercised. The
+accepted scope is closed; do not rerun it unchanged without a concrete concern.
 
 The [first attempt](https://github.com/alvarovillalbaa/findlet/actions/runs/42383731437)
 stopped at `node_archive_size_bound` before Node execution or either journey.
