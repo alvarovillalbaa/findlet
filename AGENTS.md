@@ -22,3 +22,70 @@
   and accepted receipt. Do not rerun this closed scope without changed inputs
   or a concrete concern. Native UI, QMD retrieval and distribution stay separate;
   the captured concurrency warnings do not establish Swift 6 language readiness.
+
+## First actual QMD keyword integration — 7 November 2026
+
+The owner's standing "I approve everything / Keep going / Do all the work"
+covers the [separate keyword packet](docs/proposals/qmd-keyword-integration.md):
+one temporary free public macOS 15 ARM64 job, capped at 20 minutes, with
+explicitly pinned Node/QMD tooling and no install scripts, model downloads,
+semantic preparation, app launch or private-folder access. This is new actual
+engine integration, not a repeat of the closed ten core cases or app packaging.
+Local Storage Guard still fails; no local install, compile or application run.
+
+Compile the two unchanged core files and four production engine/service files
+with an app-less harness. Use only task-owned authored documents, an ordinary
+Foundation bookmark of their scratch folder, and app-owned configuration/index.
+K01 rebuilds and searches; K02 reopens the persisted index, checks failed-rebuild
+preservation and missing-source refusal, then forgets generated data. Keep all
+original documents and external runtime files unchanged. Do not weaken path,
+manifest, ownership or cancellation checks, or substitute fake QMD responses.
+
+Retain bounded original harness/observer outputs, exact source/runtime hashes,
+the actual outcomes and owned teardown on success or failure. Production QMD
+stderr is discarded internally; an outer receipt must not claim that it retains
+those inner streams. Actual macOS SQLite/vector admission is required; Linux
+evidence does not transfer. Native UI, existing bookmarks, semantic quality,
+strict offline behavior, permissions and trusted distribution remain separate.
+Disable and retire the owned workflow after its terminal run. No account,
+payment, model/provider call, application dependency or application API change.
+
+The first attempt stopped at Node archive size admission, before Node execution
+or either journey; compilation and owned teardown passed. Preserve that failed
+source and original receipt. The standing approval covers one changed attempt
+on the separate QA `-2` ref, with a metadata inventory before extraction and
+explicit 256 MiB/member, 512 MiB/total and 20,000-member bounds for the same
+hash-pinned archive. The 2 GiB scratch limit and all other gates remain. Do not
+infer the rejected member or exceeded sub-limit from the first receipt.
+
+The second attempt admitted the pinned archive and actual Darwin SQLite/vector
+bindings, then failed the production rebuild before queries. Preserve its
+originals. One changed diagnostic attempt on QA `-3` may add a harness-only
+finite error category and SHA256 of an existing Findlet error message, with no
+raw message, userInfo, document text, query, bookmark or inner stderr. Keep the
+same failure exit and all journey assertions. No product repair is established
+until the observed cause supports it; all source/runtime/resource gates remain.
+
+The third attempt fingerprint matches the existing runner's status-14 template,
+which omits termination reason. Preserve that failure. The QA `-4` packet is
+diagnostic-only D01: compare direct Python execution and the actual production
+QMDProcessRunner on fresh, separate authored indexes, covering keyword update,
+SDK health and read-only SQLite metadata verification with matched runtime,
+argv, corpus/configuration and environment roles. Record differing launch
+settings and path roles; do not call a comparison a proven cause. K01/K02 remain
+unrun in this packet. The only production change adds finite termination reason
+to the existing error message; retain the same success predicate, cancellation
+and output limits. No observer API, private data, model or inference is added.
+Direct diagnostic streams are separate from the production runner's discarded
+inner streams. Reject output containing authored document bodies or query
+tokens before publishing captures. A failed arm must keep CI failed; collection
+completion is separate from diagnostic success and requires normal owned closure.
+After a failed stage, record later stages as unrun. QMD may rewrite its owned
+configuration with default model URI metadata without downloading models;
+require equal curated initial inputs, record later configuration changes, and
+continue to require original corpus and runtime bytes to remain unchanged.
+
+The QA `-4` attempt failed harness compilation at the nested directory-path
+expression, before Node setup or either D01 arm. Preserve its originals. QA `-5`
+may replace only that expression with explicit typed steps and rerun the same
+bounded D01 scope. No assertion, outcome gate, runtime or production change.
