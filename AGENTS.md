@@ -47,6 +47,27 @@ stderr is discarded internally; an outer receipt must not claim that it retains
 those inner streams. Actual macOS SQLite/vector admission is required; Linux
 evidence does not transfer. Native UI, existing bookmarks, semantic quality,
 strict offline behavior, permissions and trusted distribution remain separate.
+
+## Current-app preview distribution — 8 November 2026
+
+The current all-project delivery instruction and standing owner approval cover
+Findlet's own [universal preview scope](docs/proposals/preview-package-checks.md):
+current full-app native Release builds for arm64/x86_64, one bounded free Mac
+CI packaging run, metadata/signature/ZIP round-trip checks, source-exact bundled
+license/runtime notes and publication of unchanged GitHub preview assets.
+This uses applicable standing Findlet authority, not another project's tests.
+
+Preserve the closed ten-case and K01/K02 evidence; do not repeat it. Keep app/
+engine/package/resource/test behavior and runtime policy unchanged. The preview
+requires existing compatible external Node/QMD/bindings; no runtime/model
+redistribution, installation, invocation, retrieval, native app launch, private
+folder, permission, trusted-signing or network-offline proof belongs to this scope.
+
+Storage Guard currently fails at 9.0 GiB free/34.0 GiB required. No local build,
+install, app/test/CLI/native-library execution. Only source/static checks and
+bounded data-only evidence handling. Own and verify CI scratch/caches/children,
+preserve failures and retire temporary controls. A universal binary is not
+Intel-engine compatibility, Gatekeeper, native UI or whole-product acceptance.
 Disable and retire the owned workflow after its terminal run. No account,
 payment, model/provider call, application dependency or application API change.
 

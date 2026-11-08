@@ -1,0 +1,37 @@
+# INACTIVE. Root replaces SOURCE_COMMIT with the reviewed source commit.
+# Publish only as .github/workflows/preview-package.yml on the fixed QA branch;
+# remove that temporary control after its one bounded packaging invocation.
+name: Temporary Findlet ad-hoc preview package
+on:
+  push:
+    branches: [qa/findlet-preview-20261108-1]
+    paths: [.github/workflows/preview-package.yml]
+permissions:
+  contents: read
+concurrency:
+  group: findlet-preview-20261108-1
+  cancel-in-progress: false
+jobs:
+  package:
+    if: >-
+      github.repository == 'alvarovillalbaa/findlet' &&
+      github.event.repository.private == false &&
+      github.ref == 'refs/heads/qa/findlet-preview-20261108-1'
+    runs-on: macos-15
+    timeout-minutes: 20
+    env:
+      CI: 'true'
+      SOURCE_COMMIT: REVIEWED_SOURCE_COMMIT_REPLACED_BY_ROOT
+    steps:
+      - name: Record earliest job time
+        shell: bash
+        run: echo "FINDLET_JOB_STARTED_MS=$(date +%s)000" >> "$GITHUB_ENV"
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ env.SOURCE_COMMIT }}
+          fetch-depth: 2
+          persist-credentials: false
+          clean: false
+      - name: Package and inspect without launching the application or tests
+        shell: bash
+        run: python3 -I -B -S Tests/ci/run-preview-package.py --source-commit "$SOURCE_COMMIT"

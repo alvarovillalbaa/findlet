@@ -29,6 +29,22 @@ Requires macOS 15+, the Swift toolchain, and sufficient free disk space. The bui
 open dist/Findlet.app
 ```
 
+To build the current app as a Release preview for both Apple silicon and Intel,
+with Python 3 available for bounded archive staging:
+
+```sh
+./script/build_and_run.sh --build-preview
+```
+
+This mode builds/packages without launching or quitting Findlet and refuses
+existing preview ZIP/checksum leaves. It emits
+`dist/Findlet-0.1.0-macos-universal.zip` and its `.zip.sha256`, with source-exact
+license, third-party and setup notes in the signed app bundle. Fresh universal
+packaging/download acceptance is pending under the
+[Findlet preview scope](docs/proposals/preview-package-checks.md). The
+[runtime guide](docs/runtime-setup.md) explains required external setup; the app
+archive contains no Node, QMD, native bindings or models.
+
 The default `./script/build_and_run.sh` builds, locally ad-hoc signs, and opens the real app bundle. Codex's Run action calls that script. `--debug`, `--logs`, `--telemetry`, and `--verify` are explicit diagnostic/launch modes. The app itself emits no document/query telemetry; the telemetry option only opens the local process log stream.
 
 Original icon artwork is editable in `artwork/app-icon.svg`. Its PNG reference
