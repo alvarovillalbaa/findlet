@@ -68,6 +68,14 @@ install, app/test/CLI/native-library execution. Only source/static checks and
 bounded data-only evidence handling. Own and verify CI scratch/caches/children,
 preserve failures and retire temporary controls. A universal binary is not
 Intel-engine compatibility, Gatekeeper, native UI or whole-product acceptance.
+
+The [first preview invocation](docs/results/2026/11-08/preview-package-attempt-1.md)
+now passed full current-app universal Release compilation, packaging/round-trip,
+source-bound notices/setup and owned cleanup. Do not rerun this accepted scope
+or the old core/keyword cases. Publish only unchanged retained artifacts and
+record actual public tag/server digests. The archived controller guards its
+original source; later status docs do not create another checked profile.
+Keep external runtime/Intel engine/native/trust/model/offline gates explicit.
 Disable and retire the owned workflow after its terminal run. No account,
 payment, model/provider call, application dependency or application API change.
 

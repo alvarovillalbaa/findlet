@@ -9,8 +9,10 @@ A native macOS menu-bar utility for explicitly selected Markdown and text folder
 app-less production-service checks with actual QMD. The earlier
 [native result](docs/results/2026/11-05/native-checks.md) records the app build,
 ten core cases and ad-hoc package; that closed scope was not rerun. The current
-services compiled for the new checks, but no new full app build or native app
-launch was performed. There is no downloadable, notarized release.
+services compiled for those checks. A [fresh complete universal Release build
+and archive check](docs/results/2026/11-08/preview-package-attempt-1.md) now passed;
+no native app launch occurred. Download publication is pending; the preview is
+not notarized and requires separately installed compatible Node/QMD/bindings.
 
 ## Included in the source
 
@@ -40,7 +42,7 @@ This mode builds/packages without launching or quitting Findlet and refuses
 existing preview ZIP/checksum leaves. It emits
 `dist/Findlet-0.1.0-macos-universal.zip` and its `.zip.sha256`, with source-exact
 license, third-party and setup notes in the signed app bundle. Fresh universal
-packaging/download acceptance is pending under the
+packaging passed; download publication is pending under the
 [Findlet preview scope](docs/proposals/preview-package-checks.md). The
 [runtime guide](docs/runtime-setup.md) explains required external setup; the app
 archive contains no Node, QMD, native bindings or models.

@@ -2,8 +2,8 @@
 
 The target release is **`v0.1.0-preview.1`**, containing app version **0.1.0**
 (build 1) for macOS 15+. Fresh universal Release compilation, packaging and
-CI acceptance are pending. This document describes the intended artifact
-contract; it is not a successful build or installation receipt.
+CI acceptance [passed](results/2026/11-08/preview-package-attempt-1.md).
+Publication is pending; native installation/runtime acceptance remains separate.
 
 ## Assets and trust
 
@@ -61,7 +61,7 @@ before ad-hoc signing. See Apple's [universal-binary guidance](https://developer
 Outputs are `dist/Findlet.app`, the ZIP and its `.zip.sha256` sidecar. Existing
 archive/sidecar paths are refused. The separate CI controller produces the
 manifest. Packaging uses metadata-preserving `ditto` ZIP options, bounded to
-8 MiB archived, 32 MiB expanded and 512 members. Planned CI checks include fresh
+8 MiB archived, 32 MiB expanded and 512 members. The passing CI checks include fresh
 extraction and matching bundle bytes, modes, xattrs and signature; nonempty
 resource-fork preservation is not established merely by empty-xattr results.
 

@@ -75,3 +75,13 @@ build/install/app/test/native-call exception. Source/Bash/Python syntax checks
 and bounded data-only evidence handling are allowed; native execution stays in
 the owned public CI. The source/build/service/distribution boundaries remain
 separate in canonical results and the [distribution guide](../distribution.md).
+
+## Terminal packaging acceptance
+
+The [first invocation](../results/2026/11-08/preview-package-attempt-1.md)
+passed the current full-app universal Release build, all 18 commands, strict
+signatures, source-exact bundled notices/setup and fresh ZIP round-trip.
+Owned cleanup passed. This packaging scope is closed; do not repeat it or
+the older core/keyword scopes as routine follow-up. Publish only the exact
+retained assets and record actual public tag/digests. External runtime, Intel
+engine/native UI/Gatekeeper/model/offline acceptance remains separate.
