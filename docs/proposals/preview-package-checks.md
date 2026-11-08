@@ -85,3 +85,8 @@ Owned cleanup passed. This packaging scope is closed; do not repeat it or
 the older core/keyword scopes as routine follow-up. Publish only the exact
 retained assets and record actual public tag/digests. External runtime, Intel
 engine/native UI/Gatekeeper/model/offline acceptance remains separate.
+
+The [public release record](../results/2026/11-08/preview-package-publication.json)
+now verifies prerelease `438179724` / `v0.1.0-preview.1`, its exact source tag
+and all three unchanged server asset digests. Both workflow records are
+disabled; the QA control is retired. No new engine/native/trust acceptance.

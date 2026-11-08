@@ -76,6 +76,13 @@ or the old core/keyword cases. Publish only unchanged retained artifacts and
 record actual public tag/server digests. The archived controller guards its
 original source; later status docs do not create another checked profile.
 Keep external runtime/Intel engine/native/trust/model/offline gates explicit.
+
+The [preview is public](docs/results/2026/11-08/preview-package-publication.json)
+at `v0.1.0-preview.1`; exact source tag and three unchanged server asset
+digests verify. Main has no workflow file; both provider workflows are disabled
+and QA retired. Keep bundled `docs/runtime-setup.md` byte-exact to this build
+unless a changed guide/package scope is intended. Public release metadata does
+not establish downloaded-app launch, external Intel engine or native UI proof.
 Disable and retire the owned workflow after its terminal run. No account,
 payment, model/provider call, application dependency or application API change.
 

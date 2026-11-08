@@ -80,8 +80,15 @@ excludes unrelated Apple/Xcode services and applies no address-space limit.
 
 Workflow `411059301` is disabled and QA1 retired at
 `46b73dd8364d8c155362b260e8ce9e98093b3db1`. The older native workflow stays
-disabled. Main contains no executing workflow. Publish unchanged passing
-assets as `v0.1.0-preview.1`, then record the actual public tag/server digests.
+disabled. Main contains no executing workflow. The unchanged passing assets
+are public as `v0.1.0-preview.1`.
+
+The [publication record](preview-package-publication.json) verifies public
+prerelease `438179724`, published 10:44:55 UTC at tag/source closure
+`a5d202ebe215f58e1dce3e9e52ec064d775c428a`, and all three actual server asset
+sizes/SHA-256 digests. This proves GitHub artifact publication, without a fresh
+anonymous installation or downloaded-app launch. Later status docs preserve
+every checked app/build/controller/setup-guide input.
 
 | Immutable original | Bytes | SHA-256 |
 | --- | ---: | --- |

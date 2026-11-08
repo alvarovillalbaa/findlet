@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "kind": "findlet.current-app-universal-preview-publication",
+  "observedAt": "2026-11-08T10:44:56Z",
+  "executedSourceCommit": "fabe5b3d2c2bc385324f66ed34aeb442c2de19bb",
+  "evidenceCommit": "a5d202ebe215f58e1dce3e9e52ec064d775c428a",
+  "evidenceTree": "32cad934daec9bc923a95226146a99a808a81343",
+  "release": {
+    "assets": [
+      {
+        "browser_download_url": "https://github.com/alvarovillalbaa/findlet/releases/download/v0.1.0-preview.1/Findlet-0.1.0-macos-universal.zip",
+        "digest": "sha256:d905ca59173ba50011779da89a972b83a566df6924d30ef8eb6d30f265dfc4ed",
+        "id": 723636944,
+        "name": "Findlet-0.1.0-macos-universal.zip",
+        "size": 868206,
+        "state": "uploaded"
+      },
+      {
+        "browser_download_url": "https://github.com/alvarovillalbaa/findlet/releases/download/v0.1.0-preview.1/Findlet-0.1.0-macos-universal.zip.sha256",
+        "digest": "sha256:44e0622240dad48f68ca95f3fc5f28811668dd513a8c5e7ffe97edc319d7274c",
+        "id": 723636988,
+        "name": "Findlet-0.1.0-macos-universal.zip.sha256",
+        "size": 100,
+        "state": "uploaded"
+      },
+      {
+        "browser_download_url": "https://github.com/alvarovillalbaa/findlet/releases/download/v0.1.0-preview.1/Findlet-preview-manifest.json",
+        "digest": "sha256:35a089ab418621dc49537eeea6078ec9152c9f7bc5a7e78ff7a482e48b37965e",
+        "id": 723637014,
+        "name": "Findlet-preview-manifest.json",
+        "size": 2350,
+        "state": "uploaded"
+      }
+    ],
+    "draft": false,
+    "html_url": "https://github.com/alvarovillalbaa/findlet/releases/tag/v0.1.0-preview.1",
+    "id": 438179724,
+    "prerelease": true,
+    "published_at": "2026-11-08T10:44:55Z",
+    "tag_name": "v0.1.0-preview.1",
+    "target_commitish": "a5d202ebe215f58e1dce3e9e52ec064d775c428a"
+  },
+  "tag": {
+    "object": {
+      "sha": "a5d202ebe215f58e1dce3e9e52ec064d775c428a",
+      "type": "commit",
+      "url": "https://api.github.com/repos/alvarovillalbaa/findlet/git/commits/a5d202ebe215f58e1dce3e9e52ec064d775c428a"
+    },
+    "ref": "refs/tags/v0.1.0-preview.1"
+  },
+  "artifactsUnchangedFromPassingCI": true,
+  "bundledSetupSha256": "a9de5573ba6c08bf916af2ac5e9a45197dd68e341f9e012c3f1184bf2d966e36",
+  "ci": {
+    "run": 42472095274,
+    "job": 128705023953,
+    "workflowCommit": "1fc67584b42cda4658ffdcf06b5df6796f6360f5",
+    "status": "passed",
+    "commands": 18,
+    "completeStreams": 36,
+    "cleanupVerified": true,
+    "testsExecuted": false,
+    "applicationLaunched": false,
+    "runtimeInstalledOrInvoked": false,
+    "engineAcceptancePerformed": false
+  },
+  "temporaryControls": {
+    "previewWorkflowId": 411059301,
+    "previewWorkflowState": "disabled_manually",
+    "priorNativeWorkflowId": 408719568,
+    "priorNativeWorkflowState": "disabled_manually",
+    "activeWorkflowFilesInMain": 0,
+    "retiredQA": "46b73dd8364d8c155362b260e8ce9e98093b3db1"
+  },
+  "externalRuntime": {
+    "bundled": false,
+    "installedOrInvoked": false,
+    "nodeMinimum": "22",
+    "qmdVersion": "2.8.3",
+    "compatibleNativeBindingsRequired": true,
+    "intelEngineAcceptanceVerified": false,
+    "modelsBundled": false
+  },
+  "limits": [
+    "GitHub public/tag and server asset digests verified; no fresh anonymous installation",
+    "Ad-hoc seal without Developer ID/notarization/Gatekeeper or fresh-Mac launch acceptance",
+    "No new native UI/private-folder/bookmark/permission/retrieval/model/offline acceptance",
+    "Universal app compilation does not verify external Intel QMD/native bindings",
+    "Earlier core and keyword evidence keeps original source/profile; no rerun",
+    "Actual xattrs were empty; cleanup final inventory is digest-only",
+    "Existing Swift 6 language-mode/concurrency advisories remain",
+    "No local app/build/test/native-library execution, new account, paid service, provider/model call or hosted resource"
+  ]
+}

@@ -3,7 +3,8 @@
 The target release is **`v0.1.0-preview.1`**, containing app version **0.1.0**
 (build 1) for macOS 15+. Fresh universal Release compilation, packaging and
 CI acceptance [passed](results/2026/11-08/preview-package-attempt-1.md).
-Publication is pending; native installation/runtime acceptance remains separate.
+The [unchanged preview assets are public](https://github.com/alvarovillalbaa/findlet/releases/tag/v0.1.0-preview.1);
+native installation/runtime acceptance remains separate.
 
 ## Assets and trust
 
@@ -27,7 +28,7 @@ documentation.
 
 ## Inspecting a published preview
 
-Download the ZIP, checksum and manifest from the same release. Compare the
+Download the ZIP, checksum and manifest from the preview release above. Compare the
 archive's digest with both records before extracting:
 
 ```sh
@@ -69,3 +70,7 @@ The older ten native/core checks and accepted K01/K02 keyword integration
 remain their own evidence; this packaging scope does not rerun them. Native
 UI, user permissions/private folders, semantic quality, strict network-offline
 operation and trusted distribution remain unverified by this preview build.
+
+The [publication record](results/2026/11-08/preview-package-publication.json)
+verifies the exact public tag and server asset digests. A fresh anonymous
+installation/downloaded-app launch was not performed.

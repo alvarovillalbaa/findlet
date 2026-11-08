@@ -11,8 +11,20 @@ app-less production-service checks with actual QMD. The earlier
 ten core cases and ad-hoc package; that closed scope was not rerun. The current
 services compiled for those checks. A [fresh complete universal Release build
 and archive check](docs/results/2026/11-08/preview-package-attempt-1.md) now passed;
-no native app launch occurred. Download publication is pending; the preview is
+no native app launch occurred. The preview is now downloadable; it is
 not notarized and requires separately installed compatible Node/QMD/bindings.
+
+## Download the developer preview
+
+[Findlet for Apple silicon and Intel Macs](https://github.com/alvarovillalbaa/findlet/releases/download/v0.1.0-preview.1/Findlet-0.1.0-macos-universal.zip)
+(macOS 15+), with [SHA-256 checksum](https://github.com/alvarovillalbaa/findlet/releases/download/v0.1.0-preview.1/Findlet-0.1.0-macos-universal.zip.sha256)
+and [source/toolchain manifest](https://github.com/alvarovillalbaa/findlet/releases/download/v0.1.0-preview.1/Findlet-preview-manifest.json).
+These are the unchanged passing artifacts, with [public tag/digest readback](docs/results/2026/11-08/preview-package-publication.json).
+
+**Requires existing trusted Node 22+, QMD 2.8.3 and compatible native bindings.**
+The signed app includes setup/license notices, with no engine or models bundled.
+Universal app slices do not prove Intel QMD operation. See the
+[runtime guide](docs/runtime-setup.md) and [installation/trust limits](docs/distribution.md).
 
 ## Included in the source
 
@@ -42,7 +54,7 @@ This mode builds/packages without launching or quitting Findlet and refuses
 existing preview ZIP/checksum leaves. It emits
 `dist/Findlet-0.1.0-macos-universal.zip` and its `.zip.sha256`, with source-exact
 license, third-party and setup notes in the signed app bundle. Fresh universal
-packaging passed; download publication is pending under the
+packaging passed, and the unchanged download is public under the
 [Findlet preview scope](docs/proposals/preview-package-checks.md). The
 [runtime guide](docs/runtime-setup.md) explains required external setup; the app
 archive contains no Node, QMD, native bindings or models.
@@ -104,6 +116,7 @@ Earlier failed CI attempts remain preserved:
 The dated native build/ten-case/package proof stays separate and was not rerun.
 Swift 6 language-mode warnings remain unresolved. Native UI, shortcut and
 permission interaction, private folders/file providers, models/inference,
-strict offline behavior, release signing/notarization and distribution remain
-pending. These service checks do not establish whole-product release readiness
+strict offline behavior, Developer ID/notarization and fresh downloaded-app/
+Gatekeeper acceptance remain pending. The current full-app build and ad-hoc
+preview delivery have their separate evidence above. These service checks do not establish whole-product release readiness
 or continuous protection against every external filesystem writer.

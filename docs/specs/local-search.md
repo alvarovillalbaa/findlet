@@ -58,3 +58,11 @@ distribution. Swift 6 language-mode warnings remain unresolved. Boundary file
 and process observations do not establish continuous control of every host
 writer. This is focused service acceptance, not a whole-product release.
 Do not index personal folders while developing.
+
+The [8 November preview profile](../results/2026/11-08/preview-package-attempt-1.md)
+freshly compiled the complete current app in Release for arm64 and x86_64,
+verified source-exact notices/setup, strict ad-hoc signatures and ZIP round-trip,
+then [published unchanged artifacts](../results/2026/11-08/preview-package-publication.json).
+This closes the current-app build/download gap. Existing core/keyword evidence
+was not rerun; Intel QMD/runtime, native UI/private-folder/permission, semantic/
+offline, fresh-Mac/Gatekeeper and trusted-distribution acceptance remain open.
