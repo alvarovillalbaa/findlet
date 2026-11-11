@@ -60,7 +60,7 @@ Original run/jobs API bodies are adjacent. Earlier invocations remain immutable:
 [2 schema failure](qmd-semantic-attempt-2.md),
 [3 integrity failure](qmd-semantic-attempt-3.md),
 [4 unavailable system loader](qmd-semantic-attempt-4.md).
-Publication and temporary-control retirement are recorded separately.
+[Publication and temporary-control retirement](qmd-semantic-publication.json) are recorded separately.
 
 No native app launch, shortcut/permission UI, private folder/file-provider corpus,
 physical-device/Intel engine, broad semantic-quality benchmark, strict network

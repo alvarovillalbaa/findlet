@@ -1,0 +1,114 @@
+{
+  "schemaVersion": "findlet.semantic-publication.v1",
+  "checkedSource": "b2979cb8b8a9228975683a87f2b7c0861d4a9198",
+  "activationCommit": "e94af9ef5d5a4e2cad3cdc0688687e6cdf2bd816",
+  "acceptedRun": {
+    "id": 43076821237,
+    "jobId": 130718691242,
+    "conclusion": "success",
+    "receiptAccepted": true,
+    "journeys": 2,
+    "namedChecks": 18,
+    "queryProofs": 8,
+    "outerCommands": 66,
+    "outerStreams": 132
+  },
+  "evidenceMain": {
+    "commit": "000e263f8c1b6cfc914f68037b08c3d0d1f3e36a",
+    "tree": "4193f29675ba224a568cbdbda655a2a2b5248034",
+    "files": 106,
+    "bytes": 10179549,
+    "githubHeadReadback": true,
+    "all26ChangedBlobModesSizesAndIdsVerified": true
+  },
+  "nativeEvidenceAdoption": {
+    "head": "000e263f8c1b6cfc914f68037b08c3d0d1f3e36a",
+    "originMain": "000e263f8c1b6cfc914f68037b08c3d0d1f3e36a",
+    "tree": "4193f29675ba224a568cbdbda655a2a2b5248034",
+    "all106NativeFilesMatched": true,
+    "indexTreeMatched": true,
+    "statusClean": true,
+    "method": "Only verified task files staged; exact tree then compare-and-swap main ref. No reset, stash, clean or checkout overwrite."
+  },
+  "temporaryWorkflow": {
+    "id": 414975225,
+    "path": ".github/workflows/qmd-semantic-integration.yml",
+    "state": "disabled_manually",
+    "stateReadBack": true,
+    "fileAbsentFromMain": true
+  },
+  "retiredQARefs": [
+    {
+      "branch": "qa/findlet-qmd-semantic-20261111-1",
+      "expectedHead": "9a5cf310d3d8c86fff27f7753b461fa89190c5ad",
+      "deleted": true,
+      "readbackStatus": 404
+    },
+    {
+      "branch": "qa/findlet-qmd-semantic-20261111-2",
+      "expectedHead": "ffdfb43ab38c3feb377560ed3c8ae5a06ca9ce96",
+      "deleted": true,
+      "readbackStatus": 404
+    },
+    {
+      "branch": "qa/findlet-qmd-semantic-20261111-3",
+      "expectedHead": "0c51d1756cfa5df994d694aa07e61e43390c5b88",
+      "deleted": true,
+      "readbackStatus": 404
+    },
+    {
+      "branch": "qa/findlet-qmd-semantic-20261111-4",
+      "expectedHead": "e0fc030e5265189950c61ac7fd0825cd227648e6",
+      "deleted": true,
+      "readbackStatus": 404
+    },
+    {
+      "branch": "qa/findlet-qmd-semantic-20261111-5",
+      "expectedHead": "e94af9ef5d5a4e2cad3cdc0688687e6cdf2bd816",
+      "deleted": true,
+      "readbackStatus": 404
+    }
+  ],
+  "localCleanup": {
+    "verifiedOwnedDuplicateFilesRemoved": 40,
+    "bytesRemoved": 1655226,
+    "identityHashCanonicalByteEqualityAndNoOpenerObservationPassed": true,
+    "absenceReadback": true,
+    "canonicalOriginalsRetained": true
+  },
+  "applicationSourceChanged": false,
+  "applicationDependenciesChanged": false,
+  "previewRebuilt": false,
+  "bundledRuntimeGuideChanged": false,
+  "priorCoreKeywordPackageCasesRepeated": false,
+  "priorInvocationsRetained": [
+    {
+      "runId": 43070787888,
+      "status": "cancelled_while_queued",
+      "checks": "unrun"
+    },
+    {
+      "runId": 43071544565,
+      "status": "failed_observer_schema"
+    },
+    {
+      "runId": 43072967699,
+      "status": "failed_combined_integrity_cause_unproven"
+    },
+    {
+      "runId": 43074550232,
+      "status": "failed_system_extension_loader"
+    }
+  ],
+  "scopeClosed": true,
+  "productAccepted": false,
+  "proofLimits": [
+    "Authored three-document service checks are not general semantic quality or native UI/private-folder/permission acceptance.",
+    "QMD force-CPU can use a packaged Metal backend with zero model GPU layers; not CPU-only binary proof.",
+    "Strict offline, Intel engine, Swift 6 language readiness and trusted downloaded-app/signing acceptance remain separate.",
+    "Original complete outer streams are retained; inner production QMD stderr is discarded.",
+    "Owned teardown observations do not attest all host processes or external runner disposal.",
+    "This receipt binds D1 publication and native adoption. Its own metadata-only publication and final native head are recorded by the continuation evidence."
+  ],
+  "observedAt": "2026-11-11 18:33:52 UTC"
+}
