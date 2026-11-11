@@ -30,7 +30,7 @@ hashes total2,560,742,688bytes. They are downloaded only to temporary CI scratch
 verified by size/full SHA256/GGUF header and removed afterward. No weights,
 vectors, model/index cache, bookmarks, document text or queries enter evidence
 or the app archive. The Qwen embedding alternative is supported by pinned
-[QMD2.8.3](https://github.com/tobi/qmd/blob/86d2365d17fc682e491c2c53d1e4a884aee8682a/src/llm.ts).
+[QMD2.8.3](https://github.com/tobi/qmd/blob/facd35e01359e59d938bc9418e93fb9318addee3/src/llm.ts).
 
 The semantic test lock derives from the existing Darwin lock: all179 dependency
 paths and version/resolved/integrity values stay exact. Only the already-pinned
@@ -63,3 +63,15 @@ storage,6GiB task cap and2GiB remote disk reserve. The pinned weights total
 2.56GB; this is an admission estimate, not observed peak-RAM proof. GitHub
 [documents7GB RAM/14GB SSD](https://docs.github.com/en/actions/reference/runners/github-hosted-runners)
 for free public macOS ARM64. No larger/paid runner or local reserve exception.
+
+QA-2 passed actual compilation, model hashes/native CPU admission and all S01
+assertions, then failed the independent observer because its SQL assumed a newer
+upstream schema. Overall acceptance stays false and S02 remains unrun; preserve
+the original failed receipt and successful owned cleanup. The locked npm2.8.3
+metadata identifies gitHead `facd35e01359e59d938bc9418e93fb9318addee3`, whose
+actual vector table is `vectors_vec(hash_seq,embedding)`. QA-3 corrects only the
+observer/source citation and adds stricter inference-cache shape/count checks:
+nonempty real expansion cache and nonconstant rerank scores rather than uniform
+fallback. No cache values or query/body text are exported. Recreate S01's fresh
+index for this changed audit, then execute the still-unrun S02; retain existing
+journey assertions and all runtime/model/dependency bytes. No QMD/app upgrade.

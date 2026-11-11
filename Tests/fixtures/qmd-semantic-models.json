@@ -40,7 +40,9 @@
   ],
   "totalBytes": 2560742688,
   "purpose": "Disposable actual local CPU inference checks only. Models are not shipped, committed or installed on the owner's Mac.",
-  "qmdSource": "https://github.com/tobi/qmd/blob/86d2365d17fc682e491c2c53d1e4a884aee8682a/src/llm.ts",
+  "qmdSource": "https://github.com/tobi/qmd/blob/facd35e01359e59d938bc9418e93fb9318addee3/src/llm.ts",
+  "qmdPackageGitHead": "facd35e01359e59d938bc9418e93fb9318addee3",
+  "qmdPackageMetadata": "https://registry.npmjs.org/@tobilu%2fqmd/2.8.3",
   "keywordLockSha256": "c7fbb1cb91ac025f79861db970aab98eb4604ec91f8115fcd67d09e9b9176df2",
   "semanticLockSha256": "9561987453ecc5c41a5fa41935980c109016121c37103a592f4f7ffb3e1dfa35"
 }

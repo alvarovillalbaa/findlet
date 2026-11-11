@@ -199,3 +199,12 @@ documented free runner. Preserve that unexecuted invocation. A changed QA-2
 profile may use measured6GiB RAM/8GiB free disk with the same6GiB scratch cap,
 2GiB remote disk reserve, exact weights and unchanged assertions. No paid runner,
 local reserve reduction, source model substitution or inference acceptance.
+
+QA-2's executed receipt passed real S01 preparation/six searches, compilation,
+native CPU admission and full model pins, then failed the independent observer's
+newer-schema assumption. Cleanup passed; S02 was unrun and overall scope failed.
+Preserve originals. QA-3 may correct only that observer to locked npm2.8.3's
+`vectors_vec` schema (registry gitHead facd35e), correct upstream citations and
+require nonempty expansion/nonconstant rerank-cache metadata without values.
+Fresh S01 is necessary for the changed audit; prior observations are not extra
+cases. Keep all existing assertions/model/runtime pins and execute S02 once.

@@ -24,7 +24,7 @@ import time
 import uuid
 
 BASE = "ce70e75c0b5a55195049565ca9e6a13ebacc5614"
-BRANCH = "refs/heads/qa/findlet-qmd-semantic-20261111-2"
+BRANCH = "refs/heads/qa/findlet-qmd-semantic-20261111-3"
 HELPER = "Tests/scripts/run-keyword-integration.py"
 HELPER_SHA = "6e860f582ded76240c03dd188448571b433b06722a29708093e2db5d95bd9981"
 HARNESS = "Tests/integration/SemanticPipelineHarness.swift"
@@ -358,14 +358,20 @@ const db=new Database(process.argv[2],{readonly:true,fileMustExist:true});
 try{vec.load(db);db.pragma('query_only=ON');
 const docs=db.prepare('SELECT path,collection,hash FROM documents WHERE active=1 ORDER BY path').all();
 const cv=db.prepare('SELECT hash,seq,pos,total_chunks,embed_fingerprint FROM content_vectors ORDER BY hash,seq').all();
-const rows=db.prepare('SELECT vr.id,vr.hash,vr.seq,ci.name AS collection,v.embedding FROM vector_rows vr JOIN vector_collection_ids ci ON ci.id=vr.collection_id JOIN vectors_by_collection v ON v.rowid=vr.id ORDER BY vr.id').all();
+const rows=db.prepare('SELECT hash_seq,embedding FROM vectors_vec ORDER BY hash_seq').all();
 if(docs.length!==3||cv.length!==3||rows.length!==3)throw Error('count');
-for(const row of rows){if(row.collection!=='findlet_documents'||!docs.some(d=>d.hash===row.hash&&d.collection===row.collection)||
- !cv.some(c=>c.hash===row.hash&&c.seq===row.seq&&c.total_chunks===1&&c.pos===0&&c.embed_fingerprint.length>0))throw Error('join');
+for(const row of rows){if(!cv.some(c=>row.hash_seq===c.hash+'_'+c.seq&&c.total_chunks===1&&c.pos===0&&c.embed_fingerprint.length>0&&
+ docs.some(d=>d.hash===c.hash&&d.collection==='findlet_documents')))throw Error('join');
 const bytes=row.embedding;if(!Buffer.isBuffer(bytes)||bytes.length!==4096)throw Error('dimensions');let norm=0;
 for(let i=0;i<bytes.length;i+=4){const v=bytes.readFloatLE(i);if(!Number.isFinite(v))throw Error('finite');norm+=v*v;}if(!(norm>0))throw Error('zero');}
+const cached=db.prepare('SELECT result FROM llm_cache').all();let expansionEntries=0;const rerankScores=[];
+for(const row of cached){const value=JSON.parse(row.result);if(Array.isArray(value)){
+ if(value.length&&value.every(v=>v&&['lex','vec','hyde'].includes(v.type)&&typeof(v.query??v.text)==='string'))expansionEntries++;
+}else if(typeof value==='number'&&Number.isFinite(value)&&value>=0&&value<=1){rerankScores.push(value);}}
+if(expansionEntries<1||rerankScores.length<3||new Set(rerankScores).size<2||rerankScores.every(s=>s===0.5))throw Error('local_inference_cache');
 process.stdout.write(JSON.stringify({activeDocuments:3,contentChunks:3,joinedVectors:3,dimensions:1024,allFiniteNonzero:true,
-  snapshotPaths:docs.map(d=>d.path),queryOnly:true}));
+  snapshotPaths:docs.map(d=>d.path),queryOnly:true,vectorLayout:'qmd2.8.3_vectors_vec',
+  expansionCacheEntries:expansionEntries,rerankCacheEntries:rerankScores.length,rerankScoresNonconstant:true,noUniformFallback:true}));
 }finally{db.close();}
 """
 
