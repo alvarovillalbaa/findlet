@@ -208,3 +208,11 @@ Preserve originals. QA-3 may correct only that observer to locked npm2.8.3's
 require nonempty expansion/nonconstant rerank-cache metadata without values.
 Fresh S01 is necessary for the changed audit; prior observations are not extra
 cases. Keep all existing assertions/model/runtime pins and execute S02 once.
+
+QA-3's native observer returned exact vector/cache metadata, then failed its
+combined integrity predicate. Preserve the failure; do not infer which part
+failed. QA-4 may replace only the observer connection with guarded immutable
+system SQLite plus the pinned admitted vec extension, retaining exact file/hash/
+sidecar/path predicates and recording them separately. SQL-only finite/norm/
+cache metadata must expose no vectors or cache values. All assertions remain;
+no checkpoint, write open, chmod, app/runtime/model change or old-case rerun.

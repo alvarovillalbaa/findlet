@@ -24,7 +24,7 @@ import time
 import uuid
 
 BASE = "ce70e75c0b5a55195049565ca9e6a13ebacc5614"
-BRANCH = "refs/heads/qa/findlet-qmd-semantic-20261111-3"
+BRANCH = "refs/heads/qa/findlet-qmd-semantic-20261111-4"
 HELPER = "Tests/scripts/run-keyword-integration.py"
 HELPER_SHA = "6e860f582ded76240c03dd188448571b433b06722a29708093e2db5d95bd9981"
 HARNESS = "Tests/integration/SemanticPipelineHarness.swift"
@@ -388,14 +388,74 @@ def audit_index(first):
     need(len(expected) == 3 and sorted(d["relativePath"] for d in documents) == sorted(DOCUMENTS), "audit_manifest_mapping")
     before = g.fingerprint(database)
     sidecars = [Path(str(database) + suffix) for suffix in ("-journal", "-wal", "-shm")]
-    need(all(not p.exists() or p.lstat().st_size == 0 for p in sidecars), "audit_pending_sidecars")
+    def sidecar_state():
+        return [{"suffix": p.name.removeprefix("index.sqlite"), "absent": not os.path.lexists(p),
+                 "file": None if not os.path.lexists(p) else g.fingerprint(p)} for p in sidecars]
+    before_sidecars = sidecar_state()
+    need(all(v["absent"] or v["file"]["bytes"] == 0 for v in before_sidecars), "audit_pending_sidecars")
     _, live, unknown = g.observe_processes()
     need(not live and not unknown, "audit_live_process")
-    out, _, _ = command("independent_closed_vector_audit", [str(g.node), "-e", AUDIT, str(g.root / "runtime/tools"), str(database)], 30)
+    # Closed immutable URI, as admitted by the production audit: no checkpoint,
+    # write connection, or ordinary read-only sidecar creation.
+    fd = os.open(database, os.O_RDONLY | os.O_NOFOLLOW)
+    try:
+        need(os.read(fd, 16) == b"SQLite format 3\x00", "audit_sqlite_header")
+    finally:
+        os.close(fd)
+    need(before == g.fingerprint(database), "audit_unstable_admission")
+    extension = Path(g.report["nativeAdmission"]["vector"])
+    need(extension.resolve(strict=True).is_relative_to((g.root / "runtime").resolve()), "audit_extension_outside_runtime")
+    sql = r"""
+WITH good_vectors AS (
+ SELECT v.hash_seq, CASE WHEN json_valid(vec_to_json(v.embedding)) THEN
+   vec_length(v.embedding)=1024
+   AND NOT EXISTS(SELECT 1 FROM json_each(vec_to_json(v.embedding)) j
+                  WHERE j.type NOT IN ('integer','real') OR abs(j.value)>3.4028234663852886e38)
+   AND (SELECT total(j.value*j.value) FROM json_each(vec_to_json(v.embedding)) j)>0
+   AND (SELECT total(j.value*j.value) FROM json_each(vec_to_json(v.embedding)) j)<1.0e100
+ ELSE 0 END AS valid FROM vectors_vec v
+), numbers AS (
+ SELECT CAST(result AS REAL) AS score FROM llm_cache
+ WHERE json_valid(result) AND json_type(result) IN ('integer','real')
+), expansions AS (
+ SELECT result FROM llm_cache WHERE json_valid(result) AND json_type(result)='array'
+ AND json_array_length(result)>0
+ AND NOT EXISTS(SELECT 1 FROM json_each(result) e WHERE json_extract(e.value,'$.type') NOT IN ('lex','vec','hyde')
+                OR coalesce(json_type(e.value,'$.query'),json_type(e.value,'$.text'))!='text')
+)
+SELECT json_object(
+ 'activeDocuments',(SELECT count(*) FROM documents WHERE active=1 AND collection='findlet_documents'),
+ 'allActiveDocuments',(SELECT count(*) FROM documents WHERE active=1),
+ 'contentChunks',(SELECT count(*) FROM content_vectors),
+ 'vectorRows',(SELECT count(*) FROM good_vectors),
+ 'validVectors',(SELECT count(*) FROM good_vectors WHERE valid=1),
+ 'joinedVectors',(SELECT count(*) FROM good_vectors v WHERE valid=1 AND EXISTS(
+   SELECT 1 FROM content_vectors c JOIN documents d ON d.hash=c.hash
+   WHERE v.hash_seq=c.hash||'_'||c.seq AND c.seq=0 AND c.pos=0 AND c.total_chunks=1
+     AND length(c.embed_fingerprint)>0 AND d.active=1 AND d.collection='findlet_documents')),
+ 'snapshotPaths',json((SELECT json_group_array(path) FROM (SELECT path FROM documents WHERE active=1 ORDER BY path))),
+ 'expansionCacheEntries',(SELECT count(*) FROM expansions),
+ 'rerankCacheEntries',(SELECT count(*) FROM numbers WHERE score>=0 AND score<=1),
+ 'distinctRerankScores',(SELECT count(DISTINCT score) FROM numbers WHERE score>=0 AND score<=1),
+ 'nonFallbackRerankScores',(SELECT count(*) FROM numbers WHERE score>=0 AND score<=1 AND score!=0.5));
+"""
+    uri = database.as_uri() + "?mode=ro&immutable=1"
+    out, _, _ = command("independent_closed_vector_audit", ["/usr/bin/sqlite3", "-init", "/dev/null", "-batch", "-readonly",
+                         "-cmd", ".load " + json.dumps(str(extension)), uri, sql], 30)
     value = g.strict_json(out)
-    need(value["snapshotPaths"] == expected and before == g.fingerprint(database)
-         and all(not p.exists() or p.lstat().st_size == 0 for p in sidecars), "audit_index_changed_or_paths")
-    g.report["independentVectorAudit"] = {**value, "databaseUnchanged": True, "databaseSha256": before["sha256"]}
+    after = g.fingerprint(database); after_sidecars = sidecar_state()
+    flags = {"snapshotPathsExact": value["snapshotPaths"] == expected,
+             "databaseIdentityAndHashUnchanged": before == after,
+             "sidecarsUnchanged": before_sidecars == after_sidecars,
+             "exactDocumentsChunksAndVectors": all(value[k] == 3 for k in
+                 ("activeDocuments", "allActiveDocuments", "contentChunks", "vectorRows", "validVectors", "joinedVectors")),
+             "expansionCachePresent": value["expansionCacheEntries"] >= 1,
+             "nonconstantRerankerCachePresent": value["rerankCacheEntries"] >= 3 and value["distinctRerankScores"] >= 2
+                 and value["nonFallbackRerankScores"] >= 1}
+    g.report["independentVectorAudit"] = {**value, "flags": flags, "before": before, "after": after,
+        "sidecarsBefore": before_sidecars, "sidecarsAfter": after_sidecars, "expectedPaths": expected,
+        "dimensions": 1024, "immutableReadOnly": True, "metadataOnlyOutput": True}
+    need(all(flags.values()), "audit_integrity_or_metadata_failed")
 
 
 def verify_external(label):

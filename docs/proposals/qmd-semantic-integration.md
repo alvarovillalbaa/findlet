@@ -75,3 +75,13 @@ nonempty real expansion cache and nonconstant rerank scores rather than uniform
 fallback. No cache values or query/body text are exported. Recreate S01's fresh
 index for this changed audit, then execute the still-unrun S02; retain existing
 journey assertions and all runtime/model/dependency bytes. No QMD/app upgrade.
+
+QA-3's native audit returned all exact vectors and real cache counts, then its
+combined post-open integrity predicate failed. The original receipt does not
+separate path/file/sidecar subpredicates; cause is unproven. Preserve it and keep
+S02 unrun. QA-4 uses the existing guarded system-SQLite immutable read-only URI
+and the admitted pinned vec extension. SQL checks every float's numeric finite
+range/nonzero norm and reports only aggregate metadata. Record every separate
+integrity predicate plus full before/after file and sidecar fingerprints before
+requiring all unchanged. No vectors/cache values are exported, no predicate is
+removed, and no checkpoint/write open/chmod or application change is allowed.
