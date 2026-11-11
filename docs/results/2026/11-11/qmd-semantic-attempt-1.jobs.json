@@ -1,0 +1,32 @@
+{
+  "total_count": 1,
+  "jobs": [
+    {
+      "id": 130697766580,
+      "run_id": 43070787888,
+      "workflow_name": "Findlet actual local-model semantic integration",
+      "head_branch": "qa/findlet-qmd-semantic-20261111-1",
+      "run_url": "https://api.github.com/repos/alvarovillalbaa/findlet/actions/runs/43070787888",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOVZor9c8AAAAebjGmtA",
+      "head_sha": "9a5cf310d3d8c86fff27f7753b461fa89190c5ad",
+      "url": "https://api.github.com/repos/alvarovillalbaa/findlet/actions/jobs/130697766580",
+      "html_url": "https://github.com/alvarovillalbaa/findlet/actions/runs/43070787888/job/130697766580",
+      "status": "queued",
+      "conclusion": null,
+      "created_at": "2026-11-11T17:42:46Z",
+      "started_at": "2026-11-11T17:42:46Z",
+      "completed_at": null,
+      "name": "semantic-pipeline",
+      "steps": [],
+      "check_run_url": "https://api.github.com/repos/alvarovillalbaa/findlet/check-runs/130697766580",
+      "labels": [
+        "macos-15"
+      ],
+      "runner_id": null,
+      "runner_name": null,
+      "runner_group_id": null,
+      "runner_group_name": null
+    }
+  ]
+}

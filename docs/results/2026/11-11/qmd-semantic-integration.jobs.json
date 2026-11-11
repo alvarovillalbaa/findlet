@@ -1,0 +1,81 @@
+{
+  "total_count": 1,
+  "jobs": [
+    {
+      "id": 130718691242,
+      "run_id": 43076821237,
+      "workflow_name": "Findlet actual local-model semantic integration",
+      "head_branch": "qa/findlet-qmd-semantic-20261111-5",
+      "run_url": "https://api.github.com/repos/alvarovillalbaa/findlet/actions/runs/43076821237",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOVZor9c8AAAAeb3Dvqg",
+      "head_sha": "e94af9ef5d5a4e2cad3cdc0688687e6cdf2bd816",
+      "url": "https://api.github.com/repos/alvarovillalbaa/findlet/actions/jobs/130718691242",
+      "html_url": "https://github.com/alvarovillalbaa/findlet/actions/runs/43076821237/job/130718691242",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-11T18:20:26Z",
+      "started_at": "2026-11-11T18:20:29Z",
+      "completed_at": "2026-11-11T18:25:11Z",
+      "name": "semantic-pipeline",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-11T18:20:30Z",
+          "completed_at": "2026-11-11T18:20:31Z"
+        },
+        {
+          "name": "Record earliest owned step",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-11-11T18:20:31Z",
+          "completed_at": "2026-11-11T18:20:32Z"
+        },
+        {
+          "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-11-11T18:20:32Z",
+          "completed_at": "2026-11-11T18:20:34Z"
+        },
+        {
+          "name": "Exercise actual model preparation, semantic search and lifecycle",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-11-11T18:20:34Z",
+          "completed_at": "2026-11-11T18:25:05Z"
+        },
+        {
+          "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-11-11T18:25:05Z",
+          "completed_at": "2026-11-11T18:25:06Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-11-11T18:25:06Z",
+          "completed_at": "2026-11-11T18:25:08Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/alvarovillalbaa/findlet/check-runs/130718691242",
+      "labels": [
+        "macos-15"
+      ],
+      "runner_id": 1000005751,
+      "runner_name": "GitHub Actions 1000005751",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    }
+  ]
+}

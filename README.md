@@ -4,7 +4,7 @@ Your documents. One small search bar.
 
 A native macOS menu-bar utility for explicitly selected Markdown and text folders, powered by actual [QMD](https://github.com/tobi/qmd). Open the panel with **Control–Option–Space**, type a query, then open or reveal a matching original file.
 
-**Status: two focused keyword-service journeys verified.** The
+**Status: focused keyword and real-model service journeys verified.** The
 [keyword result](docs/results/2026/11-07/qmd-keyword-integration.md) records fresh
 app-less production-service checks with actual QMD. The earlier
 [native result](docs/results/2026/11-05/native-checks.md) records the app build,
@@ -13,6 +13,11 @@ services compiled for those checks. A [fresh complete universal Release build
 and archive check](docs/results/2026/11-08/preview-package-attempt-1.md) now passed;
 no native app launch occurred. The preview is now downloadable; it is
 not notarized and requires separately installed compatible Node/QMD/bindings.
+
+The separate [real-model result](docs/results/2026/11-11/qmd-semantic-integration.md)
+now verifies explicit model preparation, semantic/hybrid retrieval, persistent
+reopen, failed-preparation recovery, cancellation and Forget on authored files.
+It changes no production app code or published preview asset.
 
 ## Download the developer preview
 
@@ -77,8 +82,9 @@ In Settings:
 3. Use Keyword search. For Semantic/Hybrid, select compatible existing embedding, query-expansion and reranker **GGUF** files, rebuild for the updated setup, then explicitly accept and run **Prepare Semantic Search**. The QMD CPU binding must already be installed. Findlet never calls QMD's model-download command and configures its CPU loader to skip native downloads/builds. Strict network-offline behavior remains unverified.
 
 The app does not bundle or install Node, QMD, native bindings or models. The
-approved keyword check installed pinned Node/QMD and native bindings only in
-owned disposable CI scratch, then removed them; no local runtime installation
+approved service checks installed pinned Node/QMD and native bindings only in
+owned disposable CI scratch; the semantic packet also used three hash-pinned
+public models, then removed all owned scratch. No local runtime installation
 or model setup was performed. External setup/downloads and model terms remain
 separate; see [third-party notices](THIRD_PARTY.md). No cloud search, account,
 Vercel or Supabase service is required.
@@ -114,8 +120,19 @@ Earlier failed CI attempts remain preserved:
 [5](docs/results/2026/11-07/qmd-keyword-integration-attempt-5.md),
 [6](docs/results/2026/11-07/qmd-keyword-integration-attempt-6.md).
 The dated native build/ten-case/package proof stays separate and was not rerun.
+
+On 11 November, the [real-model result](docs/results/2026/11-11/qmd-semantic-integration.md)
+passed two new journeys with18named preparation/lifecycle checks and eight real
+searches. Three authored topics ranked first in Semantic and Hybrid modes;
+fresh-process reopen, failed native preparation, observed child cancellation,
+subsequent search and Forget passed. An independent immutable audit verified
+three finite nonzero1024D vectors, real expansion and nonconstant rerank-cache
+metadata, unchanged index bytes/sidecars and exact snapshot mapping. Six source
+guards and owned teardown passed. Four prior invocations remain preserved; this
+small fixture check does not establish general retrieval quality.
+
 Swift 6 language-mode warnings remain unresolved. Native UI, shortcut and
-permission interaction, private folders/file providers, models/inference,
+permission interaction, private folders/file providers, general semantic quality,
 strict offline behavior, Developer ID/notarization and fresh downloaded-app/
 Gatekeeper acceptance remain pending. The current full-app build and ad-hoc
 preview delivery have their separate evidence above. These service checks do not establish whole-product release readiness

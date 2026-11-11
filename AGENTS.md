@@ -223,3 +223,12 @@ sqlite3 binding with explicit URI and extension APIs, admitting the pinned vec
 library/JSON in memory before weights. No install or implicit loader fallback.
 Keep immutable file/sidecar guards and SQL finite/norm/cache assertions, with
 missing expansion-query fields rejected. App/QMD/model/runtime pins stay exact.
+
+The [accepted real-model receipt](docs/results/2026/11-11/qmd-semantic-integration.md)
+now records fresh S01/S02 passes at b2979cb8b8a9228975683a87f2b7c0861d4a9198:
+18named checks/eight real queries, exact vector/cache metadata, all six identical
+source guards and owned cleanup. All prior invocations remain preserved. This
+scope is CLOSED; do not repeat it unchanged. App source and published preview/
+bundled runtime guide stayed exact. Retire only the five owned QA refs and this
+temporary disabled workflow after publication. Native UI, private folders,
+general semantic quality, strict offline and trusted distribution remain open.

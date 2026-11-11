@@ -67,3 +67,11 @@ owns its source guards, model/CPU admission, independent closed-vector audit,
 privacy scan, resource bounds and teardown. No older accepted case is repeated.
 Weights, indexes, document bodies, query text and bookmarks stay in owned CI
 scratch and never enter published captures. Actual outcomes determine acceptance.
+
+S01/S02 now passed at `b2979cb8b8a9228975683a87f2b7c0861d4a9198`:
+18named checks, eight actual queries, independent immutable vector/cache audit,
+six identical source guards and owned teardown. The [accepted result](../docs/results/2026/11-11/qmd-semantic-integration.md)
+retains all originals and four prior invocations. This scope is closed; do not
+repeat its accepted cases unchanged. Native UI/private/general-quality/offline/
+trusted-distribution gates remain separate. The production six files and bundled
+runtime guide were unchanged; no new preview package was necessary.
