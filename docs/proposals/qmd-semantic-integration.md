@@ -85,3 +85,14 @@ range/nonzero norm and reports only aggregate metadata. Record every separate
 integrity predicate plus full before/after file and sidecar fingerprints before
 requiring all unchanged. No vectors/cache values are exported, no predicate is
 removed, and no checkpoint/write open/chmod or application change is allowed.
+
+QA-4 failed because Apple's system SQLite shell does not expose `.load`; no
+vector audit/S02 ran. Preserve its original failed receipt and successful owned
+cleanup. QA-5 uses the runner's existing isolated Python `sqlite3` binding with
+documented `uri=True` and `enable_load_extension`/`load_extension`, admitting the
+exact pinned vec library and JSON support in memory **before model downloads**.
+No dependency is installed. The same guarded immutable file URI, SQL finite/
+norm/cache checks and unchanged file/path/sidecar predicates remain; missing
+expansion-query fields explicitly fail the shape check. Record the interpreter/
+SQLite/vec identities and complete outer streams. This changes only the observer,
+not the app or QMD connections. Python capability failure must stop before models.

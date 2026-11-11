@@ -24,7 +24,7 @@ import time
 import uuid
 
 BASE = "ce70e75c0b5a55195049565ca9e6a13ebacc5614"
-BRANCH = "refs/heads/qa/findlet-qmd-semantic-20261111-4"
+BRANCH = "refs/heads/qa/findlet-qmd-semantic-20261111-5"
 HELPER = "Tests/scripts/run-keyword-integration.py"
 HELPER_SHA = "6e860f582ded76240c03dd188448571b433b06722a29708093e2db5d95bd9981"
 HARNESS = "Tests/integration/SemanticPipelineHarness.swift"
@@ -272,6 +272,34 @@ process.stdout.write(JSON.stringify({platform:process.platform,arch:process.arch
 })().catch(()=>{process.stderr.write('native_admission_failed');process.exitCode=1});
 """
 
+PY_VECTOR_PROBE = r"""
+import json,sqlite3,sys
+connection=sqlite3.connect(':memory:')
+try:
+    connection.enable_load_extension(True)
+    connection.load_extension(sys.argv[1])
+    connection.enable_load_extension(False)
+    version=connection.execute('SELECT vec_version()').fetchone()[0]
+    json_ok=connection.execute("SELECT json_extract(json_object('ok',1),'$.ok')").fetchone()[0]==1
+finally:
+    connection.close()
+print(json.dumps({'sqliteVersion':sqlite3.sqlite_version,'vecVersion':version,'jsonAvailable':json_ok,'connectionClosed':True}))
+"""
+
+PY_VECTOR_AUDIT = r"""
+import sqlite3,sys
+connection=sqlite3.connect(sys.argv[1],uri=True)
+try:
+    connection.enable_load_extension(True)
+    connection.load_extension(sys.argv[2])
+    connection.enable_load_extension(False)
+    connection.execute('PRAGMA query_only=ON')
+    value=connection.execute(sys.argv[3]).fetchone()[0]
+finally:
+    connection.close()
+print(value)
+"""
+
 
 def install_runtime():
     archive = g.root / "runtime/node.tar.gz"
@@ -319,6 +347,12 @@ def install_runtime():
          and native["gpu"] is False and native["gpuOffloading"] is False and native["gpuDevices"] == [], "native_cpu_admission_failed")
     need(all(Path(p).resolve(strict=True).is_relative_to(tools.resolve()) for p in native["addons"] + [native["vector"]]), "native_binding_outside_runtime")
     g.report["nativeAdmission"] = native
+    out, _, _ = command("python_vec_observer_admission", [sys.executable, "-I", "-B", "-S", "-c", PY_VECTOR_PROBE, native["vector"]], 30)
+    observer = g.strict_json(out)
+    need(observer["vecVersion"] == "v0.1.9" and observer["jsonAvailable"] is True and observer["connectionClosed"] is True,
+         "python_vec_observer_admission_failed")
+    g.report["observerNativeAdmission"] = {**observer, "python": platform.python_version(),
+                                           "pythonExecutable": sys.executable, "beforeModelDownloads": True}
     g.package = tools / "node_modules/@tobilu/qmd"
     g.runtime_vector = g.tree_vector(g.root / "runtime")
     g.verify_runtime("after_admission")
@@ -395,8 +429,8 @@ def audit_index(first):
     need(all(v["absent"] or v["file"]["bytes"] == 0 for v in before_sidecars), "audit_pending_sidecars")
     _, live, unknown = g.observe_processes()
     need(not live and not unknown, "audit_live_process")
-    # Closed immutable URI, as admitted by the production audit: no checkpoint,
-    # write connection, or ordinary read-only sidecar creation.
+    # Closed immutable URI through the admitted isolated Python binding. Apple's
+    # system sqlite3 shell does not expose .load. No dependency installation.
     fd = os.open(database, os.O_RDONLY | os.O_NOFOLLOW)
     try:
         need(os.read(fd, 16) == b"SQLite format 3\x00", "audit_sqlite_header")
@@ -421,7 +455,7 @@ WITH good_vectors AS (
  SELECT result FROM llm_cache WHERE json_valid(result) AND json_type(result)='array'
  AND json_array_length(result)>0
  AND NOT EXISTS(SELECT 1 FROM json_each(result) e WHERE json_extract(e.value,'$.type') NOT IN ('lex','vec','hyde')
-                OR coalesce(json_type(e.value,'$.query'),json_type(e.value,'$.text'))!='text')
+                OR coalesce(json_type(e.value,'$.query'),json_type(e.value,'$.text'),'missing')!='text')
 )
 SELECT json_object(
  'activeDocuments',(SELECT count(*) FROM documents WHERE active=1 AND collection='findlet_documents'),
@@ -440,8 +474,8 @@ SELECT json_object(
  'nonFallbackRerankScores',(SELECT count(*) FROM numbers WHERE score>=0 AND score<=1 AND score!=0.5));
 """
     uri = database.as_uri() + "?mode=ro&immutable=1"
-    out, _, _ = command("independent_closed_vector_audit", ["/usr/bin/sqlite3", "-init", "/dev/null", "-batch", "-readonly",
-                         "-cmd", ".load " + json.dumps(str(extension)), uri, sql], 30)
+    out, _, _ = command("independent_closed_vector_audit", [sys.executable, "-I", "-B", "-S", "-c", PY_VECTOR_AUDIT,
+                         uri, str(extension), sql], 30)
     value = g.strict_json(out)
     after = g.fingerprint(database); after_sidecars = sidecar_state()
     flags = {"snapshotPathsExact": value["snapshotPaths"] == expected,

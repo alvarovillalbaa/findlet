@@ -216,3 +216,10 @@ system SQLite plus the pinned admitted vec extension, retaining exact file/hash/
 sidecar/path predicates and recording them separately. SQL-only finite/norm/
 cache metadata must expose no vectors or cache values. All assertions remain;
 no checkpoint, write open, chmod, app/runtime/model change or old-case rerun.
+
+QA-4's system shell rejected `.load`, so its observer/S02 were unrun; retain the
+failed originals and passed teardown. QA-5 may use the existing isolated Python
+sqlite3 binding with explicit URI and extension APIs, admitting the pinned vec
+library/JSON in memory before weights. No install or implicit loader fallback.
+Keep immutable file/sidecar guards and SQL finite/norm/cache assertions, with
+missing expansion-query fields rejected. App/QMD/model/runtime pins stay exact.
