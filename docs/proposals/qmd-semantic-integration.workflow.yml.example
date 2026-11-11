@@ -1,0 +1,37 @@
+# INACTIVE EXAMPLE. Exact reviewed source replaces the placeholder on owned QA.
+name: Findlet actual local-model semantic integration
+on:
+  push:
+    branches: [qa/findlet-qmd-semantic-20261111-1]
+    paths: [.github/workflows/qmd-semantic-integration.yml]
+permissions:
+  contents: read
+concurrency:
+  group: findlet-qmd-semantic-20261111-1
+  cancel-in-progress: false
+jobs:
+  semantic-pipeline:
+    if: >-
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/qa/findlet-qmd-semantic-20261111-1' &&
+      github.repository == 'alvarovillalbaa/findlet' &&
+      github.event.repository.private == false
+    runs-on: macos-15
+    timeout-minutes: 20
+    env:
+      CI: 'true'
+      SOURCE_COMMIT: PREPARATION_SHA_REPLACED_BY_ROOT
+      FINDLET_PUBLIC_REPOSITORY: 'true'
+    steps:
+      - name: Record earliest owned step
+        shell: bash
+        run: echo "FINDLET_SEMANTIC_JOB_STARTED_MS=$(python3 -I -B -S -c 'import time; print(int(time.time()*1000))')" >> "$GITHUB_ENV"
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ env.SOURCE_COMMIT }}
+          fetch-depth: 2
+          persist-credentials: false
+          clean: false
+      - name: Exercise actual model preparation, semantic search and lifecycle
+        shell: bash
+        run: python3 -I -B -S Tests/scripts/run-semantic-integration.py --source-commit "$SOURCE_COMMIT"

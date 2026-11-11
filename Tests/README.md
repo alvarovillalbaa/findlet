@@ -50,3 +50,20 @@ K01/K02 now passed once on the repaired source: 26 unchanged named checks and si
 keyword query proofs. Preserve the six failed receipts and the accepted original
 outputs. The scope is closed; no unchanged retry or broader product acceptance
 is implied. Models, private folders, UI and trusted distribution remain unverified.
+
+## Actual local-model integration
+
+The separate [semantic packet](../docs/proposals/qmd-semantic-integration.md)
+uses `integration/SemanticPipelineHarness.swift` and
+`scripts/run-semantic-integration.py` for S01/S02. These are actual production
+preparation, vsearch/query, reopen, failed-preparation, cancellation/recovery and
+Forget journeys with three authored documents and three pinned external models.
+The semantic fixture lock adds only the existing pinned ARM64 native backend.
+
+The new supervisor reuses the immutable keyword supervisor's generic owned
+file/process/archive helpers by its full SHA256; it never calls the old
+preflight, installer, main or keyword/diagnostic cases. The semantic profile
+owns its source guards, model/CPU admission, independent closed-vector audit,
+privacy scan, resource bounds and teardown. No older accepted case is repeated.
+Weights, indexes, document bodies, query text and bookmarks stay in owned CI
+scratch and never enter published captures. Actual outcomes determine acceptance.

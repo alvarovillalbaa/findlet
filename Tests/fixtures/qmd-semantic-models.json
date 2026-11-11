@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "findlet-semantic-models-v1",
+  "models": [
+    {
+      "role": "embedding",
+      "repo": "Qwen/Qwen3-Embedding-0.6B-GGUF",
+      "revision": "370f27d7550e0def9b39c1f16d3fbaa13aa67728",
+      "file": "Qwen3-Embedding-0.6B-Q8_0.gguf",
+      "bytes": 639150592,
+      "sha256": "06507c7b42688469c4e7298b0a1e16deff06caf291cf0a5b278c308249c3e439",
+      "license": "apache-2.0",
+      "gated": false,
+      "url": "https://huggingface.co/Qwen/Qwen3-Embedding-0.6B-GGUF/resolve/370f27d7550e0def9b39c1f16d3fbaa13aa67728/Qwen3-Embedding-0.6B-Q8_0.gguf",
+      "card": "https://huggingface.co/Qwen/Qwen3-Embedding-0.6B-GGUF/blob/370f27d7550e0def9b39c1f16d3fbaa13aa67728/README.md"
+    },
+    {
+      "role": "expansion",
+      "repo": "tobil/qmd-query-expansion-1.7B-gguf",
+      "revision": "7816de0b72572c6c860ca1eddf97ba9e7fb8cc65",
+      "file": "qmd-query-expansion-1.7B-q4_k_m.gguf",
+      "bytes": 1282438912,
+      "sha256": "000dfb1c06efa6a049e9f64ba921c3740e2454f62abab6fa10e77bd30bb2bcc0",
+      "license": "mit",
+      "gated": false,
+      "url": "https://huggingface.co/tobil/qmd-query-expansion-1.7B-gguf/resolve/7816de0b72572c6c860ca1eddf97ba9e7fb8cc65/qmd-query-expansion-1.7B-q4_k_m.gguf",
+      "card": "https://huggingface.co/tobil/qmd-query-expansion-1.7B-gguf/blob/7816de0b72572c6c860ca1eddf97ba9e7fb8cc65/README.md"
+    },
+    {
+      "role": "reranker",
+      "repo": "ggml-org/Qwen3-Reranker-0.6B-Q8_0-GGUF",
+      "revision": "a02f48bb4f057028298c21fa033da2b30d7742d5",
+      "file": "qwen3-reranker-0.6b-q8_0.gguf",
+      "bytes": 639153184,
+      "sha256": "22c9979ce4fbcdc5acdc310c6641c32797eff1aa980b8f7a2db8a8ea23429a48",
+      "license": "apache-2.0",
+      "gated": false,
+      "url": "https://huggingface.co/ggml-org/Qwen3-Reranker-0.6B-Q8_0-GGUF/resolve/a02f48bb4f057028298c21fa033da2b30d7742d5/qwen3-reranker-0.6b-q8_0.gguf",
+      "card": "https://huggingface.co/ggml-org/Qwen3-Reranker-0.6B-Q8_0-GGUF/blob/a02f48bb4f057028298c21fa033da2b30d7742d5/README.md"
+    }
+  ],
+  "totalBytes": 2560742688,
+  "purpose": "Disposable actual local CPU inference checks only. Models are not shipped, committed or installed on the owner's Mac.",
+  "qmdSource": "https://github.com/tobi/qmd/blob/86d2365d17fc682e491c2c53d1e4a884aee8682a/src/llm.ts",
+  "keywordLockSha256": "c7fbb1cb91ac025f79861db970aab98eb4604ec91f8115fcd67d09e9b9176df2",
+  "semanticLockSha256": "9561987453ecc5c41a5fa41935980c109016121c37103a592f4f7ffb3e1dfa35"
+}

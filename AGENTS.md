@@ -164,3 +164,31 @@ unchanged accepted journeys or the older ten core/package scope without changed
 inputs or a concrete concern. App UI, private folders, user permission/bookmark
 flows, models/inference/semantic quality, strict offline behavior and trusted
 distribution remain separate. The existing Swift 6 language-mode warnings remain.
+
+## Actual local-model semantic integration — 11 November 2026
+
+The current all-project instruction and standing owner approval apply to this
+separate [real-model scope](docs/proposals/qmd-semantic-integration.md). Use one
+free public macOS15 ARM64/Xcode16.4 job, capped20minutes, with6GiB owned scratch,
+900seconds maximum work and120seconds cleanup plus30seconds margin. Preserve
+HOME; all config/cache/corpus/index/model/runtime work stays in that scratch.
+Local Storage Guard now fails at0.8GiB free/38required; no local install, model,
+compile, native library or application execution. Syntax parsing remains allowed.
+
+S01/S02 use the actual unchanged two core/four service files, three authored
+documents and three exact public model revisions with full size/hash admission.
+Require native SQLite/vec and QMD force-CPU backend admission, actual complete
+embeddings, expected top hits for six semantic/hybrid probes, persisted reopen,
+failed-native-preparation preservation, observed owned-query cancellation,
+successful subsequent retrieval and Forget. Independently audit closed vectors
+and unchanged original/model/runtime/source bytes. Never replace inference with
+fixtures, weaken ranking or safety assertions, change the production whitelist,
+or count prior accepted keyword/core/package checks again.
+
+The hash-pinned keyword supervisor supplies only generic owned process/file/tar
+helpers; its old execution paths stay unrun. Keep original bounded outer outputs
+and failures, scan out authored bodies/query text and retain opaque failure hashes
+instead of private error details. Production QMD stderr remains discarded. No
+weights/index/bookmarks are artifacts. Disable/retire the exact owned QA workflow
+after its terminal run. No app UI, private corpus, external account/provider API,
+paid plan, redistribution, general semantic quality or strict offline proof.
