@@ -192,3 +192,10 @@ instead of private error details. Production QMD stderr remains discarded. No
 weights/index/bookmarks are artifacts. Disable/retire the exact owned QA workflow
 after its terminal run. No app UI, private corpus, external account/provider API,
 paid plan, redistribution, general semantic quality or strict offline proof.
+
+The first semantic invocation was cancelled while queued, with no runner steps:
+source review caught an8GiB RAM/14GiB free-disk draft floor that exceeds the
+documented free runner. Preserve that unexecuted invocation. A changed QA-2
+profile may use measured6GiB RAM/8GiB free disk with the same6GiB scratch cap,
+2GiB remote disk reserve, exact weights and unchanged assertions. No paid runner,
+local reserve reduction, source model substitution or inference acceptance.

@@ -54,3 +54,12 @@ No app UI, shortcut/permission flow, private corpus, store signing, provider API
 paid plan or local heavy execution is part of this scope. Strict network-offline
 and general semantic-quality claims remain separate. Local Storage Guard fails
 at0.8GiB free/38required, so no local models, install, compile or execution.
+
+The first queued invocation was cancelled before any runner step because source
+review caught an overlarge draft admission floor. No install/model/harness ran.
+The corrected profile uses the same free runner and all unchanged journey
+assertions: at least6GiB measured physical memory,8GiB measured free scratch
+storage,6GiB task cap and2GiB remote disk reserve. The pinned weights total
+2.56GB; this is an admission estimate, not observed peak-RAM proof. GitHub
+[documents7GB RAM/14GB SSD](https://docs.github.com/en/actions/reference/runners/github-hosted-runners)
+for free public macOS ARM64. No larger/paid runner or local reserve exception.

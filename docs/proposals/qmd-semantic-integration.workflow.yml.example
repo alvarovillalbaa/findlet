@@ -2,18 +2,18 @@
 name: Findlet actual local-model semantic integration
 on:
   push:
-    branches: [qa/findlet-qmd-semantic-20261111-1]
+    branches: [qa/findlet-qmd-semantic-20261111-2]
     paths: [.github/workflows/qmd-semantic-integration.yml]
 permissions:
   contents: read
 concurrency:
-  group: findlet-qmd-semantic-20261111-1
+  group: findlet-qmd-semantic-20261111-2
   cancel-in-progress: false
 jobs:
   semantic-pipeline:
     if: >-
       github.event_name == 'push' &&
-      github.ref == 'refs/heads/qa/findlet-qmd-semantic-20261111-1' &&
+      github.ref == 'refs/heads/qa/findlet-qmd-semantic-20261111-2' &&
       github.repository == 'alvarovillalbaa/findlet' &&
       github.event.repository.private == false
     runs-on: macos-15
@@ -29,7 +29,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           ref: ${{ env.SOURCE_COMMIT }}
-          fetch-depth: 2
+          fetch-depth: 3
           persist-credentials: false
           clean: false
       - name: Exercise actual model preparation, semantic search and lifecycle

@@ -24,7 +24,7 @@ import time
 import uuid
 
 BASE = "ce70e75c0b5a55195049565ca9e6a13ebacc5614"
-BRANCH = "refs/heads/qa/findlet-qmd-semantic-20261111-1"
+BRANCH = "refs/heads/qa/findlet-qmd-semantic-20261111-2"
 HELPER = "Tests/scripts/run-keyword-integration.py"
 HELPER_SHA = "6e860f582ded76240c03dd188448571b433b06722a29708093e2db5d95bd9981"
 HARNESS = "Tests/integration/SemanticPipelineHarness.swift"
@@ -95,7 +95,19 @@ def privacy_scan():
 
 def command(*args, **kwargs):
     try:
-        return g.command(*args, **kwargs)
+        result = g.command(*args, **kwargs)
+        if g.root is not None and g.root.exists():
+            g.owner()
+            total, entries = 0, 0
+            for folder, dirs, files in os.walk(g.root, followlinks=False):
+                for name in dirs + files:
+                    info = (Path(folder) / name).lstat()
+                    total += info.st_size if stat.S_ISREG(info.st_mode) else 0
+                    entries += 1
+                    need(total <= g.ROOT_LIMIT and entries <= 100000, "owned_storage_bound")
+            need(shutil.disk_usage(g.root).free >= 2 * 1024**3, "remote_disk_reserve_exhausted")
+            g.report.setdefault("storageObservations", []).append({"label": args[0], "regularBytes": total, "entries": entries})
+        return result
     finally:
         need(privacy_scan(), "authored_text_detected_in_output")
 
@@ -167,7 +179,11 @@ def preflight():
     parent = Path(os.environ["RUNNER_TEMP"]).resolve(strict=True)
     need(parent.is_dir() and REPO != parent and REPO not in parent.parents and Path(g.DEVELOPER).is_dir(), "runner_profile_invalid")
     free = shutil.disk_usage(parent).free
-    need(free >= 14 * 1024**3 and os.sysconf("SC_PHYS_PAGES") * os.sysconf("SC_PAGE_SIZE") >= 8 * 1024**3,
+    memory = os.sysconf("SC_PHYS_PAGES") * os.sysconf("SC_PAGE_SIZE")
+    # Free public M1 runners have 7 GB RAM/14 GB SSD. The three weights total
+    # 2.56 GB; admit 6 GiB physical RAM and 8 GiB free storage, with 6 GiB
+    # maximum task scratch and 2 GiB remote disk reserve. No larger/paid runner.
+    need(free >= 8 * 1024**3 and memory >= 6 * 1024**3,
          "remote_resource_reserve_unavailable")
     g.root = Path(tempfile.mkdtemp(prefix="fs uri %-", dir=parent)); g.root.chmod(0o700)
     info = g.root.lstat(); g.root_identity = (info.st_dev, info.st_ino)
@@ -196,7 +212,8 @@ def preflight():
              "GIT_CONFIG_GLOBAL": "/dev/null", "GIT_TERMINAL_PROMPT": "0", "GIT_OPTIONAL_LOCKS": "0"}
     g.baseline_processes = {pid: row["start"] for pid, row in g.process_snapshot().items()}
     g.report["runtime"] = {"macOS": platform.mac_ver()[0], "architecture": platform.machine(), "python": platform.python_version(),
-                           "remoteFreeBytesBefore": free, "scratchLimitBytes": g.ROOT_LIMIT, "homePreserved": True,
+                           "remoteFreeBytesBefore": free, "physicalMemoryBytes": memory,
+                           "scratchLimitBytes": g.ROOT_LIMIT, "homePreserved": True,
                            "environmentKeys": sorted(g.env), "genericSupervisorSha256": HELPER_SHA}
     guard("before_setup")
     g.export_source()
