@@ -4,15 +4,19 @@ Your documents. One small search bar.
 
 A native macOS menu-bar utility for explicitly selected Markdown and text folders, powered by actual [QMD](https://github.com/tobi/qmd). Open the panel with **Control–Option–Space**, type a query, then open or reveal a matching original file.
 
-**Status: focused keyword and real-model service journeys verified.** The
-[keyword result](docs/results/2026/11-07/qmd-keyword-integration.md) records fresh
-app-less production-service checks with actual QMD. The earlier
-[native result](docs/results/2026/11-05/native-checks.md) records the app build,
-ten core cases and ad-hoc package; that closed scope was not rerun. The current
-services compiled for those checks. A [fresh complete universal Release build
-and archive check](docs/results/2026/11-08/preview-package-attempt-1.md) now passed;
-no native app launch occurred. The preview is now downloadable; it is
-not notarized and requires separately installed compatible Node/QMD/bindings.
+**Status: native setup/search/reopen/Forget and real-model service journeys verified.**
+The [native search workflow](docs/results/2026/11-13/native-search-ui.md) passed
+actual picker setup, rebuild/search, selected-original Finder reveal, default
+shortcut, normal Quit/relaunch and confirmed deletion on authored files. Its
+panel sizing repair keeps actions/footer within the visible display. The public
+0.1.0 preview below predates this fix; the separate
+[0.1.1 package scope](docs/proposals/panel-preview-package.md) follows the native result.
+
+The [keyword result](docs/results/2026/11-07/qmd-keyword-integration.md), earlier
+[native/core result](docs/results/2026/11-05/native-checks.md) and
+[0.1.0 universal archive](docs/results/2026/11-08/preview-package-attempt-1.md)
+retain their original sources; those closed cases were not replayed. The preview
+requires separately installed compatible Node/QMD/bindings and is not notarized.
 
 The separate [real-model result](docs/results/2026/11-11/qmd-semantic-integration.md)
 now verifies explicit model preparation, semantic/hybrid retrieval, persistent
@@ -57,10 +61,10 @@ with Python 3 available for bounded archive staging:
 
 This mode builds/packages without launching or quitting Findlet and refuses
 existing preview ZIP/checksum leaves. It emits
-`dist/Findlet-0.1.0-macos-universal.zip` and its `.zip.sha256`, with source-exact
+`dist/Findlet-0.1.1-macos-universal.zip` and its `.zip.sha256`, with source-exact
 license, third-party and setup notes in the signed app bundle. Fresh universal
-packaging passed, and the unchanged download is public under the
-[Findlet preview scope](docs/proposals/preview-package-checks.md). The
+0.1.0 packaging/download remains its own proof; the current changed build has
+the separate [panel-fix preview scope](docs/proposals/panel-preview-package.md). The
 [runtime guide](docs/runtime-setup.md) explains required external setup; the app
 archive contains no Node, QMD, native bindings or models.
 
@@ -131,8 +135,8 @@ metadata, unchanged index bytes/sidecars and exact snapshot mapping. Six source
 guards and owned teardown passed. Four prior invocations remain preserved; this
 small fixture check does not establish general retrieval quality.
 
-Swift 6 language-mode warnings remain unresolved. Native UI, shortcut and
-permission interaction, private folders/file providers, general semantic quality,
+Swift 6 language-mode warnings remain unresolved. General shortcut conflicts,
+private-folder/file-provider permission interaction, general semantic quality,
 strict offline behavior, Developer ID/notarization and fresh downloaded-app/
 Gatekeeper acceptance remain pending. The current full-app build and ad-hoc
 preview delivery have their separate evidence above. These service checks do not establish whole-product release readiness

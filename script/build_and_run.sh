@@ -14,7 +14,7 @@ FINDLET_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$FINDLET_ROOT"
 FINDLET_DIST="$FINDLET_ROOT/dist"
 FINDLET_APP="$FINDLET_DIST/Findlet.app"
-FINDLET_PREVIEW_NAME="Findlet-0.1.0-macos-universal.zip"
+FINDLET_PREVIEW_NAME="Findlet-0.1.1-macos-universal.zip"
 FINDLET_PREVIEW_COMPLETE=0
 if [[ "$FINDLET_MODE" == --build-preview ]]; then
   FINDLET_BUILD_FLAGS=(--configuration release --build-system native --disable-local-rpath)
@@ -128,7 +128,7 @@ chmod +x "$FINDLET_STAGE/Findlet.app/Contents/MacOS/Findlet"
 /usr/bin/codesign --force --sign - "$FINDLET_STAGE/Findlet.app"
 /usr/bin/codesign --verify --strict "$FINDLET_STAGE/Findlet.app"
 if [[ "$FINDLET_MODE" == --build-preview ]]; then
-  [[ "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$FINDLET_STAGE/Findlet.app/Contents/Info.plist")" == 0.1.0 ]] || { echo "Preview archive version does not match its bundle." >&2; exit 1; }
+  [[ "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$FINDLET_STAGE/Findlet.app/Contents/Info.plist")" == 0.1.1 ]] || { echo "Preview archive version does not match its bundle." >&2; exit 1; }
   python3 - "$FINDLET_STAGE/Findlet.app" <<'PY'
 from pathlib import Path
 import stat

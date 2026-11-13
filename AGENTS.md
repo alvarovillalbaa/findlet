@@ -247,3 +247,22 @@ Keep runtime query/body/bookmark/picker values out of public logs and images;
 retain only explicit empty-query screenshots and finite
 observations, with activity redaction declared. Preserve failed originals and
 owned cleanup limits. The local1.7/34GiB Guard refusal still applies.
+
+NUI01 now passed once at66cb4806061fe0b4e5407b740185fd0ff2f87087:
+one real native journey/nine phases,30commands/60complete retained streams,
+five identical full-source guards and owned teardown. The accepted
+[receipt](docs/results/2026/11-13/native-search-ui.md) preserves nine failed
+originals, including original3's unverified scratch removal. This UI scope is
+closed; do not rerun it or the old service/model/core scopes unchanged.
+
+Standing approval covers the separate [0.1.1 preview scope](docs/proposals/panel-preview-package.md):
+one fixed free public Mac job for changed full-app universal Release packaging
+and unchanged-asset GitHub publication. Bind the accepted native source as
+parent; only app0.1.1/build2 metadata, builder archive-version constants and
+the new versioned package controller may change compiled/build inputs.
+The original package controller and bundled runtime guide stay unchanged.
+Require the source/mode/index,18command/archive/signature/round-trip and owned
+cleanup gates; preserve every failure. No app launch, engine/model or old test
+execution belongs to packaging. The local Guard still forbids heavy execution;
+remote6GiB admission/2GiB reserve and4GiB owned limits apply. Trusted downloaded-
+app/Intel-engine/private-folder/offline gates remain separate.
