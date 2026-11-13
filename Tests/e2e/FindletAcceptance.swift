@@ -155,10 +155,23 @@ final class FindletAcceptance: XCTestCase {
         click(app.radioButtons["Keyword"].firstMatch); phase("emptyAndUnpreparedStates")
         // The search panel is nonactivating. Use Findlet's own status menu
         // instead of assuming Command-Q is routed away from the active app.
-        let status = app.statusItems["Findlet"].firstMatch
-        let menuItem = app.menuBars.menuBarItems["Findlet"].firstMatch
-        wait { status.exists || menuItem.exists }
-        click(status.exists ? status : menuItem)
+        // The accessory app also exposes a hidden standard app-menu item.
+        // Select its sole visible status-menu control, never the first name match.
+        func visibleStatusItems() -> [XCUIElement] {
+            app.menuBars.menuBarItems.allElementsBoundByIndex.filter {
+                $0.isHittable && $0.isEnabled && $0.frame.width > 0 && $0.frame.height > 0
+            }
+        }
+        let statusReady = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in visibleStatusItems().count == 1 }, object: nil)
+        let statusResult = XCTWaiter.wait(for: [statusReady], timeout: 20)
+        let visibleItems = visibleStatusItems()
+        let statusObservation: [String: Any] = ["kind": "findlet.ui-status-menu", "visibleOwnedItems": visibleItems.count,
+            "menuBarCount": app.menuBars.count, "ownedMenuItemCount": app.menuBars.menuBarItems.count,
+            "ready": statusResult == .completed]
+        let statusAttachment = XCTAttachment(data: try JSONSerialization.data(withJSONObject: statusObservation, options: [.sortedKeys]), uniformTypeIdentifier: "public.json")
+        statusAttachment.name = "status-menu"; statusAttachment.lifetime = .keepAlways; add(statusAttachment)
+        XCTAssertEqual(statusResult, .completed)
+        click(try XCTUnwrap(visibleItems.first))
         click(app.menuItems["Quit Findlet"].firstMatch)
         wait { app.state == .notRunning }; phase("normalQuit")
         app.launch(); showSearch()

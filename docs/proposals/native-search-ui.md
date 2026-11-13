@@ -118,3 +118,14 @@ changes. The controller records only cleanup stage/error type/errno/line if
 cleanup fails; it does not retry or conceal a permission/removal error. Product
 bytes, geometry and all other journey/runtime/resource/privacy assertions stay
 unchanged. A still-failed cleanup keeps the entire packet failed.
+
+Run43520123924 confirmed actual Finder target selection (one selected matching
+element), normal owned-window close, Escape/shortcut reopen, no-match state and
+explicit unprepared-semantic state. The named menu's first match existed but
+had zero size and was nonhittable; normal Quit and subsequent phases stayed
+unrun. All four source guards and owned cleanup passed. Preserve the failure.
+QA-5 changes only status-menu observation to require exactly one positive-size,
+enabled, hittable menu-bar item belonging to the Findlet app, then click its
+existing Quit action. Retain finite counts/readiness, no labels/trees. Do not
+click a hidden first match, another application's menu or screen coordinates.
+Keep all assertions, product/runtime bytes and resource/privacy gates unchanged.
