@@ -31,7 +31,11 @@ final class SearchPanelController: NSObject, NSWindowDelegate {
             panel.level = .floating
             panel.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
             panel.delegate = self
-            panel.contentView = NSHostingView(rootView: SearchView(model: model, dismiss: { [weak self] in self?.hide() }))
+            let hosting = NSHostingView(rootView: SearchView(model: model, dismiss: { [weak self] in self?.hide() }))
+            // The panel owns its screen-bounded frame; intrinsic SwiftUI bounds
+            // must not enlarge the window and push result actions off screen.
+            hosting.sizingOptions = []
+            panel.contentView = hosting
             self.panel = panel
         }
         guard let panel else { return }

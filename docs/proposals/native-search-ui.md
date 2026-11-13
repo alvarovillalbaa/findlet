@@ -45,8 +45,37 @@ redaction, with original size/hash and the redaction boundary recorded. Raw
 xcresult/activity data stays private scratch and is not an export. Preserve
 every failed verdict and cleanup gap; retire the workflow and checked QA ref.
 
+Authored fixture constants live in reviewed test source. Runtime values and
+query/result activity remain withheld/redacted as described above.
+
 This proves one authored-folder workflow only. General retrieval quality,
 private-folder/file-provider permissions, shortcut conflicts, strict offline,
 physical devices, Intel engine compatibility, trusted signing/notarization and
 downloaded-app/Gatekeeper acceptance remain separate. The public0.1.0 preview
 is not silently replaced by this Debug UI run.
+
+## First original and panel correction
+
+Run43515157514 ate9b1a39f compiled/launched the actual app, selected all three
+native inputs, rebuilt two documents and displayed/keyboard-selected the real
+keyword hit. NUI01 failed at the Reveal button's hittability check; later
+phases were unrun. All three source guards and owned profile/process/original/
+scratch checks passed; its workflow is disabled and checked QA ref retired.
+The original two empty-query screenshots were inspected: the search panel
+extends below the1024×768 display and its footer is out of view. The precise
+frame was not recorded, so a unique cause is not claimed from that original.
+
+The candidate sets the panel's hosting-view sizing options to empty so the
+existing screen-bounded panel controller owns the frame. Apple's
+[hosting-view contract](https://developer.apple.com/documentation/swiftui/nshostingview/sizingoptions)
+documents the default minimum/intrinsic/maximum window constraints. The next
+NUI01 retains all journey assertions, waits finitely for control readiness,
+records finite control geometry on failure and requires all four empty-query
+panel frames to remain within the visible display. This changed product/layout
+scope needs a fresh journey; the failed original is not converted into a pass.
+No unrelated service/model/core/package case is replayed.
+
+The test uses Findlet's named status-menu Quit action. Its nonactivating panel
+does not imply that Command-Q is routed to Findlet; the first screenshots still
+show Finder's application menu. Only owner-labeled status/menu elements and
+the existing Quit action are used, with the same normal-termination assertion.

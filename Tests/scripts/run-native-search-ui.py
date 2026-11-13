@@ -21,7 +21,7 @@ SOURCE = os.environ.get("FINDLET_UI_SOURCE", "")
 BASE = "ec4565c5bd0953eef95b472e6f6a6926faa82946"
 HELPER = "Tests/scripts/run-keyword-integration.py"
 HELPER_SHA = "6e860f582ded76240c03dd188448571b433b06722a29708093e2db5d95bd9981"
-BRANCH = "qa/findlet-native-ui-20261113-1"
+BRANCH = "qa/findlet-native-ui-20261113-2"
 LOCK = "Tests/fixtures/qmd-darwin-arm64-package-lock.json"
 CASE = "FindletAcceptance/FindletAcceptance/testNUI01ConfigureSearchReopenAndForget"
 FILES = {
@@ -40,7 +40,7 @@ g = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(g)  # Definitions only; no old preflight/main/case.
 g.repo, g.source, g.ROOT_LIMIT = REPO, SOURCE, 4 * 1024**3
 g.STREAM_LIMIT, g.ZIP_LIMIT, g.ALL_ZIP_LIMIT = 8 * 1024**2, 2 * 1024**2, 16 * 1024**2
-g.report = {"kind": "findlet.native-search-ui", "source": SOURCE, "base": BASE, "caseId": "NUI01",
+g.report = {"kind": "findlet.native-search-ui", "source": SOURCE, "base": BASE, "caseId": "NUI01", "runId": os.environ.get("GITHUB_RUN_ID"),
     "accepted": False, "commands": [], "guards": [], "errors": [], "cleanup": {},
     "scope": {"tier": "T3", "appUI": True, "actualQMD": True, "oldCasesReplayed": False,
               "models": False, "privateFolders": False, "paidService": False}}
@@ -117,17 +117,17 @@ def command(*args, **kwargs):
 g.command = command  # The reused installer receives the same guarded supervisor.
 
 
-def guard(label, cleanup=False):
+def guard(label, cleanup=False, post_root=False):
     global source_vector
-    head, _, _ = command(label + "_head", ["/usr/bin/git", "rev-parse", "HEAD"], cleanup=cleanup)
+    head, _, _ = command(label + "_head", ["/usr/bin/git", "rev-parse", "HEAD"], cleanup=cleanup, post_root=post_root)
     need(head.decode().strip() == SOURCE, "source_head_changed")
-    tree, _, _ = command(label + "_tree", ["/usr/bin/git", "ls-tree", "-r", "-z", "HEAD"], cleanup=cleanup)
+    tree, _, _ = command(label + "_tree", ["/usr/bin/git", "ls-tree", "-r", "-z", "HEAD"], cleanup=cleanup, post_root=post_root)
     rows = []
     for name, expected in sorted(g.parse_tree(tree).items()):
         current = g.source_file(name)
         need({key: current[key] for key in ["mode", "gitBlob"]} == expected, "source_bytes_or_mode_changed")
         rows.append(current)
-    status, _, _ = command(label + "_status", ["/usr/bin/git", "status", "--porcelain", "--untracked-files=all", "--ignored=matching"], cleanup=cleanup)
+    status, _, _ = command(label + "_status", ["/usr/bin/git", "status", "--porcelain", "--untracked-files=all", "--ignored=matching"], cleanup=cleanup, post_root=post_root)
     need(status == b"", "source_residue")
     if source_vector is None:
         source_vector = rows
@@ -273,6 +273,8 @@ def collect_result():
             if isinstance(value, dict) and value.get("caseId") == "NUI01":
                 need(value.get("phases") == EXPECTED_PHASES and value.get("status") == "passed", "incomplete_native_journey")
                 g.report["uiObservations"] = value
+            elif isinstance(value, dict) and value.get("kind") == "findlet.ui-control-readiness":
+                g.report.setdefault("controlDiagnostics", []).append(value)
     # Human attachment names live in the manifest; exported filenames are IDs.
     pending = [manifest]
     while pending:
@@ -300,6 +302,8 @@ def collect_result():
 
 def verify_state():
     need(g.report.get("nativeTestCommandPassed") and g.report.get("uiObservations"), "native_ui_unaccepted")
+    frames = g.report["uiObservations"].get("windowFrames", [])
+    need(len(frames) == 4 and all(frame.get("withinVisibleDisplay") is True for frame in frames), "native_window_geometry_unaccepted")
     for name, expected in g.report["fixtureFiles"].items():
         need(g.fingerprint(g.root / "input/authored-findlet" / name) == expected, "original_document_changed")
     setup = json.loads(read(library / "settings.json"))
@@ -316,6 +320,7 @@ def cleanup():
         return
     g.cleanup_end = min(time.monotonic() + 120, g.job_end - 30)
     try:
+        g.report["cleanup"]["signals"] = []
         # Close only identity-attributed binaries/descendants. launchd GUI groups
         # can contain unrelated processes, so native cleanup signals single PIDs.
         for sig, wait_seconds in [(signal.SIGTERM, 5), (signal.SIGKILL, 5)]:
@@ -323,7 +328,9 @@ def cleanup():
             for row in live:
                 old = g.attributed[row["pid"]]
                 need(old["start"] == row["start"] and row["uid"] == os.getuid(), "native_signal_identity_changed")
-                try: os.kill(row["pid"], sig)
+                try:
+                    os.kill(row["pid"], sig)
+                    g.report["cleanup"]["signals"].append({"pid": row["pid"], "start": row["start"], "signal": sig.name})
                 except ProcessLookupError: pass
             end = time.monotonic() + wait_seconds
             while time.monotonic() < end:
@@ -333,6 +340,7 @@ def cleanup():
         rows, live, unknown = observe()
         need(not live and not unknown and all(child["process"].poll() is not None and g.absent(child["process"].pid) for child in g.children), "owned_native_process_remains")
         g.report["cleanup"]["ownedProcessIdentitiesAbsent"] = True
+        g.report["cleanup"]["observedOwnedProcesses"] = list(g.attributed.values())
         if library_identity is not None:
             now = library.lstat()
             need(not library.is_symlink() and (now.st_dev, now.st_ino) == (library_identity.st_dev, library_identity.st_ino)
@@ -358,6 +366,9 @@ def cleanup():
         g.report["scratchInventory"] = {"allocatedBytes": allocated, "apparentBytes": apparent, "entries": entries}
         g.owner(); shutil.rmtree(g.root); need(not os.path.lexists(g.root), "owned_scratch_remains")
         g.report["cleanup"]["ownedScratchAbsent"] = True
+        g.report["scratchCleanup"] = "passed"
+        guard("after_cleanup", cleanup=True, post_root=True)
+        g.report["cleanup"]["postRemovalSourceGuardPassed"] = True
     except Exception as error:
         g.report["errors"].append(g.finite(error)); g.report["cleanup"]["unverified"] = True
 

@@ -1,3 +1,4 @@
+import AppKit
 import Foundation
 import XCTest
 
@@ -13,12 +14,28 @@ final class FindletAcceptance: XCTestCase {
         let package = try XCTUnwrap(config["package"])
         let app = XCUIApplication(bundleIdentifier: "com.alvarovillalbaa.Findlet")
         var phases: [String] = []
+        var windowFrames: [[String: Any]] = []
+        var clickIndex = 0
         func phase(_ name: String) { phases.append(name) }
         func wait(_ condition: @escaping () -> Bool, seconds: TimeInterval = 20) {
             XCTAssertEqual(XCTWaiter.wait(for: [XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in condition() }, object: nil)], timeout: seconds), .completed)
         }
         func click(_ element: XCUIElement) {
             XCTAssertTrue(element.waitForExistence(timeout: 20))
+            clickIndex += 1
+            let ready = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in element.isHittable && element.isEnabled }, object: nil)
+            let result = XCTWaiter.wait(for: [ready], timeout: 15)
+            if result != .completed {
+                let frame = element.frame
+                let value: [String: Any] = ["kind": "findlet.ui-control-readiness", "index": clickIndex,
+                    "hittable": element.isHittable, "enabled": element.isEnabled,
+                    "x": Double(frame.minX), "y": Double(frame.minY), "width": Double(frame.width), "height": Double(frame.height)]
+                if let data = try? JSONSerialization.data(withJSONObject: value, options: [.sortedKeys]) {
+                    let attachment = XCTAttachment(data: data, uniformTypeIdentifier: "public.json")
+                    attachment.name = "control-readiness"; attachment.lifetime = .keepAlways; add(attachment)
+                }
+            }
+            XCTAssertEqual(result, .completed)
             XCTAssertTrue(element.isHittable); element.click()
         }
         func choose(_ path: String) {
@@ -38,6 +55,15 @@ final class FindletAcceptance: XCTestCase {
         func picture(_ name: String) {
             // Query/results, setup paths and automatic diagnostics are withheld.
             XCTAssertEqual(searchField().value as? String, "")
+            guard let display = NSScreen.main else { XCTFail("Native display is unavailable"); return }
+            XCTAssertEqual(NSScreen.screens.count, 1)
+            let visible = display.visibleFrame
+            let bounds = CGRect(x: visible.minX, y: display.frame.maxY - visible.maxY, width: visible.width, height: visible.height)
+            let panel = app.windows.containing(.searchField, identifier: "Search selected documents").firstMatch.frame
+            let contained = bounds.insetBy(dx: -1, dy: -1).contains(panel)
+            windowFrames.append(["phase": name, "x": Double(panel.minX), "y": Double(panel.minY),
+                "width": Double(panel.width), "height": Double(panel.height), "withinVisibleDisplay": contained])
+            XCTAssertTrue(contained, "Search panel must stay within the visible display")
             let image = XCTAttachment(screenshot: app.screenshot()); image.name = name
             image.lifetime = .keepAlways; add(image)
         }
@@ -78,7 +104,13 @@ final class FindletAcceptance: XCTestCase {
         click(app.radioButtons["Semantic"].firstMatch)
         XCTAssertTrue(app.staticTexts["Prepare semantic search explicitly"].waitForExistence(timeout: 15))
         click(app.radioButtons["Keyword"].firstMatch); phase("emptyAndUnpreparedStates")
-        app.typeKey("q", modifierFlags: .command)
+        // The search panel is nonactivating. Use Findlet's own status menu
+        // instead of assuming Command-Q is routed away from the active app.
+        let status = app.statusItems["Findlet"].firstMatch
+        let menuItem = app.menuBars.menuBarItems["Findlet"].firstMatch
+        wait { status.exists || menuItem.exists }
+        click(status.exists ? status : menuItem)
+        click(app.menuItems["Quit Findlet"].firstMatch)
         wait { app.state == .notRunning }; phase("normalQuit")
         app.launch(); showSearch()
         XCTAssertTrue(app.staticTexts["Local · QMD 2.8.3 · 2 indexed documents"].waitForExistence(timeout: 20))
@@ -94,8 +126,9 @@ final class FindletAcceptance: XCTestCase {
         XCTAssertTrue(app.staticTexts["Rebuild to use this setup"].waitForExistence(timeout: 15))
         picture("04-forgotten-empty"); phase("nativeForgetConfirmation")
         let observation: [String: Any] = ["caseId": "NUI01", "status": "passed", "phases": phases,
+            "windowFrames": windowFrames,
             "nativePickerSelections": 3, "actualKeywordQueries": 3, "expectedTopHits": 2,
-            "finderRevealObserved": true, "normalQuitObserved": true, "reopenedDocumentCount": 2,
+            "finderRevealObserved": true, "normalQuitObserved": true, "quitRoute": "ownedStatusMenu", "reopenedDocumentCount": 2,
             "forgottenDocumentCount": 0, "queryOrDocumentValuesRetained": false]
         let attachment = XCTAttachment(data: try JSONSerialization.data(withJSONObject: observation, options: [.sortedKeys, .prettyPrinted]), uniformTypeIdentifier: "public.json")
         attachment.name = "ui-observations"; attachment.lifetime = .keepAlways; add(attachment)

@@ -242,7 +242,8 @@ closed ten core, K01/K02, S01/S02 or preview packaging scopes. Use actual app,
 native picker/shortcut/reopen/Forget actions and real QMD, without production
 test hooks or fake results. Preserve the real HOME; use the fixed app-support
 directory only after proving it absent on the disposable account and creating
-an owner marker. Keep raw query/body/bookmark/picker data out of public logs,
-images and commits; retain only explicit empty-query screenshots and finite
+an owner marker. Authored fixture constants belong only in reviewed test source.
+Keep runtime query/body/bookmark/picker values out of public logs and images;
+retain only explicit empty-query screenshots and finite
 observations, with activity redaction declared. Preserve failed originals and
 owned cleanup limits. The local1.7/34GiB Guard refusal still applies.
