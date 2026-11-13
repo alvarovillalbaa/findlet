@@ -157,9 +157,9 @@ final class FindletAcceptance: XCTestCase {
         // instead of assuming Command-Q is routed away from the active app.
         // Hidden standard-menu duplicates remain in AX; click the sole visible
         // native element belonging to this app, never the first name match.
-        func clickVisibleMenu(_ query: XCUIElementQuery, phase: String) throws {
+        func clickVisibleMenu(_ queries: [XCUIElementQuery], phase: String) throws {
             func visible() -> [XCUIElement] {
-                query.allElementsBoundByIndex.filter {
+                queries.flatMap { $0.allElementsBoundByIndex }.filter {
                     $0.isHittable && $0.isEnabled && $0.frame.width > 0 && $0.frame.height > 0
                 }
             }
@@ -167,15 +167,20 @@ final class FindletAcceptance: XCTestCase {
             let result = XCTWaiter.wait(for: [ready], timeout: 15)
             let items = visible()
             let value: [String: Any] = ["kind": "findlet.ui-" + phase, "visibleOwnedItems": items.count,
-                "visibleOwnedTypes": items.map { Int($0.elementType.rawValue) }, "candidateCount": query.count,
+                "visibleOwnedTypes": items.map { Int($0.elementType.rawValue) }, "candidateCounts": queries.map { $0.count },
                 "route": "nativeAX", "ready": result == .completed]
             let attachment = XCTAttachment(data: try JSONSerialization.data(withJSONObject: value, options: [.sortedKeys]), uniformTypeIdentifier: "public.json")
             attachment.name = phase; attachment.lifetime = .keepAlways; add(attachment)
             XCTAssertEqual(result, .completed)
             click(try XCTUnwrap(items.first))
         }
-        try clickVisibleMenu(app.statusItems, phase: "status-menu")
-        try clickVisibleMenu(app.menuItems.matching(NSPredicate(format: "label == %@", "Quit Findlet")), phase: "quit-menu")
+        XCTAssertEqual(searchField().value as? String, "")
+        try clickVisibleMenu([app.statusItems], phase: "status-menu")
+        // Only the reviewed empty-query status menu is pictured; no tree/values.
+        let menuImage = XCTAttachment(screenshot: app.screenshot()); menuImage.name = "05-status-menu-empty"
+        menuImage.lifetime = .keepAlways; add(menuImage)
+        try clickVisibleMenu([app.menuItems.matching(identifier: "Quit Findlet"),
+                              app.buttons.matching(identifier: "Quit Findlet")], phase: "quit-menu")
         wait { app.state == .notRunning }; phase("normalQuit")
         app.launch(); showSearch()
         XCTAssertTrue(app.staticTexts["Local · QMD 2.8.3 · 2 indexed documents"].waitForExistence(timeout: 20))

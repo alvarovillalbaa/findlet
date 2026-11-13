@@ -37,8 +37,9 @@ Only that exact owned profile, exported build/runtime/fixtures and identified
 task app/runner/Node processes may be cleaned. Never kill by bare process name
 or quit unrelated Finder windows. Record identity and absence readbacks.
 
-Retain finite UI observations, exact source/bundle/runtime hashes and only four
-explicit empty-query panel images. Do not publish typed queries, source bodies,
+Retain finite UI observations, exact source/bundle/runtime hashes, the four
+explicit empty-query panel images and the single empty-query status-menu image
+admitted by QA-8 below. Do not publish typed queries, source bodies,
 bookmarks, setup paths, automatic failure screenshots or accessibility trees.
 Native activity streams are retained only after explicit fixture-token/path
 redaction, with original size/hash and the redaction boundary recorded. Raw
@@ -160,3 +161,22 @@ its exact label. It retains finite candidate/visible/type counts for both.
 Remove the unused physical fallback entirely; all interactions are native AX.
 No hidden duplicate, direct termination or assertion bypass. Product/runtime
 bytes and all journey/resource/privacy assertions remain unchanged.
+
+Run43524455490 again clicked the sole actual native StatusItem. Its subsequent
+label-only Quit query returned zero candidates, so no Quit click or later
+lifecycle occurred. All four source guards and owned cleanup passed. Preserve
+the failed original. Neither this result nor original6 independently captured
+the displayed menu; original6's "menu opened" wording is an inference from the
+status click, not direct visibility proof.
+
+QA-8 uses native identifier/title matching for the exact existing Quit name
+across MenuItem and Button roles, still requiring one positive enabled hittable
+target. Add one explicitly reviewed `05-status-menu-empty` screenshot after
+asserting the query is empty immediately before the status click. The known
+menu source contains actions/document count only; the owned Finder window has
+already closed. No query/result/setup tree or automatic failure image is added.
+The image is taken before Quit observation and retained even on failure, so
+future diagnosis can use displayed UI. Require all five named images for full
+acceptance; keep the original four positive display/field geometry checks.
+This narrowly expands the prior four-image artifact allowlist; all other
+privacy/resource/product/runtime/journey gates remain unchanged.

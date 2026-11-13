@@ -83,5 +83,5 @@ journey under the separate [native UI scope](../docs/proposals/native-search-ui.
 It uses the normal Xcode UI runner and real picker/search/shortcut/reopen/Forget
 actions. The host controller owns fixtures and verifies filesystem state; the
 UI runner injects no application state. Old core/service/model/package cases
-remain closed. Only empty-query panel images and finite observations are public;
+remain closed. Only reviewed empty-query panel/menu images and finite observations are public;
 native activity streams have an explicit redaction boundary.

@@ -21,7 +21,7 @@ SOURCE = os.environ.get("FINDLET_UI_SOURCE", "")
 BASE = "ec4565c5bd0953eef95b472e6f6a6926faa82946"
 HELPER = "Tests/scripts/run-keyword-integration.py"
 HELPER_SHA = "6e860f582ded76240c03dd188448571b433b06722a29708093e2db5d95bd9981"
-BRANCH = "qa/findlet-native-ui-20261113-7"
+BRANCH = "qa/findlet-native-ui-20261113-8"
 LOCK = "Tests/fixtures/qmd-darwin-arm64-package-lock.json"
 CASE = "FindletAcceptance/FindletAcceptance/testNUI01ConfigureSearchReopenAndForget"
 FILES = {
@@ -291,7 +291,7 @@ def collect_result():
         elif isinstance(item, dict):
             human = item.get("suggestedHumanReadableName", "")
             exported = item.get("exportedFileName", "")
-            match = re.fullmatch(r"(01-empty-setup|02-ready-empty|03-reopened-empty|04-forgotten-empty)_[0-9]+_[A-F0-9-]{36}\.png", human)
+            match = re.fullmatch(r"(01-empty-setup|02-ready-empty|03-reopened-empty|04-forgotten-empty|05-status-menu-empty)_[0-9]+_[A-F0-9-]{36}\.png", human)
             if match and exported:
                 target = attachment_root / exported
                 need(target.is_file() and not target.is_symlink() and target.stat().st_size < 4 * 1024**2, "image_bound")
@@ -305,7 +305,7 @@ def collect_result():
              and summary.get("failedTests") == summary.get("skippedTests") == 0 and not summary.get("testFailures"), "native_summary_refused")
         need(len(cases) == 1 and cases[0].get("result") == "Passed"
              and cases[0].get("name") == "testNUI01ConfigureSearchReopenAndForget()", "native_case_identity_refused")
-        need(g.report.get("uiObservations") and len(accepted_images) == 4, "native_evidence_incomplete")
+        need(g.report.get("uiObservations") and len(accepted_images) == 5, "native_evidence_incomplete")
 
 
 def verify_state():
