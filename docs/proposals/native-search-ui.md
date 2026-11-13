@@ -198,3 +198,19 @@ Settings image, paths or tree. Apple's
 supplies the user action. Ambiguous/no viewport or unreached control fails;
 all normal-deletion/remaining geometry/privacy/resource assertions stay. No
 product/runtime change, coordinate click or old accepted-case replay.
+
+Run43527056582 confirmed one650point Form viewport and two native scroll
+actions: Forget moved to(232,655),147×20, enabled/hittable and inside it.
+The initial Forget action clicked. The subsequent application-wide first
+`Forget Index` match was a Touch Bar copy; XCTest refused native mouse synthesis
+for that element. No deletion occurred. All four source guards and owned
+cleanup passed. Preserve the failed original.
+
+QA-10 scopes the confirmation to one positive on-screen modal in the first
+present sheet, dialog or alert role, in that order, owned by the app, then one
+enabled hittable exact-name button inside that
+modal's bounds. Record only parent-type/count/readiness; no Settings image or
+paths. Missing/ambiguous modal/target fails. This excludes the application's
+Touch Bar copy structurally and retains the actual destructive confirmation,
+zero-document state, empty generations/pointer and unchanged-original checks.
+No product/runtime, coordinate, role-grant or old-case change.

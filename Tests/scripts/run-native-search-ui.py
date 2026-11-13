@@ -21,7 +21,7 @@ SOURCE = os.environ.get("FINDLET_UI_SOURCE", "")
 BASE = "ec4565c5bd0953eef95b472e6f6a6926faa82946"
 HELPER = "Tests/scripts/run-keyword-integration.py"
 HELPER_SHA = "6e860f582ded76240c03dd188448571b433b06722a29708093e2db5d95bd9981"
-BRANCH = "qa/findlet-native-ui-20261113-9"
+BRANCH = "qa/findlet-native-ui-20261113-10"
 LOCK = "Tests/fixtures/qmd-darwin-arm64-package-lock.json"
 CASE = "FindletAcceptance/FindletAcceptance/testNUI01ConfigureSearchReopenAndForget"
 FILES = {
@@ -285,6 +285,8 @@ def collect_result():
                 g.report["quitMenuObservation"] = value
             elif isinstance(value, dict) and value.get("kind") == "findlet.ui-settings-scroll":
                 g.report["settingsScrollObservation"] = value
+            elif isinstance(value, dict) and value.get("kind") == "findlet.ui-forget-confirmation":
+                g.report["forgetConfirmationObservation"] = value
     # Human attachment names live in the manifest; exported filenames are IDs.
     pending = [manifest]
     while pending:
@@ -304,7 +306,8 @@ def collect_result():
     if g.report.get("nativeTestCommandPassed"):
         summary = g.report["testSummary"]
         need(summary.get("result") == "Passed" and summary.get("totalTestCount") == summary.get("passedTests") == 1
-             and summary.get("failedTests") == summary.get("skippedTests") == 0 and not summary.get("testFailures"), "native_summary_refused")
+             and summary.get("failedTests") == summary.get("skippedTests") == summary.get("expectedFailures") == 0
+             and not summary.get("testFailures"), "native_summary_refused")
         need(len(cases) == 1 and cases[0].get("result") == "Passed"
              and cases[0].get("name") == "testNUI01ConfigureSearchReopenAndForget()", "native_case_identity_refused")
         need(g.report.get("uiObservations") and len(accepted_images) == 5, "native_evidence_incomplete")

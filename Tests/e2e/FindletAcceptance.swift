@@ -208,7 +208,36 @@ final class FindletAcceptance: XCTestCase {
         scrollAttachment.name = "settings-scroll"; scrollAttachment.lifetime = .keepAlways; add(scrollAttachment)
         XCTAssertEqual(scrolls.count, 1); XCTAssertTrue(insideScroll)
         click(forget)
-        click(app.buttons["Forget Index"].firstMatch)
+        // NSAlert also publishes a Touch Bar copy. Scope the destructive click
+        // to the actual on-screen modal rather than the application's first hit.
+        let modalQueries = [app.sheets, app.dialogs, app.alerts]
+        let modalReady = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            modalQueries.contains { $0.allElementsBoundByIndex.contains { $0.frame.width > 0 && $0.frame.height > 0 } }
+        }, object: nil)
+        let modalResult = XCTWaiter.wait(for: [modalReady], timeout: 15)
+        let display = try XCTUnwrap(NSScreen.main)
+        let visible = display.visibleFrame
+        let visibleBounds = CGRect(x: visible.minX, y: display.frame.maxY - visible.maxY, width: visible.width, height: visible.height)
+        let modalGroups = modalQueries.map { query in query.allElementsBoundByIndex.filter {
+            $0.frame.width > 0 && $0.frame.height > 0 && visibleBounds.insetBy(dx: -1, dy: -1).contains($0.frame)
+        } }
+        let modalCandidates = modalGroups.first(where: { !$0.isEmpty }) ?? []
+        let confirmations: [XCUIElement]
+        if let modal = modalCandidates.first {
+            confirmations = modal.buttons.matching(identifier: "Forget Index").allElementsBoundByIndex.filter {
+                $0.isHittable && $0.isEnabled && $0.frame.width > 0 && $0.frame.height > 0 &&
+                modal.frame.insetBy(dx: -1, dy: -1).contains($0.frame)
+            }
+        } else { confirmations = [] }
+        let confirmationObservation: [String: Any] = ["kind": "findlet.ui-forget-confirmation",
+            "modalCounts": modalQueries.map { $0.count }, "onScreenModalCount": modalCandidates.count,
+            "onScreenCountsByRole": modalGroups.map { $0.count },
+            "modalTypes": modalCandidates.map { Int($0.elementType.rawValue) }, "targetCount": confirmations.count,
+            "targetInsideOnScreenModal": confirmations.count == 1, "ready": modalResult == .completed]
+        let confirmationAttachment = XCTAttachment(data: try JSONSerialization.data(withJSONObject: confirmationObservation, options: [.sortedKeys]), uniformTypeIdentifier: "public.json")
+        confirmationAttachment.name = "forget-confirmation"; confirmationAttachment.lifetime = .keepAlways; add(confirmationAttachment)
+        XCTAssertEqual(modalResult, .completed); XCTAssertEqual(modalCandidates.count, 1); XCTAssertEqual(confirmations.count, 1)
+        click(try XCTUnwrap(confirmations.first))
         XCTAssertTrue(app.staticTexts["0 documents in Findlet's current index."].firstMatch.waitForExistence(timeout: 30))
         app.typeKey("w", modifierFlags: .command); showSearch()
         XCTAssertTrue(app.staticTexts["Rebuild to use this setup"].waitForExistence(timeout: 15))
