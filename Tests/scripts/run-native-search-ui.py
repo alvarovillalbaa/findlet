@@ -101,6 +101,17 @@ def command(*args, **kwargs):
                                   retainedBytes=len(redacted), retainedSha256=sha(redacted),
                                   compressedBytes=len(compressed), unredactedOriginalRetained=False)
                 need(not any(token in redacted for token in PRIVATE), "public_stream_privacy_refused")
+        if g.root is not None and g.root.exists():
+            allocated = apparent = entries = 0
+            for directory, dirs, files in os.walk(g.root, followlinks=False):
+                for name in dirs + files:
+                    value = (Path(directory) / name).lstat(); entries += 1
+                    if stat.S_ISREG(value.st_mode):
+                        allocated += value.st_blocks * 512; apparent += value.st_size
+            need(allocated <= g.ROOT_LIMIT and entries <= 150000, "owned_storage_bound")
+            need(shutil.disk_usage(g.root).free >= 2 * 1024**3, "remote_disk_reserve_exhausted")
+            g.report.setdefault("storageObservations", []).append({"label": args[0], "allocatedBytes": allocated,
+                "apparentBytes": apparent, "entries": entries})
 
 
 g.command = command  # The reused installer receives the same guarded supervisor.
