@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scheme LastUpgradeVersion="1640" version="1.3">
+ <BuildAction parallelizeBuildables="YES" buildImplicitDependencies="YES"><BuildActionEntries>
+  <BuildActionEntry buildForTesting="YES" buildForRunning="YES" buildForProfiling="NO" buildForArchiving="NO" buildForAnalyzing="YES"><BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="F00000000000000000000002" BuildableName="Findlet.app" BlueprintName="FindletApp" ReferencedContainer="container:FindletAcceptance.xcodeproj"/></BuildActionEntry>
+  <BuildActionEntry buildForTesting="YES" buildForRunning="NO" buildForProfiling="NO" buildForArchiving="NO" buildForAnalyzing="NO"><BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="F00000000000000000000003" BuildableName="FindletAcceptance.xctest" BlueprintName="FindletAcceptance" ReferencedContainer="container:FindletAcceptance.xcodeproj"/></BuildActionEntry>
+ </BuildActionEntries></BuildAction>
+ <TestAction buildConfiguration="Debug" selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger.LLDB" selectedLauncherIdentifier="Xcode.IDEFoundation.Launcher.LLDB" launchStyle="0" shouldUseLaunchSchemeArgsEnv="YES"><Testables><TestableReference skipped="NO"><BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="F00000000000000000000003" BuildableName="FindletAcceptance.xctest" BlueprintName="FindletAcceptance" ReferencedContainer="container:FindletAcceptance.xcodeproj"/></TestableReference></Testables><MacroExpansion><BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="F00000000000000000000002" BuildableName="Findlet.app" BlueprintName="FindletApp" ReferencedContainer="container:FindletAcceptance.xcodeproj"/></MacroExpansion></TestAction>
+ <AnalyzeAction buildConfiguration="Debug"/>
+</Scheme>

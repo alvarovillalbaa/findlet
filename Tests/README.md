@@ -75,3 +75,13 @@ retains all originals and four prior invocations. This scope is closed; do not
 repeat its accepted cases unchanged. Native UI/private/general-quality/offline/
 trusted-distribution gates remain separate. The production six files and bundled
 runtime guide were unchanged; no new preview package was necessary.
+
+## Native search-bar journey
+
+`e2e/FindletAcceptance.swift` is NUI01, a T3 actual app/QMD/owned SQLite
+journey under the separate [native UI scope](../docs/proposals/native-search-ui.md).
+It uses the normal Xcode UI runner and real picker/search/shortcut/reopen/Forget
+actions. The host controller owns fixtures and verifies filesystem state; the
+UI runner injects no application state. Old core/service/model/package cases
+remain closed. Only empty-query panel images and finite observations are public;
+native activity streams have an explicit redaction boundary.

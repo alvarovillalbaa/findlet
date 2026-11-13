@@ -1,0 +1,38 @@
+// !$*UTF8*$!
+{
+ archiveVersion = 1;
+ classes = {};
+ objectVersion = 77;
+ objects = {
+  F00000000000000000000001 = {isa = PBXProject; attributes = {BuildIndependentTargetsInParallel = YES; LastUpgradeCheck = 1640; TargetAttributes = {F00000000000000000000002 = {CreatedOnToolsVersion = 16.4; }; F00000000000000000000003 = {CreatedOnToolsVersion = 16.4; TestTargetID = F00000000000000000000002; }; }; }; buildConfigurationList = F00000000000000000000010; compatibilityVersion = "Xcode 16.0"; developmentRegion = en; hasScannedForEncodings = 0; knownRegions = (en, Base); mainGroup = F00000000000000000000004; packageReferences = (F00000000000000000000030); preferredProjectObjectVersion = 77; productRefGroup = F00000000000000000000005; projectDirPath = ""; projectRoot = ""; targets = (F00000000000000000000002, F00000000000000000000003); };
+  F00000000000000000000002 = {isa = PBXNativeTarget; buildConfigurationList = F00000000000000000000011; buildPhases = (F00000000000000000000020, F00000000000000000000021, F00000000000000000000022); buildRules = (); dependencies = (); fileSystemSynchronizedGroups = (F00000000000000000000006); name = FindletApp; packageProductDependencies = (F00000000000000000000031); productName = Findlet; productReference = F00000000000000000000008; productType = "com.apple.product-type.application"; };
+  F00000000000000000000003 = {isa = PBXNativeTarget; buildConfigurationList = F00000000000000000000012; buildPhases = (F00000000000000000000023, F00000000000000000000024, F00000000000000000000025); buildRules = (); dependencies = (F00000000000000000000032); fileSystemSynchronizedGroups = (F00000000000000000000007); name = FindletAcceptance; packageProductDependencies = (F00000000000000000000031); productName = FindletAcceptance; productReference = F00000000000000000000009; productType = "com.apple.product-type.bundle.ui-testing"; };
+  F00000000000000000000004 = {isa = PBXGroup; children = (F00000000000000000000006, F00000000000000000000007, F0000000000000000000000A, F00000000000000000000005); sourceTree = "<group>"; };
+  F00000000000000000000005 = {isa = PBXGroup; children = (F00000000000000000000008, F00000000000000000000009); name = Products; sourceTree = "<group>"; };
+  F00000000000000000000006 = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ../Sources/Findlet; sourceTree = "<group>"; };
+  F00000000000000000000007 = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = e2e; sourceTree = "<group>"; };
+  F00000000000000000000008 = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Findlet.app; sourceTree = BUILT_PRODUCTS_DIR; };
+  F00000000000000000000009 = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FindletAcceptance.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+  F0000000000000000000000A = {isa = PBXFileReference; lastKnownFileType = image.icns; path = ../Resources/AppIcon.icns; sourceTree = "<group>"; };
+  F0000000000000000000000B = {isa = PBXBuildFile; productRef = F00000000000000000000031; };
+  F0000000000000000000000C = {isa = PBXBuildFile; fileRef = F0000000000000000000000A; };
+  F0000000000000000000000D = {isa = PBXBuildFile; productRef = F00000000000000000000031; };
+  F00000000000000000000010 = {isa = XCConfigurationList; buildConfigurations = (F00000000000000000000013); defaultConfigurationIsVisible = 0; defaultConfigurationName = Debug; };
+  F00000000000000000000011 = {isa = XCConfigurationList; buildConfigurations = (F00000000000000000000014); defaultConfigurationIsVisible = 0; defaultConfigurationName = Debug; };
+  F00000000000000000000012 = {isa = XCConfigurationList; buildConfigurations = (F00000000000000000000015); defaultConfigurationIsVisible = 0; defaultConfigurationName = Debug; };
+  F00000000000000000000013 = {isa = XCBuildConfiguration; buildSettings = {CLANG_ENABLE_MODULES = YES; CLANG_ENABLE_OBJC_ARC = YES; MACOSX_DEPLOYMENT_TARGET = 15.0; SDKROOT = macosx; SWIFT_VERSION = 5.0; SWIFT_OPTIMIZATION_LEVEL = "-Onone"; ONLY_ACTIVE_ARCH = YES; DEBUG_INFORMATION_FORMAT = dwarf; }; name = Debug; };
+  F00000000000000000000014 = {isa = XCBuildConfiguration; buildSettings = {CODE_SIGN_IDENTITY = "-"; CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO; CODE_SIGN_STYLE = Manual; COMBINE_HIDPI_IMAGES = YES; CURRENT_PROJECT_VERSION = 1; ENABLE_APP_SANDBOX = NO; GENERATE_INFOPLIST_FILE = NO; INFOPLIST_FILE = ../Resources/Info.plist; LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/../Frameworks"); PRODUCT_BUNDLE_IDENTIFIER = com.alvarovillalbaa.Findlet; PRODUCT_NAME = Findlet; }; name = Debug; };
+  F00000000000000000000015 = {isa = XCBuildConfiguration; buildSettings = {CODE_SIGN_IDENTITY = "-"; CODE_SIGN_STYLE = Manual; ENABLE_APP_SANDBOX = NO; ENABLE_TESTING_SEARCH_PATHS = YES; GENERATE_INFOPLIST_FILE = YES; LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/../Frameworks", "@loader_path/../Frameworks"); PRODUCT_BUNDLE_IDENTIFIER = com.alvarovillalbaa.FindletAcceptance; PRODUCT_NAME = "$(TARGET_NAME)"; TEST_TARGET_NAME = FindletApp; }; name = Debug; };
+  F00000000000000000000020 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+  F00000000000000000000021 = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (F0000000000000000000000B); runOnlyForDeploymentPostprocessing = 0; };
+  F00000000000000000000022 = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (F0000000000000000000000C); runOnlyForDeploymentPostprocessing = 0; };
+  F00000000000000000000023 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+  F00000000000000000000024 = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (F0000000000000000000000D); runOnlyForDeploymentPostprocessing = 0; };
+  F00000000000000000000025 = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+  F00000000000000000000030 = {isa = XCLocalSwiftPackageReference; relativePath = ..; };
+  F00000000000000000000031 = {isa = XCSwiftPackageProductDependency; package = F00000000000000000000030; productName = FindletCore; };
+  F00000000000000000000032 = {isa = PBXTargetDependency; target = F00000000000000000000002; targetProxy = F00000000000000000000033; };
+  F00000000000000000000033 = {isa = PBXContainerItemProxy; containerPortal = F00000000000000000000001; proxyType = 1; remoteGlobalIDString = F00000000000000000000002; remoteInfo = Findlet; };
+ };
+ rootObject = F00000000000000000000001;
+}

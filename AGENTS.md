@@ -232,3 +232,17 @@ scope is CLOSED; do not repeat it unchanged. App source and published preview/
 bundled runtime guide stayed exact. Retire only the five owned QA refs and this
 temporary disabled workflow after publication. Native UI, private folders,
 general semantic quality, strict offline and trusted distribution remain open.
+
+## Native search-bar UI — 13 November 2026
+
+The same standing owner delegation covers the concrete new
+[NUI01 scope](docs/proposals/native-search-ui.md), one bounded free public Mac
+runner and its pinned existing-runtime installation. It does not reopen the
+closed ten core, K01/K02, S01/S02 or preview packaging scopes. Use actual app,
+native picker/shortcut/reopen/Forget actions and real QMD, without production
+test hooks or fake results. Preserve the real HOME; use the fixed app-support
+directory only after proving it absent on the disposable account and creating
+an owner marker. Keep raw query/body/bookmark/picker data out of public logs,
+images and commits; retain only explicit empty-query screenshots and finite
+observations, with activity redaction declared. Preserve failed originals and
+owned cleanup limits. The local1.7/34GiB Guard refusal still applies.
