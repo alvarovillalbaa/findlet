@@ -180,3 +180,21 @@ future diagnosis can use displayed UI. Require all five named images for full
 acceptance; keep the original four positive display/field geometry checks.
 This narrowly expands the prior four-image artifact allowlist; all other
 privacy/resource/product/runtime/journey gates remain unchanged.
+
+Run43525641032 confirmed the displayed status menu (the reviewed empty-query
+image was inspected), a sole actual visible Quit item, normal process exit,
+relaunch with two retained documents and the second real search. It then found
+the Settings Forget button below the display at(232,1050),147×20 and enabled
+but nonhittable. No Forget click/confirmation occurred. All four guards and
+owned cleanup passed. Preserve the failed original; no extra product defect
+or scroll capability is inferred from the off-screen control alone.
+
+QA-9 adds bounded native Form scrolling: require one positive-size app-owned
+ScrollView, at most eight requested300pixel downward wheel actions, and require Forget's
+positive enabled hittable frame inside that viewport before the existing click
+and confirmation. Record only count/step/target geometry/readiness, never a
+Settings image, paths or tree. Apple's
+[native scroll API](https://developer.apple.com/documentation/xcuiautomation/xcuielement/scroll(bydeltax:deltay:))
+supplies the user action. Ambiguous/no viewport or unreached control fails;
+all normal-deletion/remaining geometry/privacy/resource assertions stay. No
+product/runtime change, coordinate click or old accepted-case replay.

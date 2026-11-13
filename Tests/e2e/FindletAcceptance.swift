@@ -189,7 +189,25 @@ final class FindletAcceptance: XCTestCase {
         XCTAssertTrue(app.buttons["harbor.md. harbor.md"].firstMatch.waitForExistence(timeout: 45))
         replaceQuery(""); phase("persistentReopenAndSecondSearch")
         click(app.buttons["Open Settings"])
-        click(app.buttons["Forget Findlet Index…"])
+        let forget = app.buttons["Forget Findlet Index…"].firstMatch
+        XCTAssertTrue(forget.waitForExistence(timeout: 20))
+        let scrolls = app.scrollViews.allElementsBoundByIndex.filter { $0.frame.width > 0 && $0.frame.height > 0 }
+        var scrollSteps = 0
+        if scrolls.count == 1 {
+            while !forget.isHittable && scrollSteps < 8 {
+                scrolls[0].scroll(byDeltaX: 0, deltaY: -300); scrollSteps += 1
+            }
+        }
+        let forgetFrame = forget.frame
+        let insideScroll = scrolls.count == 1 && scrolls[0].frame.insetBy(dx: -1, dy: -1).contains(forgetFrame)
+        let scrollObservation: [String: Any] = ["kind": "findlet.ui-settings-scroll", "scrollViewCount": scrolls.count,
+            "steps": scrollSteps, "targetHittable": forget.isHittable, "targetEnabled": forget.isEnabled,
+            "targetInsideViewport": insideScroll, "x": Double(forgetFrame.minX), "y": Double(forgetFrame.minY),
+            "width": Double(forgetFrame.width), "height": Double(forgetFrame.height)]
+        let scrollAttachment = XCTAttachment(data: try JSONSerialization.data(withJSONObject: scrollObservation, options: [.sortedKeys]), uniformTypeIdentifier: "public.json")
+        scrollAttachment.name = "settings-scroll"; scrollAttachment.lifetime = .keepAlways; add(scrollAttachment)
+        XCTAssertEqual(scrolls.count, 1); XCTAssertTrue(insideScroll)
+        click(forget)
         click(app.buttons["Forget Index"].firstMatch)
         XCTAssertTrue(app.staticTexts["0 documents in Findlet's current index."].firstMatch.waitForExistence(timeout: 30))
         app.typeKey("w", modifierFlags: .command); showSearch()

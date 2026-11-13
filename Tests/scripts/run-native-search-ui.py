@@ -21,7 +21,7 @@ SOURCE = os.environ.get("FINDLET_UI_SOURCE", "")
 BASE = "ec4565c5bd0953eef95b472e6f6a6926faa82946"
 HELPER = "Tests/scripts/run-keyword-integration.py"
 HELPER_SHA = "6e860f582ded76240c03dd188448571b433b06722a29708093e2db5d95bd9981"
-BRANCH = "qa/findlet-native-ui-20261113-8"
+BRANCH = "qa/findlet-native-ui-20261113-9"
 LOCK = "Tests/fixtures/qmd-darwin-arm64-package-lock.json"
 CASE = "FindletAcceptance/FindletAcceptance/testNUI01ConfigureSearchReopenAndForget"
 FILES = {
@@ -283,6 +283,8 @@ def collect_result():
                 g.report["statusMenuObservation"] = value
             elif isinstance(value, dict) and value.get("kind") == "findlet.ui-quit-menu":
                 g.report["quitMenuObservation"] = value
+            elif isinstance(value, dict) and value.get("kind") == "findlet.ui-settings-scroll":
+                g.report["settingsScrollObservation"] = value
     # Human attachment names live in the manifest; exported filenames are IDs.
     pending = [manifest]
     while pending:
