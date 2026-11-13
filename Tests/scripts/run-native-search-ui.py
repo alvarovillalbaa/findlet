@@ -21,7 +21,7 @@ SOURCE = os.environ.get("FINDLET_UI_SOURCE", "")
 BASE = "ec4565c5bd0953eef95b472e6f6a6926faa82946"
 HELPER = "Tests/scripts/run-keyword-integration.py"
 HELPER_SHA = "6e860f582ded76240c03dd188448571b433b06722a29708093e2db5d95bd9981"
-BRANCH = "qa/findlet-native-ui-20261113-2"
+BRANCH = "qa/findlet-native-ui-20261113-3"
 LOCK = "Tests/fixtures/qmd-darwin-arm64-package-lock.json"
 CASE = "FindletAcceptance/FindletAcceptance/testNUI01ConfigureSearchReopenAndForget"
 FILES = {
@@ -275,6 +275,8 @@ def collect_result():
                 g.report["uiObservations"] = value
             elif isinstance(value, dict) and value.get("kind") == "findlet.ui-control-readiness":
                 g.report.setdefault("controlDiagnostics", []).append(value)
+            elif isinstance(value, dict) and value.get("kind") == "findlet.ui-window-frame":
+                g.report.setdefault("windowDiagnostics", []).append(value)
     # Human attachment names live in the manifest; exported filenames are IDs.
     pending = [manifest]
     while pending:
@@ -303,7 +305,8 @@ def collect_result():
 def verify_state():
     need(g.report.get("nativeTestCommandPassed") and g.report.get("uiObservations"), "native_ui_unaccepted")
     frames = g.report["uiObservations"].get("windowFrames", [])
-    need(len(frames) == 4 and all(frame.get("withinVisibleDisplay") is True for frame in frames), "native_window_geometry_unaccepted")
+    need(len(frames) == 4 and all(frame.get("withinVisibleDisplay") is True
+         and frame.get("searchFieldWithinPanel") is True for frame in frames), "native_window_geometry_unaccepted")
     for name, expected in g.report["fixtureFiles"].items():
         need(g.fingerprint(g.root / "input/authored-findlet" / name) == expected, "original_document_changed")
     setup = json.loads(read(library / "settings.json"))

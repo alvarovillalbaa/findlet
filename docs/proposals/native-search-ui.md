@@ -79,3 +79,22 @@ The test uses Findlet's named status-menu Quit action. Its nonactivating panel
 does not imply that Command-Q is routed to Findlet; the first screenshots still
 show Finder's application menu. Only owner-labeled status/menu elements and
 the existing Quit action are used, with the same normal-termination assertion.
+
+Run43518133863 compiled/launched the repaired app, then failed the test's
+`app.windows.containing(searchField)` lookup at its first geometry observation.
+XCTest found the actual search field but no matching Window-class ancestor;
+no image or panel-size verdict was retained. All later phases stayed unrun.
+Four identical source guards and owned teardown passed. Preserve this failed
+observer assumption; it does not accept or refute the product layout repair.
+
+QA-3 changes only test observation: select the sole live app by its exact bundle
+identifier, read on-screen window-server metadata, select its sole floating
+panel by owner PID/layer, and require its positive bounds to contain the actual
+AX search field and fit the visible display. Apple's
+[window-info](https://developer.apple.com/documentation/coregraphics/cgwindowlistcopywindowinfo(_:_:))
+and [bounds](https://developer.apple.com/documentation/coregraphics/kcgwindowbounds)
+contracts define this metadata and top-left coordinates. No other application
+metadata, window titles or images enter the record; no screen-capture permission
+or production hook is requested. Explicit empty-query images and finite frame
+attachments are retained before later assertions. Product bytes/assertions,
+runtime pins and all resource/privacy gates remain unchanged.

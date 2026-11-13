@@ -1,4 +1,5 @@
 import AppKit
+import CoreGraphics
 import Foundation
 import XCTest
 
@@ -55,17 +56,40 @@ final class FindletAcceptance: XCTestCase {
         func picture(_ name: String) {
             // Query/results, setup paths and automatic diagnostics are withheld.
             XCTAssertEqual(searchField().value as? String, "")
+            let image = XCTAttachment(screenshot: app.screenshot()); image.name = name
+            image.lifetime = .keepAlways; add(image)
             guard let display = NSScreen.main else { XCTFail("Native display is unavailable"); return }
             XCTAssertEqual(NSScreen.screens.count, 1)
             let visible = display.visibleFrame
             let bounds = CGRect(x: visible.minX, y: display.frame.maxY - visible.maxY, width: visible.width, height: visible.height)
-            let panel = app.windows.containing(.searchField, identifier: "Search selected documents").firstMatch.frame
+            let owners = NSRunningApplication.runningApplications(withBundleIdentifier: "com.alvarovillalbaa.Findlet").filter { !$0.isTerminated }
+            guard owners.count == 1,
+                  let windows = CGWindowListCopyWindowInfo([.optionOnScreenOnly, .excludeDesktopElements], kCGNullWindowID) as? [[String: Any]] else {
+                XCTFail("One owned native application is required"); return
+            }
+            let panels = windows.filter {
+                ($0[kCGWindowOwnerPID as String] as? NSNumber)?.int32Value == owners[0].processIdentifier &&
+                ($0[kCGWindowLayer as String] as? NSNumber)?.intValue == NSWindow.Level.floating.rawValue
+            }
+            guard panels.count == 1, let raw = panels[0][kCGWindowBounds as String] as? [String: Any],
+                  let panel = CGRect(dictionaryRepresentation: raw as CFDictionary) else {
+                XCTFail("One owned floating search panel is required"); return
+            }
             let contained = bounds.insetBy(dx: -1, dy: -1).contains(panel)
-            windowFrames.append(["phase": name, "x": Double(panel.minX), "y": Double(panel.minY),
-                "width": Double(panel.width), "height": Double(panel.height), "withinVisibleDisplay": contained])
+            let field = searchField().frame
+            let fieldContained = field.width > 0 && field.height > 0 && panel.contains(field)
+            let geometry: [String: Any] = ["kind": "findlet.ui-window-frame", "phase": name,
+                "x": Double(panel.minX), "y": Double(panel.minY), "width": Double(panel.width), "height": Double(panel.height),
+                "withinVisibleDisplay": contained, "searchFieldWithinPanel": fieldContained,
+                "source": "ownedWindowServerAndAXSearchField"]
+            windowFrames.append(geometry)
+            if let data = try? JSONSerialization.data(withJSONObject: geometry, options: [.sortedKeys]) {
+                let attachment = XCTAttachment(data: data, uniformTypeIdentifier: "public.json")
+                attachment.name = "window-frame"; attachment.lifetime = .keepAlways; add(attachment)
+            }
+            XCTAssertGreaterThan(panel.width, 0); XCTAssertGreaterThan(panel.height, 0)
+            XCTAssertTrue(fieldContained); XCTAssertTrue(searchField().isHittable)
             XCTAssertTrue(contained, "Search panel must stay within the visible display")
-            let image = XCTAttachment(screenshot: app.screenshot()); image.name = name
-            image.lifetime = .keepAlways; add(image)
         }
         defer { app.terminate() }
         app.launch()
