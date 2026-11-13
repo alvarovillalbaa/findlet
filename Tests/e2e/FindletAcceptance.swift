@@ -14,6 +14,9 @@ final class FindletAcceptance: XCTestCase {
         let node = try XCTUnwrap(config["node"])
         let package = try XCTUnwrap(config["package"])
         let app = XCUIApplication(bundleIdentifier: "com.alvarovillalbaa.Findlet")
+        let finder = XCUIApplication(bundleIdentifier: "com.apple.finder")
+        let authoredWindow = finder.windows["authored-findlet"]
+        var ownsFinderWindow = false
         var phases: [String] = []
         var windowFrames: [[String: Any]] = []
         var clickIndex = 0
@@ -91,7 +94,12 @@ final class FindletAcceptance: XCTestCase {
             XCTAssertTrue(fieldContained); XCTAssertTrue(searchField().isHittable)
             XCTAssertTrue(contained, "Search panel must stay within the visible display")
         }
-        defer { app.terminate() }
+        defer {
+            if ownsFinderWindow && authoredWindow.exists {
+                authoredWindow.click(); finder.typeKey("w", modifierFlags: .command)
+            }
+            app.terminate()
+        }
         app.launch()
         XCTAssertTrue(app.staticTexts["Choose what to search"].waitForExistence(timeout: 20))
         picture("01-empty-setup"); phase("firstLaunchSetup")
@@ -111,13 +119,30 @@ final class FindletAcceptance: XCTestCase {
         XCTAssertTrue(alpha.waitForExistence(timeout: 45)); XCTAssertTrue(app.staticTexts["1 results"].exists)
         app.typeKey(.downArrow, modifierFlags: [])
         XCTAssertTrue(alpha.isSelected)
+        XCTAssertFalse(authoredWindow.exists)
         click(app.buttons["Reveal in Finder"])
-        let finder = XCUIApplication(bundleIdentifier: "com.apple.finder")
-        let authoredWindow = finder.windows["authored-findlet"]
         XCTAssertTrue(authoredWindow.waitForExistence(timeout: 15))
-        XCTAssertTrue(finder.staticTexts["orchard.txt"].firstMatch.waitForExistence(timeout: 15))
+        ownsFinderWindow = true
+        // Finder's current view and extension preference determine AX type/name.
+        // Require the actual target selection inside the newly revealed folder.
+        let revealed = authoredWindow.descendants(matching: .any).matching(NSPredicate(
+            format: "label == %@ OR label == %@ OR value == %@ OR value == %@",
+            "orchard.txt", "orchard", "orchard.txt", "orchard"))
+        let selected = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            revealed.allElementsBoundByIndex.contains { $0.isSelected }
+        }, object: nil)
+        let selectionResult = XCTWaiter.wait(for: [selected], timeout: 20)
+        let candidates = revealed.allElementsBoundByIndex
+        let revealObservation: [String: Any] = ["kind": "findlet.ui-finder-reveal", "folderObserved": true,
+            "candidateTypes": candidates.map { Int($0.elementType.rawValue) },
+            "selectedCandidateCount": candidates.filter { $0.isSelected }.count,
+            "selectionObserved": selectionResult == .completed]
+        let revealAttachment = XCTAttachment(data: try JSONSerialization.data(withJSONObject: revealObservation, options: [.sortedKeys]), uniformTypeIdentifier: "public.json")
+        revealAttachment.name = "finder-reveal"; revealAttachment.lifetime = .keepAlways; add(revealAttachment)
+        XCTAssertEqual(selectionResult, .completed)
         phase("actualKeywordHitAndFinderReveal")
         authoredWindow.click(); finder.typeKey("w", modifierFlags: .command)
+        wait { !authoredWindow.exists }; ownsFinderWindow = false
         app.activate(); showSearch(); replaceQuery("")
         app.typeKey(.escape, modifierFlags: [])
         wait { !searchField().exists || !searchField().isHittable }

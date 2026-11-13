@@ -98,3 +98,23 @@ metadata, window titles or images enter the record; no screen-capture permission
 or production hook is requested. Explicit empty-query images and finite frame
 attachments are retained before later assertions. Product bytes/assertions,
 runtime pins and all resource/privacy gates remain unchanged.
+
+Run43519036392 retained actual690×510 panels at(167,111), fully within the
+display with the AX field inside, in setup and ready states. The two empty
+images were inspected and show the footer. Real native setup/rebuild/query/
+keyboard selection and the hittable Reveal action completed; Finder opened
+the authored folder. The next assertion expected a StaticText named with the
+full filename and failed. Selected-file identity, later phases and overall
+NUI01 remain unaccepted. Three source guards passed, owned processes/profile
+were absent and originals/runtime matched, but final scratch removal raised
+only a generic error; cleanup/post-removal source proof stays unverified.
+
+QA-4 preserves that failed original. It requires an actual selected descendant
+in the newly opened owned Finder window, matching only the authored target's
+full filename or extension-hidden display stem. It records finite matching
+element types/selection counts, never labels/values/trees. The test closes that
+owned Finder window in normal and failure cleanup. No global Finder preference
+changes. The controller records only cleanup stage/error type/errno/line if
+cleanup fails; it does not retry or conceal a permission/removal error. Product
+bytes, geometry and all other journey/runtime/resource/privacy assertions stay
+unchanged. A still-failed cleanup keeps the entire packet failed.

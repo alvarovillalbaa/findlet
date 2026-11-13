@@ -21,7 +21,7 @@ SOURCE = os.environ.get("FINDLET_UI_SOURCE", "")
 BASE = "ec4565c5bd0953eef95b472e6f6a6926faa82946"
 HELPER = "Tests/scripts/run-keyword-integration.py"
 HELPER_SHA = "6e860f582ded76240c03dd188448571b433b06722a29708093e2db5d95bd9981"
-BRANCH = "qa/findlet-native-ui-20261113-3"
+BRANCH = "qa/findlet-native-ui-20261113-4"
 LOCK = "Tests/fixtures/qmd-darwin-arm64-package-lock.json"
 CASE = "FindletAcceptance/FindletAcceptance/testNUI01ConfigureSearchReopenAndForget"
 FILES = {
@@ -277,6 +277,8 @@ def collect_result():
                 g.report.setdefault("controlDiagnostics", []).append(value)
             elif isinstance(value, dict) and value.get("kind") == "findlet.ui-window-frame":
                 g.report.setdefault("windowDiagnostics", []).append(value)
+            elif isinstance(value, dict) and value.get("kind") == "findlet.ui-finder-reveal":
+                g.report["finderRevealObservation"] = value
     # Human attachment names live in the manifest; exported filenames are IDs.
     pending = [manifest]
     while pending:
@@ -322,6 +324,7 @@ def cleanup():
     if g.root is None:
         return
     g.cleanup_end = min(time.monotonic() + 120, g.job_end - 30)
+    stage = "processes"
     try:
         g.report["cleanup"]["signals"] = []
         # Close only identity-attributed binaries/descendants. launchd GUI groups
@@ -345,11 +348,13 @@ def cleanup():
         g.report["cleanup"]["ownedProcessIdentitiesAbsent"] = True
         g.report["cleanup"]["observedOwnedProcesses"] = list(g.attributed.values())
         if library_identity is not None:
+            stage = "profile"
             now = library.lstat()
             need(not library.is_symlink() and (now.st_dev, now.st_ino) == (library_identity.st_dev, library_identity.st_ino)
                  and now.st_uid == os.getuid() and read(library / ".native-ui-owner", 32) == g.nonce.encode(), "native_profile_owner_changed")
             shutil.rmtree(library); need(not os.path.lexists(library), "owned_native_profile_remains")
         g.report["cleanup"]["ownedProfileAbsent"] = True
+        stage = "originals_and_runtime"
         if "fixtureFiles" in g.report:
             for name, expected in g.report["fixtureFiles"].items():
                 need(g.fingerprint(g.root / "input/authored-findlet" / name) == expected, "authored_original_changed_before_cleanup")
@@ -357,6 +362,7 @@ def cleanup():
         export_guard()
         if g.runtime_vector is not None: g.verify_runtime("before_cleanup")
         guard("before_cleanup", cleanup=True)
+        stage = "scratch_inventory"
         allocated = apparent = entries = 0
         for directory, dirs, files in os.walk(g.root, followlinks=False):
             for name in dirs + files:
@@ -367,12 +373,18 @@ def cleanup():
         need(allocated <= g.ROOT_LIMIT and entries <= 150000, "owned_allocated_storage_bound")
         need(shutil.disk_usage(g.root).free >= 2 * 1024**3, "remote_disk_reserve_exhausted")
         g.report["scratchInventory"] = {"allocatedBytes": allocated, "apparentBytes": apparent, "entries": entries}
+        stage = "scratch_removal"
         g.owner(); shutil.rmtree(g.root); need(not os.path.lexists(g.root), "owned_scratch_remains")
         g.report["cleanup"]["ownedScratchAbsent"] = True
         g.report["scratchCleanup"] = "passed"
+        stage = "post_removal_source_guard"
         guard("after_cleanup", cleanup=True, post_root=True)
         g.report["cleanup"]["postRemovalSourceGuardPassed"] = True
     except Exception as error:
+        trace = error.__traceback__
+        while trace is not None and trace.tb_next is not None: trace = trace.tb_next
+        g.report["cleanup"]["failureDiagnostic"] = {"stage": stage, "type": type(error).__name__,
+            "errno": getattr(error, "errno", None), "line": trace.tb_lineno if trace else None}
         g.report["errors"].append(g.finite(error)); g.report["cleanup"]["unverified"] = True
 
 
