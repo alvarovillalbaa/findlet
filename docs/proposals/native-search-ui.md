@@ -149,3 +149,14 @@ with no titles/values/trees. This explicitly changes the prior no-coordinate
 test restriction for this owner-attributed native target only. Ambiguous or
 absent targets fail. Product bytes, normal-Quit/reopen/Forget and all other
 assertions/runtime/resource/privacy gates stay unchanged.
+
+Run43522588035 found and clicked exactly one hittable native StatusItem; the
+physical-coordinate fallback was **unrun**. The real menu opened, but Quit's
+first name match resolved to a zero-size hidden standard `terminate:` item.
+Normal Quit/reopen/Forget stayed unrun; all four guards and owned cleanup passed.
+Preserve this failure. QA-7 queries the observed native StatusItem role directly
+and requires exactly one visible enabled positive-size Quit menu item matching
+its exact label. It retains finite candidate/visible/type counts for both.
+Remove the unused physical fallback entirely; all interactions are native AX.
+No hidden duplicate, direct termination or assertion bypass. Product/runtime
+bytes and all journey/resource/privacy assertions remain unchanged.
