@@ -129,3 +129,23 @@ enabled, hittable menu-bar item belonging to the Findlet app, then click its
 existing Quit action. Retain finite counts/readiness, no labels/trees. Do not
 click a hidden first match, another application's menu or screen coordinates.
 Keep all assertions, product/runtime bytes and resource/privacy gates unchanged.
+
+Run43521289829 observed two app menu bars/six MenuBarItem elements and zero
+hittable items. It did not attempt Quit; later phases stayed unrun. All four
+source guards and owned cleanup passed. Preserve its failed original. That
+observation does not establish that the on-screen status icon is unusable.
+
+QA-6 admits only interactive MenuBarItem/StatusItem/Button/MenuButton descendants
+of Findlet's own menu bars for the strict sole-visible-AX route. It adds a physical
+native target when AX exposes no hittable menu control: exactly one on-screen
+window owned by the live exact Findlet PID at Apple's
+[status-bar level](https://developer.apple.com/documentation/appkit/nswindow/level-swift.struct/statusbar),
+8–64points per side, wholly in the display's top32points. Derive the click
+center from that observed window's bounds, convert through the observed app
+coordinate origin and require the real `Quit Findlet` menu item next. No fixed
+screen point, other owner, hidden-control click or direct termination replaces
+the normal action. Retain finite owner-window layers/geometry and chosen route,
+with no titles/values/trees. This explicitly changes the prior no-coordinate
+test restriction for this owner-attributed native target only. Ambiguous or
+absent targets fail. Product bytes, normal-Quit/reopen/Forget and all other
+assertions/runtime/resource/privacy gates stay unchanged.

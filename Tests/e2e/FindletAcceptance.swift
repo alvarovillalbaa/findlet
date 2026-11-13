@@ -158,20 +158,49 @@ final class FindletAcceptance: XCTestCase {
         // The accessory app also exposes a hidden standard app-menu item.
         // Select its sole visible status-menu control, never the first name match.
         func visibleStatusItems() -> [XCUIElement] {
-            app.menuBars.menuBarItems.allElementsBoundByIndex.filter {
+            app.menuBars.descendants(matching: .any).allElementsBoundByIndex.filter {
+                [.menuBarItem, .statusItem, .button, .menuButton].contains($0.elementType) &&
                 $0.isHittable && $0.isEnabled && $0.frame.width > 0 && $0.frame.height > 0
             }
         }
-        let statusReady = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in visibleStatusItems().count == 1 }, object: nil)
-        let statusResult = XCTWaiter.wait(for: [statusReady], timeout: 20)
         let visibleItems = visibleStatusItems()
+        let menuOwners = NSRunningApplication.runningApplications(withBundleIdentifier: "com.alvarovillalbaa.Findlet").filter { !$0.isTerminated }
+        XCTAssertEqual(menuOwners.count, 1)
+        let menuWindows = try XCTUnwrap(CGWindowListCopyWindowInfo([.optionOnScreenOnly, .excludeDesktopElements], kCGNullWindowID) as? [[String: Any]])
+        let ownedWindows: [[String: Any]] = menuWindows.compactMap { row in
+            guard (row[kCGWindowOwnerPID as String] as? NSNumber)?.int32Value == menuOwners[0].processIdentifier,
+                  let layer = (row[kCGWindowLayer as String] as? NSNumber)?.intValue,
+                  let raw = row[kCGWindowBounds as String] as? [String: Any],
+                  let frame = CGRect(dictionaryRepresentation: raw as CFDictionary) else { return nil }
+            return ["layer": layer, "x": Double(frame.minX), "y": Double(frame.minY), "width": Double(frame.width), "height": Double(frame.height)]
+        }
+        let statusWindows = ownedWindows.filter { row in
+            row["layer"] as? Int == NSWindow.Level.statusBar.rawValue &&
+            (8.0...64.0).contains(row["width"] as? Double ?? 0) && (8.0...64.0).contains(row["height"] as? Double ?? 0) &&
+            (row["y"] as? Double ?? -1) >= 0 &&
+            (row["y"] as? Double ?? 0) + (row["height"] as? Double ?? 0) <= 32
+        }
+        let useAX = visibleItems.count == 1
+        let statusReady = useAX || statusWindows.count == 1
         let statusObservation: [String: Any] = ["kind": "findlet.ui-status-menu", "visibleOwnedItems": visibleItems.count,
+            "visibleOwnedTypes": visibleItems.map { Int($0.elementType.rawValue) },
             "menuBarCount": app.menuBars.count, "ownedMenuItemCount": app.menuBars.menuBarItems.count,
-            "ready": statusResult == .completed]
+            "ownedOnScreenWindows": ownedWindows, "statusWindowCount": statusWindows.count,
+            "route": useAX ? "nativeAX" : "ownedStatusWindowGeometry", "ready": statusReady]
         let statusAttachment = XCTAttachment(data: try JSONSerialization.data(withJSONObject: statusObservation, options: [.sortedKeys]), uniformTypeIdentifier: "public.json")
         statusAttachment.name = "status-menu"; statusAttachment.lifetime = .keepAlways; add(statusAttachment)
-        XCTAssertEqual(statusResult, .completed)
-        click(try XCTUnwrap(visibleItems.first))
+        XCTAssertTrue(statusReady)
+        if useAX {
+            click(try XCTUnwrap(visibleItems.first))
+        } else {
+            let target = try XCTUnwrap(statusWindows.first)
+            let rect = CGRect(x: target["x"] as? Double ?? -1, y: target["y"] as? Double ?? -1,
+                              width: target["width"] as? Double ?? 0, height: target["height"] as? Double ?? 0)
+            let display = try XCTUnwrap(NSScreen.main)
+            XCTAssertTrue(CGRect(origin: .zero, size: display.frame.size).contains(rect))
+            let origin = app.frame.origin
+            app.coordinate(withNormalizedOffset: .zero).withOffset(CGVector(dx: rect.midX - origin.x, dy: rect.midY - origin.y)).click()
+        }
         click(app.menuItems["Quit Findlet"].firstMatch)
         wait { app.state == .notRunning }; phase("normalQuit")
         app.launch(); showSearch()
