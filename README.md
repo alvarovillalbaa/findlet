@@ -8,9 +8,9 @@ A native macOS menu-bar utility for explicitly selected Markdown and text folder
 The [native search workflow](docs/results/2026/11-13/native-search-ui.md) passed
 actual picker setup, rebuild/search, selected-original Finder reveal, default
 shortcut, normal Quit/relaunch and confirmed deletion on authored files. Its
-panel sizing repair keeps actions/footer within the visible display. The public
-0.1.0 preview below predates this fix; the separate
-[0.1.1 package scope](docs/proposals/panel-preview-package.md) follows the native result.
+panel sizing repair keeps actions/footer within the visible display. The
+[0.1.1 universal preview](docs/results/2026/11-13/panel-preview-package.md)
+is now public after its separate Release build/archive checks.
 
 The [keyword result](docs/results/2026/11-07/qmd-keyword-integration.md), earlier
 [native/core result](docs/results/2026/11-05/native-checks.md) and
@@ -25,10 +25,10 @@ It changes no production app code or published preview asset.
 
 ## Download the developer preview
 
-[Findlet for Apple silicon and Intel Macs](https://github.com/alvarovillalbaa/findlet/releases/download/v0.1.0-preview.1/Findlet-0.1.0-macos-universal.zip)
-(macOS 15+), with [SHA-256 checksum](https://github.com/alvarovillalbaa/findlet/releases/download/v0.1.0-preview.1/Findlet-0.1.0-macos-universal.zip.sha256)
-and [source/toolchain manifest](https://github.com/alvarovillalbaa/findlet/releases/download/v0.1.0-preview.1/Findlet-preview-manifest.json).
-These are the unchanged passing artifacts, with [public tag/digest readback](docs/results/2026/11-08/preview-package-publication.json).
+[Findlet for Apple silicon and Intel Macs](https://github.com/alvarovillalbaa/findlet/releases/download/v0.1.1-preview.1/Findlet-0.1.1-macos-universal.zip)
+(macOS 15+), with [SHA-256 checksum](https://github.com/alvarovillalbaa/findlet/releases/download/v0.1.1-preview.1/Findlet-0.1.1-macos-universal.zip.sha256)
+and [source/toolchain manifest](https://github.com/alvarovillalbaa/findlet/releases/download/v0.1.1-preview.1/Findlet-preview-manifest.json).
+These are the unchanged passing0.1.1 artifacts, with [public tag/digest readback](docs/results/2026/11-13/panel-preview-publication.json).
 
 **Requires existing trusted Node 22+, QMD 2.8.3 and compatible native bindings.**
 The signed app includes setup/license notices, with no engine or models bundled.
@@ -62,9 +62,9 @@ with Python 3 available for bounded archive staging:
 This mode builds/packages without launching or quitting Findlet and refuses
 existing preview ZIP/checksum leaves. It emits
 `dist/Findlet-0.1.1-macos-universal.zip` and its `.zip.sha256`, with source-exact
-license, third-party and setup notes in the signed app bundle. Fresh universal
-0.1.0 packaging/download remains its own proof; the current changed build has
-the separate [panel-fix preview scope](docs/proposals/panel-preview-package.md). The
+license, third-party and setup notes in the signed app bundle. Current universal
+[0.1.1 packaging/publication](docs/results/2026/11-13/panel-preview-package.md)
+passed under the [panel-fix scope](docs/proposals/panel-preview-package.md). The
 [runtime guide](docs/runtime-setup.md) explains required external setup; the app
 archive contains no Node, QMD, native bindings or models.
 

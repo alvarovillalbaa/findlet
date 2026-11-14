@@ -1,15 +1,15 @@
 # Findlet preview distribution
 
-The target release is **`v0.1.0-preview.1`**, containing app version **0.1.0**
-(build 1) for macOS 15+. Fresh universal Release compilation, packaging and
-CI acceptance [passed](results/2026/11-08/preview-package-attempt-1.md).
-The [unchanged preview assets are public](https://github.com/alvarovillalbaa/findlet/releases/tag/v0.1.0-preview.1);
+The current release is **`v0.1.1-preview.1`**, containing app version **0.1.1**
+(build 2) for macOS 15+. Fresh universal Release compilation, packaging and
+CI acceptance [passed](results/2026/11-13/panel-preview-package.md).
+The [unchanged passing assets are public](https://github.com/alvarovillalbaa/findlet/releases/tag/v0.1.1-preview.1);
 native installation/runtime acceptance remains separate.
 
 ## Assets and trust
 
-- `Findlet-0.1.0-macos-universal.zip`
-- `Findlet-0.1.0-macos-universal.zip.sha256`
+- `Findlet-0.1.1-macos-universal.zip`
+- `Findlet-0.1.1-macos-universal.zip.sha256`
 - `Findlet-preview-manifest.json`
 
 The app executable targets **arm64 and x86_64**. Node, QMD, native bindings and
@@ -32,7 +32,7 @@ Download the ZIP, checksum and manifest from the preview release above. Compare 
 archive's digest with both records before extracting:
 
 ```sh
-shasum -a 256 Findlet-0.1.0-macos-universal.zip
+shasum -a 256 Findlet-0.1.1-macos-universal.zip
 ```
 
 Extract with Finder's Archive Utility. The archive contains `Findlet.app`;
@@ -67,10 +67,13 @@ extraction and matching bundle bytes, modes, xattrs and signature; nonempty
 resource-fork preservation is not established merely by empty-xattr results.
 
 The older ten native/core checks and accepted K01/K02 keyword integration
-remain their own evidence; this packaging scope does not rerun them. Native
-UI, user permissions/private folders, semantic quality, strict network-offline
-operation and trusted distribution remain unverified by this preview build.
+remain their own evidence; this packaging scope does not rerun them. The
+separate [native Debug journey](results/2026/11-13/native-search-ui.md) now passed
+setup/search/Finder/shortcut/normal Quit/reopen/confirmed Forget on authored
+files. User permissions/private folders, general semantic quality, strict
+network-offline operation and trusted distribution remain separate.
 
-The [publication record](results/2026/11-08/preview-package-publication.json)
-verifies the exact public tag and server asset digests. A fresh anonymous
-installation/downloaded-app launch was not performed.
+The [publication record](results/2026/11-13/panel-preview-publication.json)
+verifies the exact public tag and server asset digests. Direct anonymous shell
+asset downloads failed DNS; no anonymous body match or fresh downloaded-app
+launch is claimed. The prior0.1.0 assets remain unchanged.

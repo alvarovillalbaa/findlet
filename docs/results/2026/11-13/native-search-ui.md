@@ -64,5 +64,6 @@ This closes one authored-folder Debug UI journey. General retrieval quality,
 private-folder/file-provider permissions, shortcut conflicts, strict offline,
 Intel engine, Swift6 language readiness, physical/fresh downloaded Release
 launch, Developer ID/notarization and Gatekeeper remain separate. The public
-0.1.0 archive is unchanged; the separate0.1.1 universal packaging scope follows
-this qualified source. Local Storage Guard failed; no local heavy execution.
+0.1.0 archive is unchanged; the separate
+[0.1.1 universal package](panel-preview-package.md) now follows this qualified
+source and is public. Local Storage Guard failed; no local heavy execution.

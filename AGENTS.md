@@ -266,3 +266,12 @@ cleanup gates; preserve every failure. No app launch, engine/model or old test
 execution belongs to packaging. The local Guard still forbids heavy execution;
 remote6GiB admission/2GiB reserve and4GiB owned limits apply. Trusted downloaded-
 app/Intel-engine/private-folder/offline gates remain separate.
+
+The0.1.1 [package/publication receipt](docs/results/2026/11-13/panel-preview-package.md)
+now passed at1dc21d0b67a2ecc976549e5322d7bde6ff460f94:18commands/36complete
+streams, both slices, metadata/strict signature/fresh ZIP round-trip and owned
+cleanup. Exact assets are public at `v0.1.1-preview.1`; tag/server digests match.
+Workflow417865018 is disabled and checked package QA absent; all ten native
+controls are also retired. The scope is closed, not a prompt to rerun old checks.
+Keep anonymous shell download's DNS failure and fresh downloaded Release/
+Gatekeeper/Developer ID/Intel-engine/private-folder/offline limits explicit.

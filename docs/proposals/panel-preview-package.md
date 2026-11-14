@@ -47,3 +47,10 @@ qualification remains its own source/profile; the newly packaged downloaded
 Release app has no fresh launch proof. External Intel QMD, private-folder/file-
 provider permissions, shortcut conflicts, general retrieval quality, strict
 offline behavior, Developer ID/notarization and Gatekeeper remain separate.
+
+The [first changed-package invocation](../results/2026/11-13/panel-preview-package.md)
+passed all18commands, both Release slices, source/ZIP/round-trip/signature and
+owned cleanup gates at1dc21d0b67a2ecc976549e5322d7bde6ff460f94. The exact
+assets are public as0.1.1, with tag/server hashes verified. Direct anonymous
+shell download was DNS-blocked and remains unverified. This packaging scope
+is closed; no routine old-case/native/model or unchanged packaging replay.

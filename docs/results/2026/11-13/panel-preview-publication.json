@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "kind": "findlet.panel-preview-publication",
+  "executedSourceCommit": "1dc21d0b67a2ecc976549e5322d7bde6ff460f94",
+  "nativeUiSourceCommit": "66cb4806061fe0b4e5407b740185fd0ff2f87087",
+  "release": {
+    "id": 444858019,
+    "html_url": "https://github.com/alvarovillalbaa/findlet/releases/tag/v0.1.1-preview.1",
+    "tag_name": "v0.1.1-preview.1",
+    "target_commitish": "1dc21d0b67a2ecc976549e5322d7bde6ff460f94",
+    "draft": false,
+    "prerelease": true,
+    "published_at": "2026-11-13T23:54:52Z",
+    "assets": [
+      {
+        "id": 745636232,
+        "name": "Findlet-0.1.1-macos-universal.zip",
+        "size": 869010,
+        "digest": "sha256:4405c861dce8d03314ac5cb83aaa7d31f2a3fa53315a53f90fe3b121ae9887d9",
+        "state": "uploaded",
+        "browser_download_url": "https://github.com/alvarovillalbaa/findlet/releases/download/v0.1.1-preview.1/Findlet-0.1.1-macos-universal.zip"
+      },
+      {
+        "id": 745636236,
+        "name": "Findlet-0.1.1-macos-universal.zip.sha256",
+        "size": 100,
+        "digest": "sha256:52a769934f8c628f0db5a97d8167cfd4ee7bc195f77b56ae2044ca9db298ca05",
+        "state": "uploaded",
+        "browser_download_url": "https://github.com/alvarovillalbaa/findlet/releases/download/v0.1.1-preview.1/Findlet-0.1.1-macos-universal.zip.sha256"
+      },
+      {
+        "id": 745636231,
+        "name": "Findlet-preview-manifest.json",
+        "size": 2350,
+        "digest": "sha256:7c8d0513b388f5d79b79deb84f36bed67d6bda263913f142798619390967758b",
+        "state": "uploaded",
+        "browser_download_url": "https://github.com/alvarovillalbaa/findlet/releases/download/v0.1.1-preview.1/Findlet-preview-manifest.json"
+      }
+    ]
+  },
+  "tag": {
+    "ref": "refs/tags/v0.1.1-preview.1",
+    "object": {
+      "sha": "1dc21d0b67a2ecc976549e5322d7bde6ff460f94",
+      "type": "commit",
+      "url": "https://api.github.com/repos/alvarovillalbaa/findlet/git/commits/1dc21d0b67a2ecc976549e5322d7bde6ff460f94"
+    }
+  },
+  "unchangedPassingAssets": true,
+  "serverDigestsVerified": true,
+  "anonymousAssetDownload": {
+    "status": "unverified",
+    "attempts": 3,
+    "curlExitCode": 6,
+    "httpCode": 0,
+    "bodyBytes": 0,
+    "reason": "Credential-free shell requests could not resolve github.com; no anonymous asset body was received."
+  },
+  "nativeUi": {
+    "run": 43528431516,
+    "job": 132239838271,
+    "passedCases": 1,
+    "phases": 9,
+    "sourceGuards": 5,
+    "commands": 30,
+    "completeRetainedStreams": 60,
+    "ownedCleanupVerified": true,
+    "priorFailedOriginals": 9,
+    "priorCleanupGapRun": 43519036392
+  },
+  "packaging": {
+    "run": 43529777514,
+    "job": 132244305156,
+    "commands": 18,
+    "completeOriginalStreams": 36,
+    "ownedCleanupVerified": true,
+    "testsExecuted": false,
+    "applicationLaunched": false,
+    "runtimeInstalledOrInvoked": false
+  },
+  "temporaryControls": {
+    "nativeWorkflowsDisabled": 10,
+    "nativeQaPrefix": "qa/findlet-native-ui-20261113-",
+    "nativeMatchingRefs": [],
+    "packageWorkflowId": 417865018,
+    "packageWorkflowState": "disabled_manually",
+    "packageQaRef": "qa/findlet-panel-preview-20261113-1",
+    "packageMatchingRefs": []
+  },
+  "limits": [
+    "Native Debug UI uses an authored folder and exact external runtime; no general retrieval/private-folder/file-provider/shortcut-conflict/offline proof.",
+    "New Release archive compiled/round-tripped but was not launched after a fresh public download.",
+    "Ad-hoc signature, no Developer ID/notarization/Gatekeeper acceptance; external Intel QMD remains unverified.",
+    "Nine prior native failures preserved; original3 scratch removal remains unverified.",
+    "No local heavy execution, model/provider call, paid account/plan or hosted resource."
+  ]
+}
